@@ -4,7 +4,7 @@
 	   					 largeur  CDATA #REQUIRED
 						 x		  CDATA #REQUIRED
 						 y		  CDATA #REQUIRED>
-	   <!ELEMENT texte (#PCDATA)>
+	   <!ELEMENT texte EMPTY>
 	      <!ATTLIST texte type  ( chaine | entier | double | booleen | caractere )  #REQUIRED
 		  				 label CDATA #REQUIRED
 						 id	   ID	 #REQUIRED
