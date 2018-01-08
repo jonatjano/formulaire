@@ -1,0 +1,10 @@
+<!ELEMENT bibliotheque (editeur+)>
+   <!ELEMENT editeur (serie+)>
+	  <!ATTLIST editeur nom CDATA #REQUIRED >
+	  <!ELEMENT serie (livre+)>
+	     <!ATTLIST serie nom CDATA #REQUIRED >
+	     <!ELEMENT livre (titre,((scenariste,dessinateur)|(dessinateur,scenariste)|auteur) )>
+	        <!ELEMENT titre       (#PCDATA)>
+	        <!ELEMENT scenariste  (#PCDATA)>
+	        <!ELEMENT dessinateur (#PCDATA)>
+	        <!ELEMENT auteur      (#PCDATA)> 
