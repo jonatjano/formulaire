@@ -1,4 +1,4 @@
-src/iut/algo/form/Job/xml/SimpleErrorHandler.java
+src/iut/algo/form/Job/SimpleErrorHandler.java
 src/iut/algo/form/Job/xml/ReadFile.java
 src/iut/algo/form/FormController.java
 src/Test.java
