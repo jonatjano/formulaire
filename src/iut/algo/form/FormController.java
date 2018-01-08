@@ -105,10 +105,10 @@ public class FormController
 	}
 
 	/**
-	  * cette méthode permet de savoir si le document XML respecte la dtd et écrit des erreurs dans le terminal sinon
-	  * @param fileXML le fichier XML a vérifié
-	  * @return boolean si le document XML respecte ou non la dtd
-	  */
+	 * cette méthode permet de savoir si le document XML respecte la dtd et écrit des erreurs dans le terminal sinon
+	 * @param fileXML le fichier XML a vérifié
+	 * @return boolean si le document XML respecte ou non la dtd
+	 */
 	private static boolean validXml(File fileXML)
 	{
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -152,9 +152,9 @@ public class FormController
 	}
 
 	/**
-	  * Cette méthode permet de créer la dtd dans un fichier temporaire
-	  * @return File le fichier dtd créé
-	  */
+	 * Cette méthode permet de créer la dtd dans un fichier temporaire
+	 * @return File le fichier dtd créé
+	 */
 	private static File createDtdFile()
 	{
 		try {
@@ -238,21 +238,21 @@ public class FormController
 		return null;
 	}
 
-<<<<<<< HEAD
+	/**
+	 * Cette méthode permet d'afficher une erreur à l'écran avec le titre "Erreur"
+	 * @param message message à afficher dans l'erreur
+	 */
 	private static void showError(String message)
 	{
 		showError("Erreur", message);
 	}
 
-	private static void showError(String titre, String message)
-=======
 	/**
-	  * Cette méthode permet d'afficher une erreur à l'écran
-	  * @param titre titre du message d'erreur
-	  * @param message message à afficher dans l'erreur
-	  */
+	 * Cette méthode permet d'afficher une erreur à l'écran
+	 * @param titre titre du message d'erreur
+	 * @param message message à afficher dans l'erreur
+	 */
 	private static void showError( String titre , String message )
->>>>>>> f1a304fffa8cb9f7f7eca3cd75eff81dca7a7d4b
 	{
 		JOptionPane.showMessageDialog(null,message,titre,JOptionPane.ERROR_MESSAGE);
 	}
