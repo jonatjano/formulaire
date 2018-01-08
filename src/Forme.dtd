@@ -1,4 +1,4 @@
-<!ELEMENT fenetre (text*,dropdown*,checkbox*,tableau*,bouton*)>
+<!ELEMENT fenetre (text|dropdown|checkbox|tableau|bouton)+>
    <!ATTLIST fenetre longueur CDATA #REQUIRED
    					 largeur  CDATA #REQUIRED
 					 x		  CDATA #REQUIRED

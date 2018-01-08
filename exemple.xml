@@ -1,5 +1,5 @@
 <fenetre longueur=1920 largeur=1080 x=100 y=100>
-	<text type="entier" label="" id=""/>
+	<text type="entier" label="" id="" x=10 y=20 />
 	<dropdown type="chaine" label="" id="">
 		<choix label=""/>
 	</dropdown>
