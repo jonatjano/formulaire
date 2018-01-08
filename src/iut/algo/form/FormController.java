@@ -13,10 +13,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.swing.JOptionPane;
 
 /**
  * classe permettant de controller les formulaires depuis des programmes exterieurs
@@ -57,13 +57,13 @@ public class FormController
 		// s'il existe
 		if (!xmlFile.exists())
 		{
-System.out.println("Le fichier entré n'existe pas");
+			showError("Le fichier entré n'existe pas");
 			return;
 		}
 		// s'il possède bien une extension XML
 		else if (!xmlFile.getName().toUpperCase().endsWith(".XML"))
 		{
-System.out.println("Le fichier entré ne correspond pas à un fichier XML");
+			showError("Le fichier entré ne correspond pas à un fichier XML");
 			return;
 		}
 
@@ -229,7 +229,12 @@ System.out.println("Le fichier entré ne correspond pas à un fichier XML");
 		return null;
 	}
 
-	private static void showError( String titre , String message )
+	private static void showError(String message)
+	{
+		showError("Erreur", message);
+	}
+
+	private static void showError(String titre, String message)
 	{
 		JOptionPane.showMessageDialog(null,titre,message,JOptionPane.ERROR_MESSAGE);
 	}
