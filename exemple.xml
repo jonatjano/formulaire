@@ -3,16 +3,15 @@
 <!DOCTYPE form SYSTEM "Forme.dtd">
 
 <form>
-	<window length="1920" width="1080" x="100" y="100">
-		<text type="char" label="texte" id="p01" x="10" y="20" />
-		<dropdown type="int" label="deroulant" id="p02">
-			<choice label="ah" id="p06"/>
-		</dropdown>
-		<checkbox label="box" id="p03"/>
-		<array label="tab" id="p04" type="string" nb_lig="35" nb_col="28"/>
-		<buttons label="groupeBoutton" id="p05">
-			<button>24</button>
-		</buttons>
-	</window>
+	<fenetre length="1920" width="1080" x="100" y="100">
+		<Case label="texte" id="p01/>
+		<menu type="int" label="deroulant" id="p02">
+			<choix label="ah" id="p06"/>
+		</menu>
+		<tableau label="box" id="p03" type="chaine" nb_lig="20" nb_col="20"/>
+		<boutons id="m002" label="bouton">
+			<bouton>25</bouton>
+		</boutons>
+		<texte label="groupeBoutton" id="p05" type ="entier"/>
+	</fenetre>
 </form>
-<!-- int laTienne = get(id); -->
