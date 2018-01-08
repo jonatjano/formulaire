@@ -6,6 +6,7 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+<<<<<<< HEAD
 import java.io.File;
 import java.io.IOException;
 import javax.xml.parsers.DocumentBuilder;
@@ -15,6 +16,11 @@ import javax.xml.parsers.ParserConfigurationException;
 public class ReadFile
 {
 	public static void read(File fileXML)
+=======
+public static class ReadFile
+{
+	public static void read(String file)
+>>>>>>> 69602219fb2cf6af0bd2d61ac4e49f98555214d9
 	{
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
