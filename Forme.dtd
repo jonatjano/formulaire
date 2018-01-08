@@ -18,8 +18,8 @@
 			<!ELEMENT choix EMPTY>
 				<!ATTLIST choix label CDATA #REQUIRED
 								id	  ID	#REQUIRED >
-		<!ELEMENT checkbox EMPTY>
-			<!ATTLIST checkbox label CDATA #REQUIRED
+		<!ELEMENT Case EMPTY>
+			<!ATTLIST Case label CDATA #REQUIRED
 							   id    ID	   #REQUIRED  >
 		<!ELEMENT tableau EMPTY>
 			<!ATTLIST tableau label  CDATA #REQUIRED
@@ -27,7 +27,9 @@
 							  type   ( chaine | entier | double | booleen | caractere ) #REQUIRED
 							  nb_lig CDATA #REQUIRED
 							  nb_col CDATA #REQUIRED >
-		<!ELEMENT boutons (bouton+)
+		<!ELEMENT boutons (bouton+)>
+			<!ATTLIST boutons label  CDATA #REQUIRED
+									id		 CDATA #REQUIRED >
 			<!ELEMENT bouton (#PCDATA)>
 	<!ELEMENT window (text|dropdown|checkbox|array|buttons)+>
 	   	<!ATTLIST window length	CDATA #REQUIRED
@@ -43,6 +45,7 @@
 		<!ELEMENT dropdown (choice+)>
 			<!ATTLIST dropdown type ( string | int | double | boolean | char ) #REQUIRED
 							   id   ID	  #REQUIRED
+							   label CDATA #REQUIRED
 							   x	CDATA #IMPLIED
 							   y	CDATA #IMPLIED  >
 			<!ELEMENT choice EMPTY>
@@ -57,5 +60,7 @@
 							  type   ( string | int | double | boolean | char ) #REQUIRED
 							  nb_lig CDATA #REQUIRED
 							  nb_col CDATA #REQUIRED >
-		<!ELEMENT buttons (button+)
+		<!ELEMENT buttons (button+)>
+			<!ATTLIST buttons label  CDATA #REQUIRED
+									id		 CDATA #REQUIRED >
 			<!ELEMENT button (#PCDATA)>
