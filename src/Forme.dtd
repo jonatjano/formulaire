@@ -1,0 +1,30 @@
+<!ELEMENT fenetre (text*,dropdown*,checkbox*,tableau*,bouton*)>
+   <!ATTLIST fenetre longueur CDATA #REQUIRED
+   					 largeur  CDATA #REQUIRED
+					 x		  CDATA #REQUIRED
+					 y		  CDATA #REQUIRED>
+   <!ELEMENT text (#PCDATA)>
+      <!ATTLIST text type  CDATA #REQUIRED
+	  				 label CDATA #REQUIRED
+					 id	   ID	 #REQUIRED
+					 x	   CDATA #IMPLIED
+					 y	   CDATA #IMPLIED  >
+	<!ELEMENT dropdown (choix+)>
+		<!ATTLIST dropdown type CDATA #REQUIRED
+						   id   ID	  #REQUIRED
+						   x	CDATA #IMPLIED
+						   y	CDATA #IMPLIED  >
+		<!ELEMENT choix EMPTY>
+			<!ATTLIST choix label CDATA #REQUIRED
+							id	  ID	#REQUIRED >
+	<!ELEMENT checkbox EMPTY>
+		<!ATTLIST checkbox label CDATA #REQUIRED
+						   id    ID	   #REQUIRED  >
+	<!ELEMENT tableau EMPTY>
+		<!ATTLIST tableau label  CDATA #REQUIRED
+						  id	 ID	   #REQUIRED
+						  type   CDATA #REQUIRED
+						  nb_lig CDATA #REQUIRED
+						  nb_col CDATA #REQUIRED >
+	<!ELEMENT boutons (bouton+)
+		<!ELEMENT bouton (#PCDATA)>
