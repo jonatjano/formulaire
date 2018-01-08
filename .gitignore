@@ -1,2 +1,2 @@
-# ignore compiled files to limit size of git folder (they are obtained by compiling source files)
+# on ignore le dossier de fichiers compilé afin de limiter la taille du repertoire
 /bin/*
