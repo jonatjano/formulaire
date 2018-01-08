@@ -1,38 +1,61 @@
-<!ELEMENT fenetre (text|dropdown|checkbox|tableau|boutons)+>
-   <!ATTLIST fenetre longueur CDATA #REQUIRED
-   					 largeur  CDATA #REQUIRED
-					 x		  CDATA #REQUIRED
-					 y		  CDATA #REQUIRED>
-					 
-   <!ELEMENT text empty>
-      <!ATTLIST text type  ( chaine | entier | double | charactere ) #REQUIRED
-	  				 label CDATA #REQUIRED
-					 id	   ID	 #REQUIRED
-					 x	   CDATA #IMPLIED
-					 y	   CDATA #IMPLIED  >
-					 
-	<!ELEMENT dropdown (choix+)>
-		<!ATTLIST dropdown type ( chaine | entier | double | booleen | charactere ) #REQUIRED
-						   label CDATA #REQUIRED
-						   id   ID	  #REQUIRED
-						   x	CDATA #IMPLIED
-						   y	CDATA #IMPLIED  >
-		<!ELEMENT choix EMPTY>
-			<!ATTLIST choix label CDATA #REQUIRED
-							id	  ID	#REQUIRED >
-							
-	<!ELEMENT checkbox EMPTY>
-		<!ATTLIST checkbox label CDATA #REQUIRED
-						   id    ID	   #REQUIRED
-						   x	CDATA #IMPLIED
-						   y	CDATA #IMPLIED  >
-						   
-	<!ELEMENT tableau EMPTY>
-		<!ATTLIST tableau label  CDATA #REQUIRED
-						  id	 ID	   #REQUIRED
-						  type   ( chaine | entier | double | booleen | charactere ) #REQUIRED
-						  nb_lig CDATA #REQUIRED
-						  nb_col CDATA #REQUIRED >
-						  
-	<!ELEMENT boutons (bouton+)
-		<!ELEMENT bouton (#PCDATA)>
+<!ELEMENT form (fenetre|window)>
+	<!ELEMENT fenetre (texte|menu|checkbox|tableau|boutons)+>
+	   <!ATTLIST fenetre longueur CDATA #REQUIRED
+	   					 largeur  CDATA #REQUIRED
+						 x		  CDATA #REQUIRED
+						 y		  CDATA #REQUIRED>
+	   <!ELEMENT texte (#PCDATA)>
+	      <!ATTLIST texte type  ( chaine | entier | double | booleen | charactere )  #REQUIRED
+		  				 label CDATA #REQUIRED
+						 id	   ID	 #REQUIRED
+						 x	   CDATA #IMPLIED
+						 y	   CDATA #IMPLIED  >
+		<!ELEMENT menu (choix+)>
+			<!ATTLIST menu type ( chaine | entier | double | booleen | charactere ) #REQUIRED
+							   id   ID	  #REQUIRED
+							   x	CDATA #IMPLIED
+							   y	CDATA #IMPLIED  >
+			<!ELEMENT choix EMPTY>
+				<!ATTLIST choix label CDATA #REQUIRED
+								id	  ID	#REQUIRED >
+		<!ELEMENT checkbox EMPTY>
+			<!ATTLIST checkbox label CDATA #REQUIRED
+							   id    ID	   #REQUIRED  >
+		<!ELEMENT tableau EMPTY>
+			<!ATTLIST tableau label  CDATA #REQUIRED
+							  id	 ID	   #REQUIRED
+							  type   ( chaine | entier | double | booleen | caractere ) #REQUIRED
+							  nb_lig CDATA #REQUIRED
+							  nb_col CDATA #REQUIRED >
+		<!ELEMENT boutons (bouton+)
+			<!ELEMENT bouton (#PCDATA)>
+	<!ELEMENT window (text|dropdown|checkbox|array|buttons)+>
+	   	<!ATTLIST window length	CDATA #REQUIRED
+	   					 width 	CDATA #REQUIRED
+						 x		CDATA #REQUIRED
+						 y		CDATA #REQUIRED>
+	   	<!ELEMENT text (#PCDATA)>
+	      	<!ATTLIST text type  ( string | int | double | boolean | char )    #REQUIRED
+		  				   label CDATA 	#REQUIRED
+						   id	 ID	 	#REQUIRED
+						   x	 CDATA 	#IMPLIED
+						   y	 CDATA 	#IMPLIED  >
+		<!ELEMENT dropdown (choice+)>
+			<!ATTLIST dropdown type ( string | int | double | boolean | char ) #REQUIRED
+							   id   ID	  #REQUIRED
+							   x	CDATA #IMPLIED
+							   y	CDATA #IMPLIED  >
+			<!ELEMENT choice EMPTY>
+				<!ATTLIST choice label CDATA #REQUIRED
+								id	  ID	#REQUIRED >
+		<!ELEMENT checkbox EMPTY>
+			<!ATTLIST checkbox label CDATA #REQUIRED
+							   id    ID	   #REQUIRED  >
+		<!ELEMENT array EMPTY>
+			<!ATTLIST array label  CDATA #REQUIRED
+							  id	 ID	   #REQUIRED
+							  type   ( string | int | double | boolean | char ) #REQUIRED
+							  nb_lig CDATA #REQUIRED
+							  nb_col CDATA #REQUIRED >
+		<!ELEMENT buttons (button+)
+			<!ELEMENT button (#PCDATA)>
