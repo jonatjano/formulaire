@@ -1,7 +1,7 @@
 package iut.algo.form;
 
 import java.io.File;
-import javax.xml.*;
+import iut.algo.form.job.xml.ReadFile;
 
 /**
  * classe permettant de controller les formulaires depuis des programmes exterieurs
@@ -43,18 +43,22 @@ public class FormController
 			finalPath = filePath;
 		}
 		// creation du fichier
-		final File xmlFile = new File(finalPath);
+		File xmlFile = new File(finalPath);
 
 		// on fait les verifications basique d'existence du fichier
 		// s'il exist
 		if (!xmlFile.exists())
 		{
 			System.out.println("Le fichier entré n'existe pas");
+			return;
 		}
 		// s'il possède bien une extension XML
 		else if (!xmlFile.getName().toUpperCase().endsWith(".XML"))
 		{
 			System.out.println("Le fichier entré ne correspond pas à un fichier XML");
+			return;
 		}
+
+		ReadFile.read(xmlFile);
 	}
 }
