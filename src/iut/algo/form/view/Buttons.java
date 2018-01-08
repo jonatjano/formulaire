@@ -1,4 +1,4 @@
-//package iut.algo.form;
+package iut.algo.form.view;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,7 +21,7 @@ public class Buttons extends Control
 {
 	ArrayList<JRadioButton> buttonList;
 
-	
+
 	public Buttons (String label, int width, int x, int y, String[] choices)
 	{
 		super(label, width, x, y);

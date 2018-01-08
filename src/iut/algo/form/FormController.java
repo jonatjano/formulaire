@@ -6,7 +6,7 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import iut.algo.form.job.xml.SimpleErrorHandler;
+import iut.algo.form.job.SimpleErrorHandler;
 
 import java.io.File;
 import java.io.File;

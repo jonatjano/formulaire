@@ -1,4 +1,4 @@
-//package iut.algo.form;
+package iut.algo.form.view;
 
 import javax.swing.JLabel;
 import javax.swing.JComboBox;

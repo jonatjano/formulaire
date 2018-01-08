@@ -1,4 +1,4 @@
-//package iut.algo.form;
+package iut.algo.form.view;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +32,7 @@ public class Frame extends JFrame implements ActionListener
 	public Frame (int width, int height, int x, int y)
 	{
 		super();
-		
+
 		this.controls	= new ArrayList<Control>();
 		this.labelFont	= null;
 
@@ -55,7 +55,7 @@ public class Frame extends JFrame implements ActionListener
 		this.setLayout( new BorderLayout() );
 
 		this.mainPanel	= new JPanel();
-		
+
 
 		/*~~~~~~~~~~~~~~~~~~~*/
 		/*  Panel formulaire */

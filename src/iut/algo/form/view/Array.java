@@ -1,4 +1,4 @@
-//package iut.algo.form;
+package iut.algo.form.view;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,7 +20,7 @@ public class Array extends Control
 	Object[] 	objects;
 	JLabel 		labelL;
 
-	
+
 	public Array (String label, int width, int x, int y, Object[] objects)
 	{
 		super(label, width, x, y);
