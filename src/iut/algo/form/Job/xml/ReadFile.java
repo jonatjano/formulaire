@@ -13,8 +13,8 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-public class ReadFile
-{	
+public static class ReadFile
+{
 	public static void read(String file)
 	{
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
