@@ -16,6 +16,7 @@ import java.util.Scanner;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.swing.JOptionPane;
 
 /**
  * classe permettant de controller les formulaires depuis des programmes exterieurs
@@ -226,5 +227,10 @@ System.out.println("Le fichier entré ne correspond pas à un fichier XML");
 		}
 		catch (Exception e) {}
 		return null;
+	}
+
+	private static void showError( String titre , String message )
+	{
+		JOptionPane.showMessageDialog(null,titre,message,JOptionPane.ERROR_MESSAGE);
 	}
 }
