@@ -1,0 +1,15 @@
+<fenetre longueur=1920 largeur=1080 x=100 y=100>
+	<text type="entier" label="" id=""/>
+	<dropdown type="chaine" label="" id="">
+		<choix label=""/>
+	</dropdown>
+	<checkbox label="" id=""/>
+
+	<tableau label="" id="" type="str" nb_lig=35 nb_col=28/>
+	<boutons label="" id="">
+		<bouton>24</bouton>
+	</boutons>
+
+</fenetre>
+
+<!-- int laTienne = get(id); -->
