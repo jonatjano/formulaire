@@ -8,13 +8,14 @@ import org.xml.sax.SAXParseException;
   * @version 2018-01-08
   */
 public class SimpleErrorHandler implements ErrorHandler {
+
 	/**
 	  * permet de lancer un warning suite à l'exception levée
 	  * @param exception exception relevée
 	  * @throws {@link SAXException}
 	  */
 	public void warning(SAXParseException e) throws SAXException {
-        System.out.println("WARNING : " + e.getMessage());
+        System.out.println("WARNING : " + e.getMessage() + " sur la ligne " + (e.getLineNumber() - 2));
     }
 
 	/**
@@ -23,7 +24,7 @@ public class SimpleErrorHandler implements ErrorHandler {
 	  * @throws {@link SAXException}
 	  */
     public void error(SAXParseException e) throws SAXException {
-        System.out.println("ERROR : " + e.getMessage());
+        System.out.println("ERROR : " + e.getMessage() + " sur la ligne " + (e.getLineNumber() - 2));
         throw e;
     }
 
@@ -33,7 +34,7 @@ public class SimpleErrorHandler implements ErrorHandler {
 	  * @throws {@link SAXException}
 	  */
     public void fatalError(SAXParseException e) throws SAXException {
-        System.out.println("FATAL ERROR : " + e.getMessage());
+        System.out.println("FATAL ERROR : " + e.getMessage() + " sur la ligne " + (e.getLineNumber() - 2));
         throw e;
     }
 }
