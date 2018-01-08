@@ -104,6 +104,11 @@ System.out.println("Le fichier entré ne correspond pas à un fichier XML");
 		// parseXml(xmlFile);
 	}
 
+	/**
+	  * cette méthode permet de savoir si le document XML respecte la dtd et écrit des erreurs dans le terminal sinon
+	  * @param fileXML le fichier XML a vérifié
+	  * @return boolean si le document XML respecte ou non la dtd
+	  */
 	private static boolean validXml(File fileXML)
 	{
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -146,6 +151,10 @@ System.out.println("Le fichier entré ne correspond pas à un fichier XML");
 		return false;
 	}
 
+	/**
+	  * Cette méthode permet de créer la dtd dans un fichier temporaire
+	  * @return File le fichier dtd créé
+	  */
 	private static File createDtdFile()
 	{
 		try {
@@ -229,8 +238,13 @@ System.out.println("Le fichier entré ne correspond pas à un fichier XML");
 		return null;
 	}
 
+	/**
+	  * Cette méthode permet d'afficher une erreur à l'écran
+	  * @param titre titre du message d'erreur
+	  * @param message message à afficher dans l'erreur
+	  */
 	private static void showError( String titre , String message )
 	{
-		JOptionPane.showMessageDialog(null,titre,message,JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(null,message,titre,JOptionPane.ERROR_MESSAGE);
 	}
 }

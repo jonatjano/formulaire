@@ -8,19 +8,14 @@ import org.xml.sax.SAXParseException;
   * @version 2018-01-08
   */
 public class SimpleErrorHandler implements ErrorHandler {
-<<<<<<< HEAD:src/iut/algo/form/Job/SimpleErrorHandler.java
-    public void warning(SAXParseException e) throws SAXException {
-		System.out.println("WARNING : " + e.getMessage() + " sur la ligne " + (e.getLineNumber() - 2));
-        throw e;
-=======
+
 	/**
 	  * permet de lancer un warning suite à l'exception levée
 	  * @param exception exception relevée
 	  * @throws {@link SAXException}
 	  */
 	public void warning(SAXParseException e) throws SAXException {
-        System.out.println("WARNING : " + e.getMessage());
->>>>>>> 4d5a73345f6812cf40c8361f152d9a02213d7731:src/iut/algo/form/Job/xml/SimpleErrorHandler.java
+        System.out.println("WARNING : " + e.getMessage() + " sur la ligne " + (e.getLineNumber() - 2));
     }
 
 	/**
