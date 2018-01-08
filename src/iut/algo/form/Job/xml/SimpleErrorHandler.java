@@ -1,3 +1,5 @@
+package iut.algo.form.job.xml;
+
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;

@@ -1,15 +1,18 @@
-<fenetre longueur=1920 largeur=1080 x=100 y=100>
-	<text type="entier" label="" id="" x=10 y=20 />
-	<dropdown type="chaine" label="" id="">
-		<choix label=""/>
-	</dropdown>
-	<checkbox label="" id=""/>
+<?xml version="1.0" ?>
 
-	<tableau label="" id="" type="str" nb_lig=35 nb_col=28/>
-	<boutons label="" id="">
-		<bouton>24</bouton>
-	</boutons>
+<!DOCTYPE form SYSTEM "Forme.dtd">
 
-</fenetre>
-
+<form>
+	<window length="1920" width="1080" x="100" y="100">
+		<text type="char" label="texte" id="p01" x="10" y="20" />
+		<dropdown type="int" label="deroulant" id="p02">
+			<choice label="ah" id="p06"/>
+		</dropdown>
+		<checkbox label="box" id="p03"/>
+		<array label="tab" id="p04" type="string" nb_lig="35" nb_col="28"/>
+		<buttons label="groupeBoutton" id="p05">
+			<button>24</button>
+		</buttons>
+	</window>
+</form>
 <!-- int laTienne = get(id); -->
