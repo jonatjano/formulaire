@@ -1,21 +1,20 @@
 package iut.algo.form.job.xml;
 
-import java.io.File;
-import java.io.IOException;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+import java.io.File;
+import java.io.IOException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 public class ReadFile
-{	
-	public static void read(String file)
+{
+	public static void read(File fileXML)
 	{
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -30,7 +29,6 @@ public class ReadFile
 			ErrorHandler errHandler = new SimpleErrorHandler();
 			//Affectation de notre objet au document pour interception des erreurs �ventuelles
 			builder.setErrorHandler(errHandler);
-			File fileXML = new File(file);
 
 			//On rajoute un bloc de capture
 			//pour intercepter les erreurs au cas o� il y en a
@@ -42,7 +40,7 @@ public class ReadFile
 
 				Element window = (Element) root.getFirstChild();
 
-				Frame.CreateFrame(window);
+				// Frame.CreateFrame(window);
 			}
 			catch (SAXParseException e){}
 
