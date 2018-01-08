@@ -4,14 +4,14 @@
 	   					 largeur  CDATA #REQUIRED
 						 x		  CDATA #REQUIRED
 						 y		  CDATA #REQUIRED>
-	   <!ELEMENT texte (#PCDATA)>
-	      <!ATTLIST texte type  ( chaine | entier | double | booleen | charactere )  #REQUIRED
+	   <!ELEMENT texte EMPTY>
+	      <!ATTLIST texte type  ( chaine | entier | double | booleen | caractere )  #REQUIRED
 		  				 label CDATA #REQUIRED
 						 id	   ID	 #REQUIRED
 						 x	   CDATA #IMPLIED
 						 y	   CDATA #IMPLIED  >
 		<!ELEMENT menu (choix+)>
-			<!ATTLIST menu type ( chaine | entier | double | booleen | charactere ) #REQUIRED
+			<!ATTLIST menu type ( chaine | entier | double | booleen | caractere ) #REQUIRED
 							   id   ID	  #REQUIRED
 							   x	CDATA #IMPLIED
 							   y	CDATA #IMPLIED  >
