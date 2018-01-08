@@ -9,6 +9,6 @@ public class Test
 {
 	public static void main(String[] args)
 	{
-		// FormController.afficherFormulaire("monFichier.xml");
+		FormController.showForm("monFichier.xml");
 	}
 }
