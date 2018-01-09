@@ -3,9 +3,9 @@
 <!DOCTYPE form SYSTEM "Forme.dtd">
 
 <form>
-	<fenetre length="1920" width="1080" x="100" y="100">
-		<Case label="texte" id="p01/>
-		<menu type="int" label="deroulant" id="p02">
+	<fenetre longueur="1920" titre="test" largeur="1080" x="100" y="100">
+		<case label="texte" id="p01"/>
+		<menu type="entier" label="deroulant" id="p02">
 			<choix label="ah" id="p06"/>
 		</menu>
 		<tableau label="box" id="p03" type="chaine" nb_lig="20" nb_col="20"/>
