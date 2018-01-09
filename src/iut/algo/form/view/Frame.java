@@ -34,7 +34,6 @@ public class Frame extends JFrame implements ActionListener
 		super();
 
 		this.controls	= new ArrayList<Control>();
-		this.labelFont	= null;
 
 
 		/*~~~~~~~~~~~~~~~~~~~*/

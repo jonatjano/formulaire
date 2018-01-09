@@ -1,4 +1,5 @@
 import iut.algo.form.FormController;
+import iut.algo.form.view.Frame;
 
 /**
  * classe qui permet d'afficher un formulaire de test
@@ -9,6 +10,8 @@ public class Test
 {
 	public static void main(String[] args)
 	{
-		FormController.showForm("exemple.xml");
+		// FormController.showForm("exemple.xml");
+
+		Frame.main(null);
 	}
 }
