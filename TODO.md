@@ -1,27 +1,31 @@
-# voici ce qu'il faut faire par ordre d'importance
+# V<oici ce qu'il faut faire par ordre d'importance
+### Legende
+- [ ] Je ne suis pas fini
+- [x] Je suis fini mais pas testé
+- [x] **Je suis fini et testé**
 
 ## Primordial
 #### [ ] Paramétrage du formulaire
-- [ ] Le formulaire devra être paramétré dans un fichier texte
+- [x] **Le formulaire devra être paramétré dans un fichier texte**
 - [ ] Les 5 types de bases devront être gérés
-- [ ] L'utilisateur pourra définir plusieurs formulaires et utiliser plusieurs formulaires dans un même programme.
+- [x] L'utilisateur pourra définir plusieurs formulaires et utiliser plusieurs formulaires dans un même programme.
 
 #### [ ] Les différents Contrôles à gérer.
 Les différents Contrôles devront posséder :
-- [ ] une étiquette associée
+- [x] **une étiquette associée**
 - [ ] un  identifiant numérique, indépendant de l'ordre dans lequel les contrôles sont définis
 - [ ] un positionnement Sans valeur x y les différents Controles seront placées les uns en dessous des autres dans l'ordre de leur identifiant
-- [ ] la définition de la largeur (qui par défaut sera de 150)
-- [ ] la hauteur sera fixe, et correspondra à une hauteur standard
-- [ ] L'association à un des 5 types de base
+- [x] **la définition de la largeur (qui par défaut sera de 150)**
+- [x] **la hauteur sera fixe, et correspondra à une hauteur standard**
+- [x] L'association à un des 5 types de base
 
-#### [ ] Les différents Contrôles à gérer sont
-- [ ] La zone de texte
-- [ ] Une case à cocher
+#### [x] Les différents Contrôles à gérer sont
+- [x] **La zone de texte**
+- [x] **Une case à cocher**
 
 #### [ ] Un  bouton  valider,  permettra  de  rendre  la main  au  programme  appelant.  Cela  provoquera  la fermeture de la fenêtre liée au formulaire
 #### [ ] Chargement du formulaire
-- [ ] Chargement d'un Objet Formulaire à partir du nom d'un fichier
+- [x] **Chargement d'un Objet Formulaire à partir du nom d'un fichier**
 - [ ] Ouverture du Formulaire à l'aide d'une primitive simple. Tant  que  le  formulaire  n'aura  pas  été  définitivement  fermé,  l'ouverture affichera le formulaire dans son état précédent.
 - [ ] L'utilisateur  pourra  initialiser  chaque  champ  du  formulaire,  à  l'aide  d'une  primitive spécifique, avant l'ouverture du formulaire.
 - [ ] Fermeture définitive du formulaire
@@ -32,15 +36,15 @@ Les différents Contrôles devront posséder :
 
 ## Important
 
-#### [ ] Paramétrage du formulaire
-- [ ] Il devra y avoir des règles de nommage pour le fichier
-- [ ] Les éléments du langage et option ne devront pas donner lieu à un long apprentissage, 15 min doivent suffire pour appréhender le langage
+#### [x] Paramétrage du formulaire
+- [x] **Il devra y avoir des règles de nommage pour le fichier**
+- [x] **Les éléments du langage et option ne devront pas donner lieu à un long apprentissage, 15 min doivent suffire pour appréhender le langage**
 
 #### [ ] Les différents Contrôles à gérer sont :
-- [ ] Un groupement de bouton radio, pour lesquels il faudra définir la liste des boutons radio associés, l'utilisateur devra définir un ordinal pour chacun des boutons radio.
-- [ ] Une Liste déroulante éditable, les différentes valeurs de la liste déroulante seront définis par le programme utilisateur à l'aide d'un tableau.
+- [ ] <u>Un groupement de bouton radio, pour lesquels il faudra définir la liste des boutons radio associés, l'utilisateur devra définir un ordinal pour chacun des boutons radio.</u>
+- [ ] <u>Une Liste déroulante éditable, les différentes valeurs de la liste déroulante seront définis par le programme utilisateur à l'aide d'un tableau.</u>
 
-#### [ ] Un bouton effacer, permettra d'effacer l'ensemble des champs de saisie.
+#### [x] Un bouton effacer, permettra d'effacer l'ensemble des champs de saisie.
 
 #### [ ] Cinématique.
 - [ ] Naviguez entre les différents Controle
@@ -63,8 +67,8 @@ Les différents Contrôles devront posséder :
 - [ ] Utilisation d'une barre de défilement pour les formulaires trop grand.C’est-à-dire ne tenant pas dans la zone définie en début de fichier de paramétrage.Nota : les deux boutons valider et effacer seront toujours visible à l'écran
 
 #### [ ] Chargement du formulaire
-- [ ] En cas de non charment l'utilisateur pourra récupérer un message d'erreur du type
-Fichier inexistant
+- [ ] <u>En cas de non chargement l'utilisateur pourra récupérer un message d'erreur du type
+Fichier inexistant</u>
 
 #### [ ] Documentation
 - [ ] Aide en ligne
