@@ -2,6 +2,7 @@
 	<!ELEMENT fenetre (texte|menu|checkbox|tableau|boutons)+>
 	   <!ATTLIST fenetre longueur CDATA #REQUIRED
 	   					 largeur  CDATA #REQUIRED
+						 titre    CDATA #REQUIRED
 						 x		  CDATA #REQUIRED
 						 y		  CDATA #REQUIRED>
 	   <!ELEMENT texte EMPTY>
@@ -34,6 +35,7 @@
 	<!ELEMENT window (text|dropdown|checkbox|array|buttons)+>
 	   	<!ATTLIST window length	CDATA #REQUIRED
 	   					 width 	CDATA #REQUIRED
+						 title  CDATA #REQUIRED
 						 x		CDATA #REQUIRED
 						 y		CDATA #REQUIRED>
 	   	<!ELEMENT text (#PCDATA)>
