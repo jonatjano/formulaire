@@ -16,7 +16,7 @@
 			<choix label="uh"/>
 		</menu>
 
-		<!--<tableau x="20" y="75" label="box" id="p03" type="chaine" nb_lig="20" nb_col="20"/>-->
+		<tableau x="400" y="75" label="box" id="p03" type="chaine" nb_lig="20" nb_col="20"/>
 
 		<boutons x="30" y="125" id="m002" label="bouton">
 			<bouton>25</bouton>
