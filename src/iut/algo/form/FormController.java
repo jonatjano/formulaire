@@ -25,12 +25,7 @@ import javax.xml.parsers.ParserConfigurationException;
  */
 public class FormController
 {
-	private static File dtdFile;
-
-	static
-	{
-		dtdFile = createDtdFile();
-	}
+	private static File dtdFile = createDtdFile();
 
 	/**
 	 * methode appellée par une classe externe au package permettant d'appeller tous les utilitaires nécessaire au formulaire
