@@ -2,6 +2,7 @@ package iut.algo.form.view;
 
 import iut.algo.form.job.BaseType;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
@@ -46,8 +47,9 @@ public abstract class Control
 		this.panel.setLayout( new FlowLayout(FlowLayout.LEFT) );
 
 		this.idPanel	= new JPanel();
-		this.idPanel.setBounds(x - 20, y, 20, 20);
+		this.idPanel.setBounds(x - 25, y, 25, 25);
 		this.idPanel.setLayout( new BorderLayout() );
+		this.idPanel.setBorder( BorderFactory.createLineBorder(Color.black) );
 		this.idPanel.setBackground( Color.red );
 
 		JLabel idL		= new JLabel(id);
@@ -70,7 +72,7 @@ public abstract class Control
 	 */
 	public JPanel getIdPanel ()
 	{
-		return this.panel;
+		return this.idPanel;
 	}
 
 	/**

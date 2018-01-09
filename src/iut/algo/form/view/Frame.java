@@ -41,7 +41,7 @@ public class Frame extends JFrame implements ActionListener
 	private JPanel 			lowerPanel;
 
 
-	public Frame (int width, int height, int x, int y)
+	public Frame (String title, int width, int height, int x, int y)
 	{
 		super();
 
@@ -83,7 +83,7 @@ public class Frame extends JFrame implements ActionListener
 		this.upperPanel	= new JPanel();
 		this.upperPanel.setLayout( null );
 		this.upperPanel.setBackground( Frame.obtainFormColor() );
-		this.upperPanel.setPreferredSize( new Dimension((int) (width - 1/15f * width), 500) );
+		this.upperPanel.setPreferredSize( new Dimension((int) (width - 1/15f * width), Math.max(0, height - 100)) );
 		this.upperPanel.setBorder( BorderFactory.createLineBorder(Color.black) );
 
 		this.secondaryPanel.add( BorderLayout.CENTER, upperPanel );
@@ -111,91 +111,146 @@ public class Frame extends JFrame implements ActionListener
 		this.add( BorderLayout.CENTER, mainPanel );
 		this.setVisible(true);
 	}
-
-	public static Frame createFrame (Element root)
+	public Frame (int width, int height, int x, int y)
 	{
-		NodeList list = root.getChildNodes();
+		this("", width, height, x, y);
+	}
+
+	public static void createFrame (Element root)
+	{
+		NodeList listElements = root.getChildNodes();
 		Language lang;
 		if ( root.getNodeName().equals("fenetre") )	lang = Language.FR;
 		else										lang = Language.EN;
 
 
 		// Création de la fenêtre
-		int width	= 0;
-		int length	= 0;
-		int frameX	= Integer.parseInt( root.getAttribute("x") );
-		int frameY	= Integer.parseInt( root.getAttribute("y") );
+		String	title	= null;
+		int 	width	= 0;
+		int 	length	= 0;
+		int 	frameX	= Integer.parseInt( root.getAttribute("x") );
+		int 	frameY	= Integer.parseInt( root.getAttribute("y") );
 		switch (lang)
 		{
 			case FR:
-				width	= Integer.parseInt( root.getAttribute("width") );
-				length	= Integer.parseInt( root.getAttribute("length") );
-				break;
-			case EN:
+				title	= root.getAttribute("titre");
 				width	= Integer.parseInt( root.getAttribute("largeur") );
 				length	= Integer.parseInt( root.getAttribute("longueur") );
 				break;
+			case EN:
+				title	= root.getAttribute("title");
+				width	= Integer.parseInt( root.getAttribute("width") );
+				length	= Integer.parseInt( root.getAttribute("length") );
+				break;
 		}
-		Frame frame = new Frame(width, length, frameX, frameY);
+		Frame frame = new Frame(title, width, length, frameX, frameY);
 
 
 		// Création du formulaire
-		for (int i = 0; i < list.getLength(); i++)
+		for (int i = 0; i < listElements.getLength(); i++)
 		{
-			Node 			node	= list.item(i);
-			NamedNodeMap	attr	= node.getAttributes();
+			Node 			nodeElement	= listElements.item(i);
+			NamedNodeMap	attrElement	= nodeElement.getAttributes();
 
-			if (attr != null)
+			if (attrElement != null)
 			{
-				Node		nodeX	= attr.getNamedItem("x");
-				Node		nodeY	= attr.getNamedItem("y");
+				Node		nodeX		= attrElement.getNamedItem("x");
+				Node		nodeY		= attrElement.getNamedItem("y");
 
-				String		type	= attr.getNamedItem("type").getNodeValue();
-				String		label	= attr.getNamedItem("label").getNodeValue();
-				String		id		= attr.getNamedItem("id").getNodeValue();
-				int			x		= (nodeX == null) ? Control.DFLT_WIDTH : Integer.parseInt( nodeX.getNodeValue() );
-				int			y		= (nodeY == null) ? Control.DFLT_WIDTH : Integer.parseInt( nodeY.getNodeValue() );
+				String		controlName	= nodeElement.getNodeName();
+				String		label		= attrElement.getNamedItem("label").getNodeValue();
+				String		id			= attrElement.getNamedItem("id").getNodeValue();
+				int			x			= (nodeX == null) ? Control.DFLT_WIDTH : Integer.parseInt( nodeX.getNodeValue() );
+				int			y			= (nodeY == null) ? Control.DFLT_WIDTH : Integer.parseInt( nodeY.getNodeValue() );
 
-				Control		control;
+				NodeList	listChoices;
+				Object[]	choices;
+				Control		control 	= null;
 
-				switch (lang)
+				// Recherche les éléments en fonction de la langue utilisateur
+				switch (controlName)
 				{
-					case FR:
+					case "texte":
+						String type = attrElement.getNamedItem("type").getNodeValue();
+
+						BaseType baseType = BaseType.Int;
 						switch (type)
 						{
-							case "chaine":		control = new Text( label, id, BaseType.String, x, y );
+							case "chaine":
+							case "string":
+								baseType = BaseType.String;
 								break;
-							case "entier":		control = new Text( label, id, BaseType.Int, x, y );
+
+							case "entier":
+							case "int":
+								baseType = BaseType.Int;
 								break;
-							case "double":		control = new Text( label, id, BaseType.Double, x, y );
+
+							case "double":
+								baseType = BaseType.Double;
 								break;
-							case "booleen":		control = new Checkbox( label, id, x, y );
-								break;
-							case "caractere":	control = new Text( label, id, BaseType.Char, x, y );
+
+							case "caractere":
+							case "char":
+								baseType = BaseType.Char;
 								break;
 						}
+
+						control = new Text( label, id, baseType, x, y );
 						break;
 
-					case EN:
-						switch (type)
+					case "menu":
+					case "dropdown":
+						listChoices	= nodeElement.getChildNodes();
+						choices		= new Object[listChoices.getLength()];
+
+						/* Recherche des différents choix */
+						for (int j = 0; j < listChoices.getLength(); j++)
 						{
-							case "string":		control = new Text( label, id, BaseType.String, x, y );
-								break;
-							case "int":			control = new Text( label, id, BaseType.String, x, y );
-								break;
-							case "double":		control = new Text( label, id, BaseType.String, x, y );
-								break;
-							case "boolean":		control = new Checkbox( label, id, x, y );
-								break;
-							case "char":		control = new Text( label, id, BaseType.String, x, y );
-								break;
+							Node			nodeChoice	= listChoices.item(j);
+							NamedNodeMap	attrChoice	= nodeChoice.getAttributes();
+
+							// Si le noeud est un élément, ajoute l'attribut label aux choix possibles
+							if ( attrChoice != null &&
+								 (nodeChoice.getNodeName().equals("choix") || nodeChoice.getNodeName().equals("choice")) )
+								choices[j] = attrChoice.getNamedItem("label").getNodeValue();
 						}
+
+						control = new Dropdown( label, id, x, y, choices );
+						break;
+
+					case "case":
+					case "checkbox":
+						control = new Checkbox( label, id, x, y );
+						break;
+
+					case "tableau":
+					case "array":
+						control = null;
+						break;
+
+					case "boutons":
+					case "buttons":
+						listChoices	= nodeElement.getChildNodes();
+						choices		= new Object[listChoices.getLength()];
+
+						/* Recherche des différents choix */
+						for (int j = 0; j < listChoices.getLength(); j++)
+						{
+							Node nodeChoice	= listChoices.item(j);
+
+							// Si le noeud est un bouton ajoute la valeur du noud au choix possible
+							if ( nodeChoice.getNodeName().equals("bouton") || nodeChoice.getNodeName().equals("button") )
+								choices[j] = nodeChoice.getTextContent();
+						}
+
+						control = new Buttons( label, id, x, y, choices );
 						break;
 				}
+
+				frame.addControl( control );
 			}
 		}
-
-		return null;
 	}
 
 	/**
