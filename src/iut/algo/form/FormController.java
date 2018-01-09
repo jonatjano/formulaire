@@ -82,12 +82,14 @@ public class FormController
 
 			String finalFile = "<?xml version=\"1.0\" ?>\n";
 			finalFile += "<!DOCTYPE form SYSTEM \"" + dtdFile.getAbsolutePath() + "\">\n";
-			finalFile += file.substring( file.indexOf("<form")).replaceAll("[\t]","");
+			finalFile += file.substring( file.indexOf("<form")).replaceAll("[\t\n]",""); // a modifier
 			pw.write( finalFile );
 
 			pw.close();
 			
 			Element root = validXml(xmlFileWithDTD);
+			
+			System.out.println(finalFile);
 			if(root == null)
 			{
 
