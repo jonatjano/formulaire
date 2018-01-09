@@ -8,13 +8,16 @@ import javax.swing.text.PlainDocument;
 import javax.swing.text.AttributeSet;
 
 /**
- * 
+ * Champ d'insertion de texte avec une limite de caractères
  */
 public class JTextFieldLimit extends JTextField
 {
 	private int limit;
 
 
+	/**
+	 *
+	 */
 	public JTextFieldLimit (int limit)
 	{
 		super();

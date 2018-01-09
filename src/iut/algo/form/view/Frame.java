@@ -246,7 +246,7 @@ public class Frame extends JFrame implements ActionListener
 					case "array":
 						NamedNodeMap	attrChoice	= nodeElement.getAttributes();
 						String typeTemp = attrChoice.getNamedItem("type").getNodeValue();
-						//control = new Array(label, id, BaseType.getBaseType(typeTemp), x, y, new Object[1][1]);
+						control = new Array(label, id, BaseType.getBaseType(typeTemp), x, y, 10, 15);
 						break;
 
 					case "boutons":

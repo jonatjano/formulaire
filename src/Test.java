@@ -11,6 +11,5 @@ public class Test
 	public static void main(String[] args)
 	{
 		FormController.showForm("../exemple.xml");
-		//FormController.showForm("../exemple.xml");
 	}
 }
