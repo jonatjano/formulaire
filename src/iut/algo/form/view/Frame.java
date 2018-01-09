@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 
+import iut.algo.form.FormController;
+
 /**
  * Structure de base de la fenêtre contenant le formulaire
  * @author Team Infotik
@@ -25,6 +28,7 @@ import org.w3c.dom.NamedNodeMap;
  */
 public class Frame extends JFrame implements ActionListener
 {
+	private FormKeyListener fKeyListener;
 	private static final int IFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
 
 	/** Liste des éléments intégrés au formulaire */
@@ -38,6 +42,9 @@ public class Frame extends JFrame implements ActionListener
 	private JPanel 			upperPanel;
 	/** Panel inférieur du formulaire */
 	private JPanel 			lowerPanel;
+
+	private JButton validateB;
+	private JButton deleteB;
 
 
 	public Frame (String title, int width, int height, int x, int y)
@@ -94,8 +101,9 @@ public class Frame extends JFrame implements ActionListener
 
 		this.lowerPanel	= new JPanel();
 		this.lowerPanel.setLayout( new FlowLayout(FlowLayout.LEFT) );
-		JButton validateB	= new JButton("Valider");
-		JButton deleteB		= new JButton("Effacer");
+		validateB = new JButton("Valider");
+		validateB.addActionListener(this);
+		deleteB	= new JButton("Effacer");
 		deleteB.addActionListener(this);
 
 		this.lowerPanel.add(validateB);
@@ -103,6 +111,18 @@ public class Frame extends JFrame implements ActionListener
 
 		this.secondaryPanel.add( BorderLayout.SOUTH, lowerPanel );
 
+		fKeyListener = new FormKeyListener(this);
+		addKeyListener(fKeyListener);
+
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		addWindowListener(new WindowAdapter()
+		{
+		    public void windowClosing(WindowEvent e)
+		    {
+				FormController.windowClosed();
+				dispose();
+		    }
+		});
 
 		this.mainPanel.add( secondaryPanel );
 		this.add( BorderLayout.CENTER, mainPanel );
@@ -138,10 +158,10 @@ public class Frame extends JFrame implements ActionListener
 				title	= root.getAttribute("title");
 				width	= Integer.parseInt( root.getAttribute("width") );
 				length	= Integer.parseInt( root.getAttribute("length") );
-				break;	
+				break;
 		}
 		Frame frame = new Frame(title, width, length, frameX, frameY);
-		
+
 
 		// Création du formulaire
 		for (int i = 0; i < listElements.getLength(); i++)
@@ -159,7 +179,7 @@ public class Frame extends JFrame implements ActionListener
 				String		id			= attrElement.getNamedItem("id").getNodeValue();
 				int			x			= (nodeX == null) ? Control.DFLT_WIDTH : Integer.parseInt( nodeX.getNodeValue() );
 				int			y			= (nodeY == null) ? Control.DFLT_WIDTH : Integer.parseInt( nodeY.getNodeValue() );
-				
+
 				NodeList	listChoices;
 				Object[]	choices;
 				Control		control 	= null;
@@ -168,6 +188,7 @@ public class Frame extends JFrame implements ActionListener
 				switch (controlName)
 				{
 					case "texte":
+					case "text":
 						String type = attrElement.getNamedItem("type").getNodeValue();
 
 						BaseType baseType = BaseType.Int;
@@ -192,7 +213,7 @@ public class Frame extends JFrame implements ActionListener
 								baseType = BaseType.Char;
 								break;
 						}
-						
+
 						control = new Text( label, id, baseType, x, y );
 						break;
 
@@ -223,7 +244,9 @@ public class Frame extends JFrame implements ActionListener
 
 					case "tableau":
 					case "array":
-						control = null;
+						NamedNodeMap	attrChoice	= nodeElement.getAttributes();
+						String typeTemp = attrChoice.getNamedItem("type").getNodeValue();
+						control = new Array (label, id, BaseType.getBaseType(typeTemp), x, y, new Object[1][1]);
 						break;
 
 					case "boutons":
@@ -248,6 +271,8 @@ public class Frame extends JFrame implements ActionListener
 				frame.addControl( control );
 			}
 		}
+
+		frame.addKeyListenerToAllComponents();
 	}
 
 	/**
@@ -255,6 +280,9 @@ public class Frame extends JFrame implements ActionListener
 	 */
 	public void addControl (Control control)
 	{
+		if (control == null ) {
+			return;
+		}
 		this.upperPanel.add( control.getPanel() );		// Ajoute l'élément physiquement à l'interface
 		this.controls.add( control );					// Ajoute l'élément à la liste des éléments du formulaire
 
@@ -274,7 +302,15 @@ public class Frame extends JFrame implements ActionListener
 	 */
 	public void actionPerformed (ActionEvent e)
 	{
-		this.resetAll();
+		if (e.getSource() == deleteB)
+		{
+			this.resetAll();
+		}
+		else if (e.getSource() == validateB)
+		{
+			FormController.windowClosed();
+			dispose();
+		}
 	}
 
 	public void resetAll ()
@@ -311,6 +347,30 @@ public class Frame extends JFrame implements ActionListener
 	public List<Control> getControls ()
 	{
 		return this.controls;
+	}
+
+	private void addKeyListenerToAllComponents()
+	{
+		List<Component> compList = getAllComponents(this);
+		for (Component comp : compList)
+		{
+			if (comp.getListeners(FormKeyListener.class).length == 0)
+			{
+				comp.addKeyListener(fKeyListener);
+			}
+		}
+	}
+
+	private static List<Component> getAllComponents(Container c)
+	{
+	    Component[] comps = c.getComponents();
+	    List<Component> compList = new ArrayList<Component>();
+	    for (Component comp : comps) {
+	        compList.add(comp);
+	        if (comp instanceof Container)
+	            compList.addAll(getAllComponents((Container) comp));
+	    }
+	    return compList;
 	}
 
 
