@@ -1,4 +1,4 @@
-# V<oici ce qu'il faut faire par ordre d'importance
+# Voici ce qu'il faut faire par ordre d'importance
 ### Legende
 - [ ] Je ne suis pas fini
 - [x] Je suis fini mais pas testé
@@ -7,7 +7,12 @@
 ## Primordial
 #### [ ] Paramétrage du formulaire
 - [x] **Le formulaire devra être paramétré dans un fichier texte**
-- [ ] Les 5 types de bases devront être gérés
+- [ ] Les 5 types de bases devront être gérés :
+	- [x] **int**
+	- [x] **boolean**
+	- [x] **String**
+	- [ ] char
+	- [x] **boolean**
 - [x] L'utilisateur pourra définir plusieurs formulaires et utiliser plusieurs formulaires dans un même programme.
 
 #### [ ] Les différents Contrôles à gérer.
@@ -27,7 +32,7 @@ Les différents Contrôles devront posséder :
 #### [ ] Chargement du formulaire
 - [x] **Chargement d'un Objet Formulaire à partir du nom d'un fichier**
 - [ ] Ouverture du Formulaire à l'aide d'une primitive simple. Tant  que  le  formulaire  n'aura  pas  été  définitivement  fermé,  l'ouverture affichera le formulaire dans son état précédent.
-- [ ] L'utilisateur  pourra  initialiser  chaque  champ  du  formulaire,  à  l'aide  d'une  primitive spécifique, avant l'ouverture du formulaire.
+- [x] **L'utilisateur  pourra  initialiser  chaque  champ  du  formulaire,  à  l'aide  d'une  primitive spécifique, avant l'ouverture du formulaire.**
 - [ ] Fermeture définitive du formulaire
 
 #### [ ] Documentation
