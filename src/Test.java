@@ -10,10 +10,7 @@ public class Test
 {
 	public static void main(String[] args)
 	{
-		System.out.println("aa");
 		FormController.showForm("../exemple.xml");
-		System.out.println("a");
-		FormController.showForm("../exemple.xml");
-		System.out.println("b");
+		//FormController.showForm("../exemple.xml");
 	}
 }
