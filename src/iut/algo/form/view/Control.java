@@ -6,6 +6,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
+import java.awt.Font;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -30,8 +31,9 @@ public abstract class Control
 	protected BaseType	type;
 	protected String	label;
 
-	protected JPanel	panel;
-	protected JPanel	idPanel;
+	protected JPanel	panel,
+						idPanel,
+						typePanel;
 
 
 	/**
@@ -46,15 +48,27 @@ public abstract class Control
 		this.panel.setBackground( Frame.obtainFormColor() );
 		this.panel.setLayout( new FlowLayout(FlowLayout.LEFT) );
 
+
+		/* Création du panel d'identifiant */
+
 		this.idPanel	= new JPanel();
 		this.idPanel.setBounds(x - 25, y, 25, 25);
 		this.idPanel.setLayout( new BorderLayout() );
 		this.idPanel.setBorder( BorderFactory.createLineBorder(Color.black) );
-		this.idPanel.setBackground( Color.red );
+		this.idPanel.setBackground( new Color(0.86f, 0.34f, 0.53f) );
 
-		JLabel idL		= new JLabel(id);
+		JLabel	idL		= new JLabel(id);
+		Font 	f 		= idL.getFont();
+		idL.setFont( f.deriveFont(f.getStyle() | Font.BOLD) );
+
+
+		/* Création du panel d'idenfiant */
+
+		this.typePanel	= new JPanel();
+
+
 		this.idPanel.add( idL );
-		//this.idPanel.setVisible(true);
+		this.idPanel.setVisible(false);
 	}
 
 	/**

@@ -32,6 +32,9 @@ public class Array extends Control implements ActionListener
 	private int maxC;
 	private int maxL;
 
+<<<<<<< HEAD
+	public Array (String label, String id, int width, int x, int y, Object[][] objects)
+=======
 	private JPanel panelFull;
 	private JPanel panelGauche;
 	private JPanel panelDroite;
@@ -42,6 +45,7 @@ public class Array extends Control implements ActionListener
 	private JLabel[]    tabLabelColonne;
 
 	public Array (String label, String id, int width, int x, int y,Object[][] objects)
+>>>>>>> 442aeb01efe2946ae8aec53233b3121f25028ce5
 	{
 		super(label, id, width, x, y);
 		this.objects = objects;
@@ -128,7 +132,11 @@ public class Array extends Control implements ActionListener
 			}
 			tableau.add(new JLabel(""));
 
+<<<<<<< HEAD
+		this.panel.add( labelL );
+=======
 		this.panel = panelFull;
+>>>>>>> 442aeb01efe2946ae8aec53233b3121f25028ce5
 	}
 
 	public Array (String label, String id, int x, int y, Object[][] objects)

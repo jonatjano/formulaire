@@ -180,8 +180,7 @@ public class FormController
 			pw.write("\t\t\t\t\t\t\t\t\t x\t   CDATA #IMPLIED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t y\t   CDATA #IMPLIED  >\n");
 			pw.write("\t\t\t\t\t<!ELEMENT menu (choix+)>\n");
-			pw.write("\t\t\t\t\t\t<!ATTLIST menu type ( chaine | entier | double | booleen | caractere ) #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t\t\t\t\t   id   ID\t  #REQUIRED\n");
+			pw.write("\t\t\t\t\t\t<!ATTLIST menu id   ID\t  #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t\t   label CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t\t   x\tCDATA #IMPLIED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t\t   y\tCDATA #IMPLIED  >\n");
@@ -220,8 +219,7 @@ public class FormController
 			pw.write("\t\t\t\t\t\t\t\t\t   x\t CDATA \t#IMPLIED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t   y\t CDATA \t#IMPLIED  >\n");
 			pw.write("\t\t\t\t\t<!ELEMENT dropdown (choice+)>\n");
-			pw.write("\t\t\t\t\t\t<!ATTLIST dropdown type ( string | int | double | boolean | char ) #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t\t\t\t\t   id   ID\t  #REQUIRED\n");
+			pw.write("\t\t\t\t\t\t<!ATTLIST dropdown id   ID\t  #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t\t   label CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t\t   x\tCDATA #IMPLIED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t\t   y\tCDATA #IMPLIED  >\n");
