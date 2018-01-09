@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,8 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
+
+import iut.algo.form.FormController;
 
 /**
  * Structure de base de la fenêtre contenant le formulaire
@@ -39,6 +42,9 @@ public class Frame extends JFrame implements ActionListener
 	private JPanel 			upperPanel;
 	/** Panel inférieur du formulaire */
 	private JPanel 			lowerPanel;
+
+	private JButton validateB;
+	private JButton deleteB;
 
 
 	public Frame (String title, int width, int height, int x, int y)
@@ -95,8 +101,9 @@ public class Frame extends JFrame implements ActionListener
 
 		this.lowerPanel	= new JPanel();
 		this.lowerPanel.setLayout( new FlowLayout(FlowLayout.LEFT) );
-		JButton validateB	= new JButton("Valider");
-		JButton deleteB		= new JButton("Effacer");
+		validateB = new JButton("Valider");
+		validateB.addActionListener(this);
+		deleteB	= new JButton("Effacer");
 		deleteB.addActionListener(this);
 
 		this.lowerPanel.add(validateB);
@@ -106,6 +113,16 @@ public class Frame extends JFrame implements ActionListener
 
 		fKeyListener = new FormKeyListener(this);
 		addKeyListener(fKeyListener);
+
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		addWindowListener(new WindowAdapter()
+		{
+		    public void windowClosing(WindowEvent e)
+		    {
+				FormController.windowClosed();
+				dispose();
+		    }
+		});
 
 		this.mainPanel.add( secondaryPanel );
 		this.add( BorderLayout.CENTER, mainPanel );
@@ -171,6 +188,7 @@ public class Frame extends JFrame implements ActionListener
 				switch (controlName)
 				{
 					case "texte":
+					case "text":
 						String type = attrElement.getNamedItem("type").getNodeValue();
 
 						BaseType baseType = BaseType.Int;
@@ -251,6 +269,8 @@ public class Frame extends JFrame implements ActionListener
 				frame.addControl( control );
 			}
 		}
+
+		frame.addKeyListenerToAllComponents();
 	}
 
 	/**
@@ -258,6 +278,9 @@ public class Frame extends JFrame implements ActionListener
 	 */
 	public void addControl (Control control)
 	{
+		if (control == null ) {
+			return;
+		}
 		this.upperPanel.add( control.getPanel() );		// Ajoute l'élément physiquement à l'interface
 		this.controls.add( control );					// Ajoute l'élément à la liste des éléments du formulaire
 
@@ -277,8 +300,16 @@ public class Frame extends JFrame implements ActionListener
 	 */
 	public void actionPerformed (ActionEvent e)
 	{
-		for (Control control : controls)
-			control.reset();
+		if (e.getSource() == deleteB)
+		{
+			for (Control control : controls)
+				control.reset();
+		}
+		else if (e.getSource() == validateB)
+		{
+			FormController.windowClosed();
+			dispose();
+		}
 	}
 
 

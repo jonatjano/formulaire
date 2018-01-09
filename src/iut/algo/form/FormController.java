@@ -26,6 +26,7 @@ import javax.xml.parsers.ParserConfigurationException;
 public class FormController
 {
 	private static File dtdFile = createDtdFile();
+	private static boolean windowIsOpen = false;
 
 	/**
 	 * methode appellée par une classe externe au package permettant d'appeller tous les utilitaires nécessaire au formulaire
@@ -86,16 +87,19 @@ public class FormController
 			pw.write( finalFile );
 
 			pw.close();
-			
+
 			Element root = validXml(xmlFileWithDTD);
-			
+
 			System.out.println(finalFile);
 			if(root == null)
 			{
 
 			}
 			else
+			{
 				Frame.createFrame( (Element) (root.getFirstChild()) );
+				pauseUntilWindowClosed();
+			}
 		}
 		catch (Exception e)
 		{
@@ -151,6 +155,44 @@ public class FormController
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	/**
+	 * Cette méthode permet d'afficher une erreur à l'écran avec le titre "Erreur"
+	 * @param message message à afficher dans l'erreur
+	 */
+	private static void showError(String message)
+	{
+		showError("Erreur", message);
+	}
+
+	/**
+	 * Cette méthode permet d'afficher une erreur à l'écran
+	 * @param titre titre du message d'erreur
+	 * @param message message à afficher dans l'erreur
+	 */
+	private static void showError( String titre , String message )
+	{
+		JOptionPane.showMessageDialog(null,message,titre,JOptionPane.ERROR_MESSAGE);
+	}
+
+	private static void pauseUntilWindowClosed()
+	{
+		windowIsOpen = true;
+		while(windowIsOpen)
+		{
+			try {
+				Thread.sleep(100);
+			}
+			catch (Exception e) {
+
+			}
+		}
+	}
+
+	public static void windowClosed()
+	{
+		windowIsOpen = false;
 	}
 
 	/**
@@ -254,24 +296,5 @@ public class FormController
 		}
 		catch (Exception e) {}
 		return null;
-	}
-
-	/**
-	 * Cette méthode permet d'afficher une erreur à l'écran avec le titre "Erreur"
-	 * @param message message à afficher dans l'erreur
-	 */
-	private static void showError(String message)
-	{
-		showError("Erreur", message);
-	}
-
-	/**
-	 * Cette méthode permet d'afficher une erreur à l'écran
-	 * @param titre titre du message d'erreur
-	 * @param message message à afficher dans l'erreur
-	 */
-	private static void showError( String titre , String message )
-	{
-		JOptionPane.showMessageDialog(null,message,titre,JOptionPane.ERROR_MESSAGE);
 	}
 }
