@@ -24,6 +24,7 @@ public class Array extends Control
 	private Object[][] 	objects;
 	private JLabel 		labelL;
 
+<<<<<<< HEAD
 	private int nbC;
 	private int nbL;
 
@@ -33,8 +34,12 @@ public class Array extends Control
 	private int maxL;
 
 	public Array (String label, int width, int x, int y, int nbC, int nbL, Object[][] objects)
+=======
+	
+	public Array (String label, String id, int width, int x, int y, Object[][] objects)
+>>>>>>> 98b6ce7356e073c0a4abf87628c0e997e05127b3
 	{
-		super(label, width, x, y);
+		super(label, id, width, x, y);
 		this.objects = objects;
 
 
@@ -53,9 +58,9 @@ public class Array extends Control
         this.panel.add( scrollPane );
 	}
 
-	public Array (String label, int x, int y, Object[][] choices)
+	public Array (String label, String id, int x, int y, Object[][] choices)
 	{
-		this(label, Control.DFLT_WIDTH, x, y, choices);
+		this(label, id, Control.DFLT_WIDTH, x, y, choices);
 	}
 
 	/**

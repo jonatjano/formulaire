@@ -24,9 +24,9 @@ public class Buttons extends Control
 	private ArrayList<JRadioButton> buttonList;
 
 
-	public Buttons (String label, int width, int x, int y, String[] choices)
+	public Buttons (String label, String id, int width, int x, int y, String[] choices)
 	{
-		super(label, width, x, y);
+		super(label, id, width, x, y);
 
 
 		/* Création des radio boutons */
@@ -53,9 +53,9 @@ public class Buttons extends Control
     	this.panel.setBorder(titled);
 	}
 
-	public Buttons (String label, int x, int y, String[] choices)
+	public Buttons (String label, String id, int x, int y, String[] choices)
 	{
-		this(label, Control.DFLT_WIDTH, x, y, choices);
+		this(label, id, Control.DFLT_WIDTH, x, y, choices);
 	}
 
 

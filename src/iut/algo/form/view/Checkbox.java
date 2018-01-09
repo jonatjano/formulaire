@@ -19,9 +19,9 @@ public class Checkbox extends Control
 	private boolean		baseValue;
 
 
-	public Checkbox (String label, int width, int x, int y)
+	public Checkbox (String label, String id, int width, int x, int y)
 	{
-		super(label, width, x, y);
+		super(label, id, width, x, y);
 		this.baseValue = false;
 
 
@@ -37,9 +37,9 @@ public class Checkbox extends Control
 		this.panel.add( checkbox );
 	}
 
-	public Checkbox (String label, int x, int y)
+	public Checkbox (String label, String id, int x, int y)
 	{
-		this(label, Control.DFLT_WIDTH, x, y);
+		this(label, id, Control.DFLT_WIDTH, x, y);
 	}
 
 	/**
