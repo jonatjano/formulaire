@@ -29,12 +29,17 @@ public class Array extends Control implements ActionListener
 
 	private int minC;
 	private int minL;
+	private int maxC;
+	private int maxL;
 
 	private JPanel panelFull;
 	private JPanel panelGauche;
 	private JPanel panelDroite;
 	private JPanel tableau;
+
 	private JButton[][] tabButton;
+	private JLabel[]    tabLabelLigne;
+	private JLabel[]    tabLabelColonne;
 
 	public Array (String label, String id, int width, int x, int y,Object[][] objects)
 	{
@@ -53,16 +58,75 @@ public class Array extends Control implements ActionListener
 		// Tableau
 		panelFull = new JPanel(new GridLayout(1,2));
 
-			tableau = new JPanel();
-			Object[] tabNul;
-			if ( nbC > 1 )
+			if ( nbC > 5 )
 			{
-
+				if ( nbL > 5 )
+				{
+					maxL = 5;
+					maxC = 5;
+					tableau = new JPanel(new GridLayout(maxL+2,maxC+2));
+					tabButton = new JButton[maxL][maxC];
+					tabLabelLigne = new JLabel[maxL];
+					tabLabelColonne = new JLabel[maxC];
+				}
+				else
+				{
+					maxL = nbL;
+					maxC = 5;
+					tableau = new JPanel(new GridLayout(maxL+2,maxC+2));
+					tabButton = new JButton[maxL][maxC];
+					tabLabelLigne = new JLabel[maxL];
+					tabLabelColonne = new JLabel[maxC];
+				}
 			}
 			else
 			{
-
+				if ( nbL > 5 )
+				{
+					maxL = 5;
+					maxC = nbC;
+					tableau = new JPanel(new GridLayout(maxL+2,maxC+2));
+					tabButton = new JButton[maxL][maxC];
+					tabLabelLigne = new JLabel[maxL];
+					tabLabelColonne = new JLabel[maxC];
+				}
+				else
+				{
+					maxL = nbL;
+					maxC = nbC;
+					tableau = new JPanel(new GridLayout(maxL+2,maxC+2));
+					tabButton = new JButton[maxL][maxC];
+					tabLabelLigne = new JLabel[maxL];
+					tabLabelColonne = new JLabel[maxC];
+				}
 			}
+
+			tableau.add(new JLabel(nbL + ""));
+			for( int cpt=1; cpt < maxC+2; cpt++)
+				tableau.add(new JLabel(""));
+
+			for( int l = maxL-1 ; l >= 0 ; l-- )
+			{
+				JLabel jll = new JLabel(l+"");
+				tabLabelLigne[l] = jll;
+				tableau.add(jll);
+				for ( int c = 0 ; c < maxC ; c++ )
+				{
+					JButton j = new JButton("");
+					tabButton[l][c] = j;
+					tableau.add(j);
+				}
+				tableau.add(new JLabel(""));
+			}
+
+			tableau.add(new JLabel(""));
+			for( int c = 0 ; c < maxC ; c++ )
+			{
+				JLabel jlc = new JLabel(c+"");
+				tabLabelColonne[c] = jlc;
+				tableau.add(jlc);
+			}
+			tableau.add(new JLabel(""));
 
 		this.panel = panelFull;
 	}
