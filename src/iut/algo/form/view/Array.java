@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.BorderFactory;
 
+import java.awt.Font;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -121,14 +122,23 @@ public class Array extends Control
 			}
 		}
 
+
+		Font f;
+
 		/* Ligne supérieure du tableau */
-		tableau.add( new JLabel(nbR + "") );
-		for( int cpt=1; cpt < maxC+2; cpt++)
+		JLabel labelTop = null;
+
+		JLabel rowL = new JLabel(nbR + "");
+		tableau.add( rowL );
+		f = rowL.getFont();
+		rowL.setFont( f.deriveFont(f.getStyle() | Font.BOLD) );
+
+		for( int cpt = 1; cpt < maxC + 2; cpt++)
 		{
-			JLabel label = new JLabel();
-			//label.
-			tableau.add( label );
+			labelTop = new JLabel();
+			tableau.add( labelTop );
 		}
+		labelTop.getParent().setBackground( Frame.obtainFormColor() );
 
 		for( int l = maxL-1 ; l >= 0 ; l-- )
 		{
@@ -145,6 +155,7 @@ public class Array extends Control
 			tableau.add(new JLabel(""));
 		}
 
+		/* Ligne inférieure du tableau */
 		tableau.add(new JLabel(""));
 		for( int c = 0 ; c < maxC ; c++ )
 		{
@@ -152,7 +163,11 @@ public class Array extends Control
 			tabLabelColonne[c] = jlc;
 			tableau.add(jlc);
 		}
-		tableau.add(new JLabel(""));
+
+		JLabel colL = new JLabel(nbC + "");
+		tableau.add( colL );
+		f = colL.getFont();
+		colL.setFont( f.deriveFont(f.getStyle() | Font.BOLD) );
 
 		//this.panelGauche.add( labelL );
 		this.panelArray.add( tableau );
