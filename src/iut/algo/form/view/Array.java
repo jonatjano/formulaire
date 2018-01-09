@@ -51,8 +51,9 @@ public class Array extends Control implements ActionListener
 		this.labelL.setForeground(Color.GRAY);
 
 		// Tableau
-		panelFull = new Panel(new GridLayout(1,2));
+		panelFull = new JPanel(new GridLayout(1,2));
 
+			tableau = new JPanel();
 			Object[] tabNul;
 			if ( nbC > 1 )
 			{
