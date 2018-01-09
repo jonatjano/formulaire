@@ -13,9 +13,9 @@ import java.awt.Color;
  */
 public class Text extends Control
 {
-	Component	textF;
-	JLabel 		labelL;
-	String		baseValue;
+	private Component	textF;
+	private JLabel 		labelL;
+	private String		baseValue;
 
 
 	/**

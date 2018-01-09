@@ -14,9 +14,9 @@ import java.awt.Color;
  */
 public class Dropdown extends Control
 {
-	JComboBox	dropdownD;
-	JLabel 		labelL;
-	Object[]	baseValues;
+	private JComboBox	dropdownD;
+	private JLabel 		labelL;
+	private Object[]	baseValues;
 
 
 	@SuppressWarnings("unchecked")

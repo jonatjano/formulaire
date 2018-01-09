@@ -12,6 +12,6 @@ public class Test
 	{
 		// FormController.showForm("exemple.xml");
 
-		Frame.main(null);
+		Frame.main( null );
 	}
 }
