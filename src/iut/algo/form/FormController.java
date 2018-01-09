@@ -84,21 +84,20 @@ public class FormController
 
 			String finalFile = "<?xml version=\"1.0\" ?>\n";
 			finalFile += "<!DOCTYPE form SYSTEM \"" + dtdFile.getAbsolutePath() + "\">\n";
-			finalFile += file.substring( file.indexOf("<form")).replaceAll("[\t\n]",""); // a modifier
+			finalFile += file.substring( file.indexOf("<form") ).replaceAll("[\t]", "");
 			pw.write( finalFile );
 
 			pw.close();
 
-			Element root = validXml(xmlFileWithDTD);
-
-			System.out.println(finalFile);
-			if(root == null)
+			if(validXml(xmlFileWithDTD, true) != null)
 			{
+				File xmlFileWithDTDUniline = File.createTempFile("tmpFile", ".xml");
+				xmlFileWithDTDUniline.deleteOnExit();
+				PrintWriter pw2 = new PrintWriter(xmlFileWithDTDUniline, "UTF-8");
+				pw2.write( finalFile.replaceAll("[\n]", "") );
+				pw2.close();
 
-			}
-			else
-			{
-				frame = Frame.createFrame( (Element) (root.getFirstChild()) );
+				frame = Frame.createFrame( (Element) (validXml(xmlFileWithDTDUniline).getFirstChild()) );
 				pauseUntilWindowClosed();
 			}
 		}
@@ -111,12 +110,17 @@ public class FormController
 		// parseXml(xmlFile);
 	}
 
+	private static Element validXml (File fileXML)
+	{
+		return validXml(fileXML, false);
+	}
+
 	/**
 	 * cette méthode permet de savoir si le document XML respecte la dtd et écrit des erreurs dans le terminal sinon
 	 * @param fileXML le fichier XML a vérifié
 	 * @return boolean L'élément si le fichier valide, sinon null
 	 */
-	private static Element validXml (File fileXML)
+	private static Element validXml (File fileXML, boolean validate)
 	{
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -130,7 +134,14 @@ public class FormController
 			//création de notre objet d'erreurs
 			ErrorHandler errHandler = new SimpleErrorHandler();
 			//Affectation de notre objet au document pour interception des erreurs éventuelles
-			builder.setErrorHandler(errHandler);
+			if (validate)
+			{
+				builder.setErrorHandler(errHandler);
+			}
+			else
+			{
+				builder.setErrorHandler(null);
+			}
 
 			//On rajoute un bloc de capture
 			//pour intercepter les erreurs au cas où il y en a
