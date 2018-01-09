@@ -4,6 +4,7 @@ import iut.algo.form.job.BaseType;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
@@ -30,6 +31,8 @@ public class Array extends Control
 
 	private int minC;
 	private int minL;
+	private int maxC;
+	private int maxL;
 
 	private JPanel panelFull;
 	private JPanel panelGauche;
@@ -37,7 +40,10 @@ public class Array extends Control
 	private Control value;
 
 	private JPanel tableau;
+
 	private JButton[][] tabButton;
+	private JLabel[]    tabLabelLigne;
+	private JLabel[]    tabLabelColonne;
 
 	public Array (String label, String id, BaseType type, int width, int x, int y,Object[][] objects)
 	{
@@ -56,18 +62,78 @@ public class Array extends Control
 		// Tableau
 		panelFull = new JPanel(new GridLayout(1,2));
 
-		tableau = new JPanel();
-		Object[] tabNul;
-		if ( nbC > 1 )
-		{
 
-		}
-		else
-		{
+			if ( nbC > 5 )
+			{
+				if ( nbL > 5 )
+				{
+					maxL = 5;
+					maxC = 5;
+					tableau = new JPanel(new GridLayout(maxL+2,maxC+2));
+					tabButton = new JButton[maxL][maxC];
+					tabLabelLigne = new JLabel[maxL];
+					tabLabelColonne = new JLabel[maxC];
+				}
+				else
+				{
+					maxL = nbL;
+					maxC = 5;
+					tableau = new JPanel(new GridLayout(maxL+2,maxC+2));
+					tabButton = new JButton[maxL][maxC];
+					tabLabelLigne = new JLabel[maxL];
+					tabLabelColonne = new JLabel[maxC];
+				}
+			}
+			else
+			{
+				if ( nbL > 5 )
+				{
+					maxL = 5;
+					maxC = nbC;
+					tableau = new JPanel(new GridLayout(maxL+2,maxC+2));
+					tabButton = new JButton[maxL][maxC];
+					tabLabelLigne = new JLabel[maxL];
+					tabLabelColonne = new JLabel[maxC];
+				}
+				else
+				{
+					maxL = nbL;
+					maxC = nbC;
+					tableau = new JPanel(new GridLayout(maxL+2,maxC+2));
+					tabButton = new JButton[maxL][maxC];
+					tabLabelLigne = new JLabel[maxL];
+					tabLabelColonne = new JLabel[maxC];
+				}
+			}
 
-		}
+			tableau.add(new JLabel(nbL + ""));
+			for( int cpt=1; cpt < maxC+2; cpt++)
+				tableau.add(new JLabel(""));
 
+			for( int l = maxL-1 ; l >= 0 ; l-- )
+			{
+				JLabel jll = new JLabel(l+"");
+				tabLabelLigne[l] = jll;
+				tableau.add(jll);
+				for ( int c = 0 ; c < maxC ; c++ )
+				{
+					JButton j = new JButton("");
+					tabButton[l][c] = j;
+					tableau.add(j);
+				}
+				tableau.add(new JLabel(""));
+			}
 
+			tableau.add(new JLabel(""));
+			for( int c = 0 ; c < maxC ; c++ )
+			{
+				JLabel jlc = new JLabel(c+"");
+				tabLabelColonne[c] = jlc;
+				tableau.add(jlc);
+			}
+			tableau.add(new JLabel(""));
+
+		panelFull.add(tableau);
 
 		this.panelDroite = new JPanel();
 
@@ -78,6 +144,7 @@ public class Array extends Control
 
 		this.panelDroite.add(value.getPanel());
 		this.panelFull.add(this.panelDroite);
+
 		this.panel = panelFull;
 	}
 

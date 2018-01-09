@@ -26,6 +26,7 @@ import javax.xml.parsers.ParserConfigurationException;
 public class FormController
 {
 	private static File dtdFile = createDtdFile();
+	private static boolean windowIsOpen = false;
 
 	/**
 	 * methode appellée par une classe externe au package permettant d'appeller tous les utilitaires nécessaire au formulaire
@@ -86,16 +87,19 @@ public class FormController
 			pw.write( finalFile );
 
 			pw.close();
-			
+
 			Element root = validXml(xmlFileWithDTD);
-			
+
 			System.out.println(finalFile);
 			if(root == null)
 			{
 
 			}
 			else
+			{
 				Frame.createFrame( (Element) (root.getFirstChild()) );
+				pauseUntilWindowClosed();
+			}
 		}
 		catch (Exception e)
 		{
@@ -154,6 +158,44 @@ public class FormController
 	}
 
 	/**
+	 * Cette méthode permet d'afficher une erreur à l'écran avec le titre "Erreur"
+	 * @param message message à afficher dans l'erreur
+	 */
+	private static void showError(String message)
+	{
+		showError("Erreur", message);
+	}
+
+	/**
+	 * Cette méthode permet d'afficher une erreur à l'écran
+	 * @param titre titre du message d'erreur
+	 * @param message message à afficher dans l'erreur
+	 */
+	private static void showError( String titre , String message )
+	{
+		JOptionPane.showMessageDialog(null,message,titre,JOptionPane.ERROR_MESSAGE);
+	}
+
+	private static void pauseUntilWindowClosed()
+	{
+		windowIsOpen = true;
+		while(windowIsOpen)
+		{
+			try {
+				Thread.sleep(100);
+			}
+			catch (Exception e) {
+
+			}
+		}
+	}
+
+	public static void windowClosed()
+	{
+		windowIsOpen = false;
+	}
+
+	/**
 	 * Cette méthode permet de créer la dtd dans un fichier temporaire
 	 * @return File le fichier dtd créé
 	 */
@@ -180,8 +222,7 @@ public class FormController
 			pw.write("\t\t\t\t\t\t\t\t\t x\t   CDATA #IMPLIED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t y\t   CDATA #IMPLIED  >\n");
 			pw.write("\t\t\t\t\t<!ELEMENT menu (choix+)>\n");
-			pw.write("\t\t\t\t\t\t<!ATTLIST menu type ( chaine | entier | double | booleen | caractere ) #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t\t\t\t\t   id   ID\t  #REQUIRED\n");
+			pw.write("\t\t\t\t\t\t<!ATTLIST menu id   ID\t  #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t\t   label CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t\t   x\tCDATA #IMPLIED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t\t   y\tCDATA #IMPLIED  >\n");
@@ -220,8 +261,7 @@ public class FormController
 			pw.write("\t\t\t\t\t\t\t\t\t   x\t CDATA \t#IMPLIED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t   y\t CDATA \t#IMPLIED  >\n");
 			pw.write("\t\t\t\t\t<!ELEMENT dropdown (choice+)>\n");
-			pw.write("\t\t\t\t\t\t<!ATTLIST dropdown type ( string | int | double | boolean | char ) #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t\t\t\t\t   id   ID\t  #REQUIRED\n");
+			pw.write("\t\t\t\t\t\t<!ATTLIST dropdown id   ID\t  #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t\t   label CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t\t   x\tCDATA #IMPLIED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t\t   y\tCDATA #IMPLIED  >\n");
@@ -254,24 +294,5 @@ public class FormController
 		}
 		catch (Exception e) {}
 		return null;
-	}
-
-	/**
-	 * Cette méthode permet d'afficher une erreur à l'écran avec le titre "Erreur"
-	 * @param message message à afficher dans l'erreur
-	 */
-	private static void showError(String message)
-	{
-		showError("Erreur", message);
-	}
-
-	/**
-	 * Cette méthode permet d'afficher une erreur à l'écran
-	 * @param titre titre du message d'erreur
-	 * @param message message à afficher dans l'erreur
-	 */
-	private static void showError( String titre , String message )
-	{
-		JOptionPane.showMessageDialog(null,message,titre,JOptionPane.ERROR_MESSAGE);
 	}
 }
