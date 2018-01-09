@@ -7,8 +7,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 import iut.algo.form.job.SimpleErrorHandler;
+import iut.algo.form.view.Frame;
 
-import java.io.File;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,12 +25,7 @@ import javax.xml.parsers.ParserConfigurationException;
  */
 public class FormController
 {
-	private static File dtdFile;
-
-	static
-	{
-		dtdFile = createDtdFile();
-	}
+	private static File dtdFile = createDtdFile();
 
 	/**
 	 * methode appellée par une classe externe au package permettant d'appeller tous les utilitaires nécessaire au formulaire
@@ -132,6 +127,7 @@ public class FormController
 			{
 				Document xml = builder.parse(fileXML);
 				Element root = xml.getDocumentElement();
+				System.out.println(root.getNodeName());
 				return true;
 			}
 			catch (SAXParseException e) {}
@@ -167,6 +163,7 @@ public class FormController
 			pw.write("\t<!ELEMENT fenetre (texte|menu|checkbox|tableau|boutons)+>\n");
 			pw.write("\t\t<!ATTLIST fenetre longueur CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t largeur  CDATA #REQUIRED\n");
+			pw.write("\t\t\t\t\t\t titre\t\t  CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t x\t\t  CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t y\t\t  CDATA #REQUIRED>\n");
 			pw.write("\t<!ELEMENT texte EMPTY>\n");
@@ -178,13 +175,14 @@ public class FormController
 			pw.write("\t\t<!ELEMENT menu (choix+)>\n");
 			pw.write("\t\t\t<!ATTLIST menu type ( chaine | entier | double | booleen | caractere ) #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t\t   id   ID\t  #REQUIRED\n");
+			pw.write("\t\t\t\t\t\t\t   label CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t\t   x\tCDATA #IMPLIED\n");
 			pw.write("\t\t\t\t\t\t\t   y\tCDATA #IMPLIED  >\n");
 			pw.write("\t\t\t<!ELEMENT choix EMPTY>\n");
 			pw.write("\t\t\t\t<!ATTLIST choix label CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t\t\tid\t  ID\t#REQUIRED >\n");
-			pw.write("\t\t<!ELEMENT Case EMPTY>\n");
-			pw.write("\t\t\t<!ATTLIST Case label CDATA #REQUIRED\n");
+			pw.write("\t\t<!ELEMENT case EMPTY>\n");
+			pw.write("\t\t\t<!ATTLIST case label CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t\t   id    ID\t   #REQUIRED  >\n");
 			pw.write("\t\t<!ELEMENT tableau EMPTY>\n");
 			pw.write("\t\t\t<!ATTLIST tableau label  CDATA #REQUIRED\n");
@@ -199,6 +197,7 @@ public class FormController
 			pw.write("\t<!ELEMENT window (text|dropdown|checkbox|array|buttons)+>\n");
 			pw.write("\t\t<!ATTLIST window length\tCDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t width \tCDATA #REQUIRED\n");
+			pw.write("\t\t\t\t\t\t title\t\t  CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t x\t\tCDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t y\t\tCDATA #REQUIRED>\n");
 			pw.write("\t\t<!ELEMENT text (#PCDATA)>\n");
