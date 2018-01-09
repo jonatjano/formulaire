@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Frame extends JFrame implements ActionListener
 {
-	private Font			labelFont;
+	private static final int IFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
 
 	/** Liste des éléments intégrés au formulaire */
 	private List<Control>	controls;
@@ -164,7 +164,7 @@ public class Frame extends JFrame implements ActionListener
 		Text 		text2 		= new Text("Age", BaseType.Int, 20, 75);
 		Dropdown 	dropdown 	= new Dropdown("Type", 20, 100, new String[] {"Soues", "Sos", "Soas"});
 		Buttons 	buttons 	= new Buttons("Boustifaille", 20, 125, new String[] {"Saucisse", "Merguez", "Chipo", "Truc", "Machin"});
-		Array 		array	 	= new Array("Tableau", 500, 125, new String[] {"Vanillakipferl", "Ta mère", "La mienne"});
+		Array 		array	 	= new Array("Tableau", 500, 125, new String[][] { {"Vanillakipferl", "Ta mère", "La mienne"}, {"Eh ouais"} });
 
 		frame.addControl( text1 );
 		frame.addControl( text2 );
