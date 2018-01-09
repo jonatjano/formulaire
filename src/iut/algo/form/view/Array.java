@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * @author Team Infotik
  * @version 2018-01-08
  */
-public class Array extends Control
+public class Array extends Control implements ActionListener
 {
 	private Object[][] 	objects;
 	private JLabel 		labelL;
@@ -29,32 +29,55 @@ public class Array extends Control
 
 	private int minC;
 	private int minL;
-	private int maxC;
-	private int maxL;
 
+<<<<<<< HEAD
 	public Array (String label, String id, int width, int x, int y, Object[][] objects)
+=======
+	private JPanel panelFull;
+	private JPanel panelGauche;
+	private JPanel panelDroite;
+	private JPanel tableau;
+	private JButton[][] tabButton;
+
+	public Array (String label, String id, int width, int x, int y,Object[][] objects)
+>>>>>>> 442aeb01efe2946ae8aec53233b3121f25028ce5
 	{
 		super(label, id, width, x, y);
 		this.objects = objects;
 
 
 		/* Création du tableau */
-		this.nbC = nbC;
-		this.nbL = nbL;
+		this.nbL = objects.length;
+		this.nbC = objects[0].length;
+		this.minL = this.minC = 0;
 		// Label
 		this.labelL	= new JLabel( String.format("%s : ", this.label), SwingConstants.RIGHT );
 		this.labelL.setForeground(Color.GRAY);
 
 		// Tableau
+		panelFull = new JPanel(new GridLayout(1,2));
 
-		JTable table = new JTable(objects, new Object[] {"Truc", "machin", "bidule"});
+			tableau = new JPanel();
+			Object[] tabNul;
+			if ( nbC > 1 )
+			{
 
+			}
+			else
+			{
+
+			}
+
+<<<<<<< HEAD
 		this.panel.add( labelL );
+=======
+		this.panel = panelFull;
+>>>>>>> 442aeb01efe2946ae8aec53233b3121f25028ce5
 	}
 
-	public Array (String label, String id, int x, int y, Object[][] choices)
+	public Array (String label, String id, int x, int y, Object[][] objects)
 	{
-		this(label, id, Control.DFLT_WIDTH, x, y, choices);
+		this(label, id, Control.DFLT_WIDTH, x, y, nbC, nbL, objects);
 	}
 
 	/**
