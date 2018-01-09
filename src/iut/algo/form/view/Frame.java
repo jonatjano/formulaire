@@ -274,8 +274,19 @@ public class Frame extends JFrame implements ActionListener
 	 */
 	public void actionPerformed (ActionEvent e)
 	{
+		this.resetAll();
+	}
+
+	public void resetAll ()
+	{
 		for (Control control : controls)
 			control.reset();
+	}
+
+	public void displayIds ()
+	{
+		for (Control control : controls)
+			control.getIdPanel().setVisible(true);
 	}
 
 

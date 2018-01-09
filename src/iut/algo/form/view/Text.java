@@ -2,7 +2,13 @@ package iut.algo.form.view;
 
 import iut.algo.form.job.BaseType;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.Component;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.DocumentEvent;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -23,6 +29,7 @@ public class Text extends Control
 	/**
 	 * Crée un objet Texte, qui comprend un label et une zone de texte avec laquelle il est possible d'interargir
 	 */
+	@SuppressWarnings("unchecked")
 	public Text (String label, String id, BaseType type, int width, int x, int y)
 	{
 		super(label, id, width, x, y);
@@ -53,6 +60,21 @@ public class Text extends Control
 
 			case String:
 				this.textF	= new JTextField();
+				break;
+
+			case Char:
+				this.textF	= new JTextField();
+				(JTextField) (this.textF).getDocument().addDocumentListener( new DocumentListener() {
+					public void changedUpdate(DocumentEvent e) {
+						System.out.println("OHOHO");
+					}
+					public void removeUpdate(DocumentEvent e) {
+						System.out.println("AHAHA");
+					}
+					public void insertUpdate(DocumentEvent e) {
+						System.out.println("UHUHU");
+					}
+				} );
 				break;
 		}
 

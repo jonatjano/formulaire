@@ -32,7 +32,7 @@ public class Array extends Control
 	private int maxC;
 	private int maxL;
 
-	public Array (String label, int width, int x, int y, int nbC, int nbL, Object[][] objects)
+	public Array (String label, String id, int width, int x, int y, Object[][] objects)
 	{
 		super(label, id, width, x, y);
 		this.objects = objects;
@@ -50,7 +50,6 @@ public class Array extends Control
 		JTable table = new JTable(objects, new Object[] {"Truc", "machin", "bidule"});
 
 		this.panel.add( labelL );
-        this.panel.add( scrollPane );
 	}
 
 	public Array (String label, String id, int x, int y, Object[][] choices)
