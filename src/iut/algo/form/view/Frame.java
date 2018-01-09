@@ -321,10 +321,13 @@ public class Frame extends JFrame implements ActionListener
 			control.reset();
 	}
 
-	public void displayIds ()
+	/**
+	 * Invers l'état de l'affichage des identifiants
+	 */
+	public void toggleIds ()
 	{
 		for (Control control : controls)
-			control.getIdPanel().setVisible(true);
+			control.getIdPanel().setVisible( !control.getIdPanel().isVisible() );
 	}
 
 
