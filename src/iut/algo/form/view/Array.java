@@ -21,25 +21,33 @@ import java.util.ArrayList;
  */
 public class Array extends Control
 {
-	private Object[] 	objects;
+	private Object[][] 	objects;
 	private JLabel 		labelL;
 
-	
-	public Array (String label, String id, int width, int x, int y, Object[][] objects)
+	private int nbC;
+	private int nbL;
+
+	private int minC;
+	private int minL;
+	private int maxC;
+	private int maxL;
+
+	public Array (String label, int width, int x, int y, int nbC, int nbL, Object[][] objects)
 	{
 		super(label, id, width, x, y);
 		this.objects = objects;
 
 
 		/* Création du tableau */
-
+		this.nbC = nbC;
+		this.nbL = nbL;
 		// Label
 		this.labelL	= new JLabel( String.format("%s : ", this.label), SwingConstants.RIGHT );
 		this.labelL.setForeground(Color.GRAY);
 
 		// Tableau
+
 		JTable table = new JTable(objects, new Object[] {"Truc", "machin", "bidule"});
-		JScrollPane scrollPane = new JScrollPane(table);	// Crée un scrollpane auquel est ajouté le tableau
 
 		this.panel.add( labelL );
         this.panel.add( scrollPane );
