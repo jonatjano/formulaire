@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 
 /**
  * Structure de base de la fenêtre contenant le formulaire
@@ -105,18 +109,88 @@ public class Frame extends JFrame implements ActionListener
 		this.setVisible(true);
 	}
 
-	public static Frame CreateFrame (Element root)
+	public static Frame createFrame (Element root)
 	{
-		/*NodeList list = root.getChildNodes();
+		NodeList list = root.getChildNodes();
 		Language lang;
 		if ( root.getNodeName().equals("fenetre") )	lang = Language.FR;
 		else										lang = Language.EN;
 
 
-		for (Node node : list)
+		// Création de la fenêtre
+		int width	= 0;
+		int length	= 0;
+		int frameX	= Integer.parseInt( root.getAttribute("x") );
+		int frameY	= Integer.parseInt( root.getAttribute("y") );
+		switch (lang)
 		{
-			node
-		}*/
+			case FR:
+				width	= Integer.parseInt( root.getAttribute("width") );
+				length	= Integer.parseInt( root.getAttribute("length") );
+				break;
+			case EN:
+				width	= Integer.parseInt( root.getAttribute("largeur") );
+				length	= Integer.parseInt( root.getAttribute("longueur") );
+				break;
+		}
+		Frame frame = new Frame(width, length, frameX, frameY);
+		
+
+		// Création du formulaire
+		for (int i = 0; i < list.getLength(); i++)
+		{
+			Node 			node	= list.item(i);
+			NamedNodeMap	attr	= node.getAttributes();
+
+			if (attr != null)
+			{
+				Node		nodeX	= attr.getNamedItem("x");
+				Node		nodeY	= attr.getNamedItem("y");
+
+				String		type	= attr.getNamedItem("type").getNodeValue();
+				String		label	= attr.getNamedItem("label").getNodeValue();
+				String		id		= attr.getNamedItem("id").getNodeValue();
+				int			x		= (nodeX == null) ? Control.DFLT_WIDTH : Integer.parseInt( nodeX.getNodeValue() );
+				int			y		= (nodeY == null) ? Control.DFLT_WIDTH : Integer.parseInt( nodeY.getNodeValue() );
+				
+				Control		control;
+
+				switch (lang)
+				{
+					case FR:
+						switch (type)
+						{
+							case "chaine":		control = new Text( label, id, BaseType.String, x, y );
+								break;
+							case "entier":		control = new Text( label, id, BaseType.Int, x, y );
+								break;
+							case "double":		control = new Text( label, id, BaseType.Double, x, y );
+								break;
+							case "booleen":		control = new Checkbox( label, id, x, y );
+								break;
+							case "caractere":	control = new Text( label, id, BaseType.Char, x, y );
+								break;
+						}
+						break;
+
+					case EN:
+						switch (type)
+						{
+							case "string":		control = new Text( label, id, BaseType.String, x, y );
+								break;
+							case "int":			control = new Text( label, id, BaseType.String, x, y );
+								break;
+							case "double":		control = new Text( label, id, BaseType.String, x, y );
+								break;
+							case "boolean":		control = new Checkbox( label, id, x, y );
+								break;
+							case "char":		control = new Text( label, id, BaseType.String, x, y );
+								break;
+						}
+						break;
+				}
+			}
+		}
 		return null;
 	}
 
@@ -127,6 +201,8 @@ public class Frame extends JFrame implements ActionListener
 	{
 		this.upperPanel.add( control.getPanel() );		// Ajoute l'élément physiquement à l'interface
 		this.controls.add( control );					// Ajoute l'élément à la liste des éléments du formulaire
+
+		this.upperPanel.add( control.getIdPanel() );
 
 		this.revalidate();
 		this.repaint();
@@ -173,20 +249,22 @@ public class Frame extends JFrame implements ActionListener
 
 	public static void main (String[] args)
 	{
-		Frame frame = new Frame(1200, 600, 200, 50);
+		/*Frame frame = new Frame(1200, 600, 200, 50);
 
-		Checkbox 	checkbox 	= new Checkbox("Mangeable", 20, 25);
-		Text 		text1 		= new Text("Nom", BaseType.String, 20, 50);
-		Text 		text2 		= new Text("Age", BaseType.Int, 20, 75);
-		Dropdown 	dropdown 	= new Dropdown("Type", 20, 100, new String[] {"Soues", "Sos", "Soas"});
-		Buttons 	buttons 	= new Buttons("Boustifaille", 20, 125, new String[] {"Saucisse", "Merguez", "Chipo", "Truc", "Machin"});
-		Array 		array	 	= new Array("Tableau", 500, 125, new String[][] { {"Vanillakipferl", "Ta mère", "La mienne"}, {"Eh ouais"} });
+		Checkbox 	checkbox 	= new Checkbox("Mangeable", "a01", 20, 25);
+		Text 		text1 		= new Text("Nom", "a02", BaseType.String, 20, 50);
+		Text 		text2 		= new Text("Age", "a03", BaseType.Int, 20, 75);
+		Dropdown 	dropdown 	= new Dropdown("Type", "a04", 20, 100, new String[] {"Soues", "Sos", "Soas"});
+		Buttons 	buttons 	= new Buttons("Boustifaille", "a05", 20, 125, new String[] {"Saucisse", "Merguez", "Chipo", "Truc", "Machin"});
+		Text 		text3 		= new Text("Taille", "a06", BaseType.Double, 20, 275);
+		Array 		array	 	= new Array("Tableau", "a07", 500, 125, new String[][] { {"Vanillakipferl", "Ta mère", "La mienne"}, {"Eh ouais"} });
 
 		frame.addControl( text1 );
 		frame.addControl( text2 );
 		frame.addControl( checkbox );
 		frame.addControl( dropdown );
 		frame.addControl( buttons );
-		frame.addControl( array );
+		frame.addControl( text3 );
+		frame.addControl( array );*/
 	}
 }

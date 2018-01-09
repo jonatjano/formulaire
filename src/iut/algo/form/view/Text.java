@@ -23,9 +23,9 @@ public class Text extends Control
 	/**
 	 * Crée un objet Texte, qui comprend un label et une zone de texte avec laquelle il est possible d'interargir
 	 */
-	public Text (String label, BaseType type, int width, int x, int y)
+	public Text (String label, String id, BaseType type, int width, int x, int y)
 	{
-		super(label, width, x, y);
+		super(label, id, width, x, y);
 		this.type 		= type;
 		this.baseValue	= "";
 
@@ -36,13 +36,25 @@ public class Text extends Control
 		this.labelL.setForeground(Color.GRAY);
 		this.labelL.setPreferredSize( new Dimension(Control.LABEL_WIDTH, this.panel.getSize().height) );
 
-		if ( type ==  BaseType.Int)
+		SpinnerModel spinnerModel;
+
+		// Vérification du type de la zone de texte
+		switch (type)
 		{
-			SpinnerModel spinnerModel = new SpinnerNumberModel(0, Integer.MIN_VALUE, Integer.MAX_VALUE, 1);
-			this.textF	= new JSpinner();
+			case Int:
+				spinnerModel = new SpinnerNumberModel(0, Integer.MIN_VALUE, Integer.MAX_VALUE, 1);
+				this.textF	= new JSpinner(spinnerModel);
+				break;
+
+			case Double:
+				spinnerModel = new SpinnerNumberModel(0, Integer.MIN_VALUE, Integer.MAX_VALUE, 0.1f);
+				this.textF	= new JSpinner(spinnerModel);
+				break;
+
+			case String:
+				this.textF	= new JTextField();
+				break;
 		}
-		else
-			this.textF	= new JTextField();
 
 		this.textF.setPreferredSize( new Dimension(width, this.panel.getSize().height) );
 
@@ -54,9 +66,9 @@ public class Text extends Control
 	/**
 	 * Crée un objet Texte, qui comprend un label et une zone de texte avec laquelle il est possible d'interargir
 	 */
-	public Text (String label, BaseType type, int x, int y)
+	public Text (String label, String id, BaseType type, int x, int y)
 	{
-		this(label, type, Control.DFLT_WIDTH, x, y);
+		this(label, id, type, Control.DFLT_WIDTH, x, y);
 	}
 
 

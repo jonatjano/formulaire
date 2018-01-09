@@ -22,9 +22,9 @@ public class Dropdown extends Control
 
 
 	@SuppressWarnings("unchecked")
-	public Dropdown (String label, int width, int x, int y, Object[] choices)
+	public Dropdown (String label, String id, int width, int x, int y, Object[] choices)
 	{
-		super(label, width, x, y);
+		super(label, id, width, x, y);
 		this.baseValues = choices;
 
 		/* Création de la liste déroulante */
@@ -41,9 +41,9 @@ public class Dropdown extends Control
 		this.panel.add( dropdownD );
 	}
 
-	public Dropdown (String label, int x, int y, Object[] choices)
+	public Dropdown (String label, String id, int x, int y, Object[] choices)
 	{
-		this(label, Control.DFLT_WIDTH, x, y, choices);
+		this(label, id, Control.DFLT_WIDTH, x, y, choices);
 	}
 
 

@@ -87,16 +87,17 @@ public class FormController
 
 			pw.close();
 			
-			Element root = validXml(xmlFileWithDTD)
+			Element root = validXml(xmlFileWithDTD);
 			if(root == null)
 			{
+
 			}
 			else
-				Frame.createFrame(root.getFirstChild());
+				Frame.createFrame( (Element) (root.getFirstChild()) );
 		}
 		catch (Exception e)
 		{
-
+			e.printStackTrace();
 		}
 
 		// le fichier est accepté, on l'envoi à la suite du traitement
@@ -106,9 +107,9 @@ public class FormController
 	/**
 	 * cette méthode permet de savoir si le document XML respecte la dtd et écrit des erreurs dans le terminal sinon
 	 * @param fileXML le fichier XML a vérifié
-//	 * @return boolean si le document XML respecte ou non la dtd
+	 * @return boolean L'élément si le fichier valide, sinon null
 	 */
-	private static Element validXml(File fileXML)
+	private static Element validXml (File fileXML)
 	{
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -131,7 +132,7 @@ public class FormController
 			{
 				Document xml = builder.parse(fileXML);
 				Element root = xml.getDocumentElement();
-				return root.getFirstChild();
+				return root;
 			}
 			catch (SAXParseException e) {}
 		}

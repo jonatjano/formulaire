@@ -25,9 +25,9 @@ public class Array extends Control
 	private JLabel 		labelL;
 
 	
-	public Array (String label, int width, int x, int y, Object[][] objects)
+	public Array (String label, String id, int width, int x, int y, Object[][] objects)
 	{
-		super(label, width, x, y);
+		super(label, id, width, x, y);
 		this.objects = objects;
 
 
@@ -45,9 +45,9 @@ public class Array extends Control
         this.panel.add( scrollPane );
 	}
 
-	public Array (String label, int x, int y, Object[][] choices)
+	public Array (String label, String id, int x, int y, Object[][] choices)
 	{
-		this(label, Control.DFLT_WIDTH, x, y, choices);
+		this(label, id, Control.DFLT_WIDTH, x, y, choices);
 	}
 
 	/**
