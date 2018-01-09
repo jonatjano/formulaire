@@ -128,6 +128,8 @@ public class Array extends Control implements ActionListener
 			}
 			tableau.add(new JLabel(""));
 
+		panelFull.add(tableau);
+
 		this.panel = panelFull;
 	}
 
