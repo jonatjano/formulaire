@@ -1,4 +1,4 @@
-package iut.algo.form.job.xml;
+package iut.algo.form.job;
 
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
