@@ -1,5 +1,7 @@
 package iut.algo.form.view;
 
+import iut.algo.form.job.BaseType;
+
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
@@ -48,6 +50,7 @@ public class Dropdown extends Control
 	/**
 	 * Remet l'élément à son état initial
 	 */
+	@Override
 	public void reset ()
 	{
 		// Itère à travers tous les éléments pour rétablir leur valeur initiale

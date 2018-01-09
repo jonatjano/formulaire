@@ -1,5 +1,7 @@
 package iut.algo.form.view;
 
+import iut.algo.form.job.BaseType;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -51,6 +53,7 @@ public class Array extends Control
 	/**
 	 * Remet l'élément à son état initial
 	 */
+	@Override
 	public void reset ()
 	{
 		//this.checkbox.setSelected( this.baseValue );

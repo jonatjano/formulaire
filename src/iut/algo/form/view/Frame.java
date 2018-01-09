@@ -1,5 +1,8 @@
 package iut.algo.form.view;
 
+import iut.algo.form.job.Language;
+import iut.algo.form.job.BaseType;
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -105,7 +108,10 @@ public class Frame extends JFrame implements ActionListener
 	public static Frame CreateFrame (Element root)
 	{
 		/*NodeList list = root.getChildNodes();
-		if (root.getNodeName)
+		Language lang;
+		if ( root.getNodeName().equals("fenetre") )	lang = Language.FR;
+		else										lang = Language.EN;
+
 
 		for (Node node : list)
 		{

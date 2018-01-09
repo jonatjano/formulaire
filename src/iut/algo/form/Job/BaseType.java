@@ -1,4 +1,4 @@
-package iut.algo.form.view;
+package iut.algo.form.job;
 
 public enum BaseType
 {

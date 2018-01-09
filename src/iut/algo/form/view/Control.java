@@ -1,5 +1,7 @@
 package iut.algo.form.view;
 
+import iut.algo.form.job.BaseType;
+
 import javax.swing.JPanel;
 import java.awt.FlowLayout;
 import java.awt.Dimension;
