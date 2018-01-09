@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public class Buttons extends Control
 {
-	ArrayList<JRadioButton> buttonList;
+	private ArrayList<JRadioButton> buttonList;
 
 
 	public Buttons (String label, int width, int x, int y, String[] choices)

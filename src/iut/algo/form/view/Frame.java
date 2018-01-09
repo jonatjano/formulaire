@@ -1,11 +1,15 @@
 package iut.algo.form.view;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import org.w3c.dom.Element;
 
 /**
  * Structure de base de la fenêtre contenant le formulaire
@@ -98,9 +102,15 @@ public class Frame extends JFrame implements ActionListener
 		this.setVisible(true);
 	}
 
-	public static Frame CreateFrame ()//Element root
+	public static Frame CreateFrame (Element root)
 	{
-		return null;
+		/*NodeList list = root.getChildNodes();
+		if (root.getNodeName)
+
+		for (Node node : list)
+		{
+			node
+		}*/
 	}
 
 	/**

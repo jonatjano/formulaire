@@ -19,8 +19,8 @@ import java.util.ArrayList;
  */
 public class Array extends Control
 {
-	Object[] 	objects;
-	JLabel 		labelL;
+	private Object[] 	objects;
+	private JLabel 		labelL;
 
 	
 	public Array (String label, int width, int x, int y, Object[][] objects)
