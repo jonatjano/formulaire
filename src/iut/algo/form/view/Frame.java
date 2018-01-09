@@ -302,14 +302,25 @@ public class Frame extends JFrame implements ActionListener
 	{
 		if (e.getSource() == deleteB)
 		{
-			for (Control control : controls)
-				control.reset();
+			this.resetAll();
 		}
 		else if (e.getSource() == validateB)
 		{
 			FormController.windowClosed();
 			dispose();
 		}
+	}
+
+	public void resetAll ()
+	{
+		for (Control control : controls)
+			control.reset();
+	}
+
+	public void displayIds ()
+	{
+		for (Control control : controls)
+			control.getIdPanel().setVisible(true);
 	}
 
 
