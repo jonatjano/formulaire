@@ -1,5 +1,5 @@
 <!ELEMENT form (fenetre|window)>
-	<!ELEMENT fenetre (texte|menu|checkbox|tableau|boutons)+>
+	<!ELEMENT fenetre (texte|menu|case|tableau|boutons)+>
 	   <!ATTLIST fenetre longueur CDATA #REQUIRED
 	   					 largeur  CDATA #REQUIRED
 						 titre    CDATA #REQUIRED
@@ -14,13 +14,14 @@
 		<!ELEMENT menu (choix+)>
 			<!ATTLIST menu type ( chaine | entier | double | booleen | caractere ) #REQUIRED
 							   id   ID	  #REQUIRED
+							   label CDATA #REQUIRED
 							   x	CDATA #IMPLIED
 							   y	CDATA #IMPLIED  >
 			<!ELEMENT choix EMPTY>
 				<!ATTLIST choix label CDATA #REQUIRED
 								id	  ID	#REQUIRED >
-		<!ELEMENT Case EMPTY>
-			<!ATTLIST Case label CDATA #REQUIRED
+		<!ELEMENT case EMPTY>
+			<!ATTLIST case label CDATA #REQUIRED
 							   id    ID	   #REQUIRED  >
 		<!ELEMENT tableau EMPTY>
 			<!ATTLIST tableau label  CDATA #REQUIRED
