@@ -1,2 +1,6 @@
-compile.bat
-execute.bat
+javac @sources.list @params.list
+
+cd bin
+java Test
+
+cd ../
