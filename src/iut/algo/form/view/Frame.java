@@ -25,6 +25,7 @@ import org.w3c.dom.NamedNodeMap;
  */
 public class Frame extends JFrame implements ActionListener
 {
+	private FormKeyListener fKeyListener;
 	private static final int IFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
 
 	/** Liste des éléments intégrés au formulaire */
@@ -103,6 +104,8 @@ public class Frame extends JFrame implements ActionListener
 
 		this.secondaryPanel.add( BorderLayout.SOUTH, lowerPanel );
 
+		fKeyListener = new FormKeyListener(this);
+		addKeyListener(fKeyListener);
 
 		this.mainPanel.add( secondaryPanel );
 		this.add( BorderLayout.CENTER, mainPanel );
@@ -134,7 +137,7 @@ public class Frame extends JFrame implements ActionListener
 				break;
 		}
 		Frame frame = new Frame(width, length, frameX, frameY);
-		
+
 
 		// Création du formulaire
 		for (int i = 0; i < list.getLength(); i++)
@@ -152,7 +155,7 @@ public class Frame extends JFrame implements ActionListener
 				String		id		= attr.getNamedItem("id").getNodeValue();
 				int			x		= (nodeX == null) ? Control.DFLT_WIDTH : Integer.parseInt( nodeX.getNodeValue() );
 				int			y		= (nodeY == null) ? Control.DFLT_WIDTH : Integer.parseInt( nodeY.getNodeValue() );
-				
+
 				Control		control;
 
 				switch (lang)
@@ -191,6 +194,7 @@ public class Frame extends JFrame implements ActionListener
 				}
 			}
 		}
+
 		return null;
 	}
 
@@ -244,6 +248,30 @@ public class Frame extends JFrame implements ActionListener
 	public List<Control> getControls ()
 	{
 		return this.controls;
+	}
+
+	private void addKeyListenerToAllComponents()
+	{
+		List<Component> compList = getAllComponents(this);
+		for (Component comp : compList)
+		{
+			if (comp.getListeners(FormKeyListener.class).length == 0)
+			{
+				comp.addKeyListener(fKeyListener);
+			}
+		}
+	}
+
+	private static List<Component> getAllComponents(Container c)
+	{
+	    Component[] comps = c.getComponents();
+	    List<Component> compList = new ArrayList<Component>();
+	    for (Component comp : comps) {
+	        compList.add(comp);
+	        if (comp instanceof Container)
+	            compList.addAll(getAllComponents((Container) comp));
+	    }
+	    return compList;
 	}
 
 
