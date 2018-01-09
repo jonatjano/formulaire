@@ -1,5 +1,7 @@
 package iut.algo.form.view;
 
+import iut.algo.form.job.BaseType;
+
 import javax.swing.*;
 
 import java.awt.Component;
@@ -62,6 +64,7 @@ public class Text extends Control
 	 * Remet l'élément à son état initial
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public void reset ()
 	{
 		if (this.textF instanceof JTextField)

@@ -1,5 +1,7 @@
 package iut.algo.form.view;
 
+import iut.algo.form.job.BaseType;
+
 import javax.swing.*;
 
 import java.awt.Dimension;
@@ -43,6 +45,7 @@ public class Checkbox extends Control
 	/**
 	 * Remet l'élément à son état initial
 	 */
+	@Override
 	public void reset ()
 	{
 		this.checkbox.setSelected( this.baseValue );
