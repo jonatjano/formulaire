@@ -24,7 +24,7 @@ public class Buttons extends Control
 	private ArrayList<JRadioButton> buttonList;
 
 
-	public Buttons (String label, String id, int width, int x, int y, String[] choices)
+	public Buttons (String label, String id, int width, int x, int y, Object[] choices)
 	{
 		super(label, id, width, x, y);
 
@@ -38,22 +38,33 @@ public class Buttons extends Control
 		ButtonGroup bg 	= new ButtonGroup();
 		this.buttonList	= new ArrayList<JRadioButton>();
 
-		for (String choice : choices)
+
+		for (Object choice : choices)
 		{
-			JRadioButton button = new JRadioButton(choice);
-			bg.add( button );
-			this.buttonList.add(button);
+			if (choice != null)
+			{
+				String 			choiceValue = choice.toString();
+				JRadioButton	button		= new JRadioButton( choiceValue );
+				bg.add( button );
+				this.buttonList.add(button);
 
-			this.panel.add( button );
+				this.panel.add( button );
+			}
 		}
-		this.buttonList.get(0).setSelected(true);
 
-		// Crée et ajoute une bordure à titre
-		TitledBorder titled = new TitledBorder(this.label);
-    	this.panel.setBorder(titled);
+		// Si la liste de bouton en contient au moins un
+		if ( buttonList.size() != 0)
+		{
+			// Crée et ajoute une bordure à titre
+			TitledBorder titled = new TitledBorder(this.label);
+	    	this.panel.setBorder(titled);
+
+			this.buttonList.get(0).setSelected(true);
+		}
+
 	}
 
-	public Buttons (String label, String id, int x, int y, String[] choices)
+	public Buttons (String label, String id, int x, int y, Object[] choices)
 	{
 		this(label, id, Control.DFLT_WIDTH, x, y, choices);
 	}
