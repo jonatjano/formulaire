@@ -166,6 +166,7 @@ public class FormController
 			PrintWriter pw = new PrintWriter(dtd, "UTF-8");
 
 			pw.write("\t\t\t<!ELEMENT form (fenetre|window)>\n");
+
 			pw.write("\t\t\t\t<!ELEMENT fenetre (texte|menu|case|tableau|boutons)+>\n");
 			pw.write("\t\t\t\t   <!ATTLIST fenetre longueur CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t   \t\t\t\t\t largeur  CDATA #REQUIRED\n");
@@ -185,21 +186,27 @@ public class FormController
 			pw.write("\t\t\t\t\t\t\t\t\t\t   x\tCDATA #IMPLIED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t\t   y\tCDATA #IMPLIED  >\n");
 			pw.write("\t\t\t\t\t\t<!ELEMENT choix EMPTY>\n");
-			pw.write("\t\t\t\t\t\t\t<!ATTLIST choix label CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t\t\t\t\t\tid\t  ID\t#REQUIRED >\n");
+			pw.write("\t\t\t\t\t\t\t<!ATTLIST choix label CDATA #REQUIRED >\n");
 			pw.write("\t\t\t\t\t<!ELEMENT case EMPTY>\n");
 			pw.write("\t\t\t\t\t\t<!ATTLIST case label CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t\t\t\t\t   id    ID\t   #REQUIRED  >\n");
+			pw.write("\t\t\t\t\t\t\t\t\t\t   id    ID\t   #REQUIRED\n");
+			pw.write("\t\t\t\t\t\t\t\t\t x\t   CDATA #IMPLIED\n");
+			pw.write("\t\t\t\t\t\t\t\t\t y\t   CDATA #IMPLIED  >\n");
 			pw.write("\t\t\t\t\t<!ELEMENT tableau EMPTY>\n");
 			pw.write("\t\t\t\t\t\t<!ATTLIST tableau label  CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t\t  id\t ID\t   #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t\t  type   ( chaine | entier | double | booleen | caractere ) #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t\t  nb_lig CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t\t\t\t\t  nb_col CDATA #REQUIRED >\n");
+			pw.write("\t\t\t\t\t\t\t\t\t\t  nb_col CDATA #REQUIRED\n");
+			pw.write("\t\t\t\t\t\t\t\t\t x\t   CDATA #IMPLIED\n");
+			pw.write("\t\t\t\t\t\t\t\t\t y\t   CDATA #IMPLIED  >\n");
 			pw.write("\t\t\t\t\t<!ELEMENT boutons (bouton+)>\n");
 			pw.write("\t\t\t\t\t\t<!ATTLIST boutons label  CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t\t\t\t\t\t\tid\t\t CDATA #REQUIRED >\n");
+			pw.write("\t\t\t\t\t\t\t\t\t\t\t\tid\t\t CDATA #REQUIRED\n");
+			pw.write("\t\t\t\t\t\t\t\t\t x\t   CDATA #IMPLIED\n");
+			pw.write("\t\t\t\t\t\t\t\t\t y\t   CDATA #IMPLIED  >\n");
 			pw.write("\t\t\t\t\t\t<!ELEMENT bouton (#PCDATA)>\n");
+
 			pw.write("\t\t\t\t<!ELEMENT window (text|dropdown|checkbox|array|buttons)+>\n");
 			pw.write("\t\t\t\t   \t<!ATTLIST window length\tCDATA #REQUIRED\n");
 			pw.write("\t\t\t\t   \t\t\t\t\t width \tCDATA #REQUIRED\n");
@@ -219,20 +226,25 @@ public class FormController
 			pw.write("\t\t\t\t\t\t\t\t\t\t   x\tCDATA #IMPLIED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t\t   y\tCDATA #IMPLIED  >\n");
 			pw.write("\t\t\t\t\t\t<!ELEMENT choice EMPTY>\n");
-			pw.write("\t\t\t\t\t\t\t<!ATTLIST choice label CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t\t\t\t\t\tid\t  ID\t#REQUIRED >\n");
+			pw.write("\t\t\t\t\t\t\t<!ATTLIST choice label CDATA #REQUIRED >\n");
 			pw.write("\t\t\t\t\t<!ELEMENT checkbox EMPTY>\n");
 			pw.write("\t\t\t\t\t\t<!ATTLIST checkbox label CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t\t\t\t\t   id    ID\t   #REQUIRED  >\n");
+			pw.write("\t\t\t\t\t\t\t\t\t\t   id    ID\t   #REQUIRED\n");
+			pw.write("\t\t\t\t\t\t\t\t\t x\t   CDATA #IMPLIED\n");
+			pw.write("\t\t\t\t\t\t\t\t\t y\t   CDATA #IMPLIED  >\n");
 			pw.write("\t\t\t\t\t<!ELEMENT array EMPTY>\n");
 			pw.write("\t\t\t\t\t\t<!ATTLIST array label  CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t\t  id\t ID\t   #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t\t  type   ( string | int | double | boolean | char ) #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t\t\t\t\t  nb_lig CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t\t\t\t\t  nb_col CDATA #REQUIRED >\n");
+			pw.write("\t\t\t\t\t\t\t\t\t\t  nb_col CDATA #REQUIRED\n");
+			pw.write("\t\t\t\t\t\t\t\t\t x\t   CDATA #IMPLIED\n");
+			pw.write("\t\t\t\t\t\t\t\t\t y\t   CDATA #IMPLIED  >\n");
 			pw.write("\t\t\t\t\t<!ELEMENT buttons (button+)>\n");
 			pw.write("\t\t\t\t\t\t<!ATTLIST buttons label  CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t\t\t\t\t\t\tid\t\t CDATA #REQUIRED >\n");
+			pw.write("\t\t\t\t\t\t\t\t\t\t\t\tid\t\t CDATA #REQUIRED\n");
+			pw.write("\t\t\t\t\t\t\t\t\t x\t   CDATA #IMPLIED\n");
+			pw.write("\t\t\t\t\t\t\t\t\t y\t   CDATA #IMPLIED  >\n");
 			pw.write("\t\t\t\t\t\t<!ELEMENT button (#PCDATA)>\n");
 
 
