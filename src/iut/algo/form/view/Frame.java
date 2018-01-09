@@ -133,7 +133,7 @@ public class Frame extends JFrame implements ActionListener
 		this("", width, height, x, y);
 	}
 
-	public static void createFrame (Element root)
+	public static Frame createFrame (Element root)
 	{
 		NodeList listElements = root.getChildNodes();
 		Language lang;
@@ -273,6 +273,8 @@ public class Frame extends JFrame implements ActionListener
 		}
 
 		frame.addKeyListenerToAllComponents();
+
+		return frame;
 	}
 
 	/**

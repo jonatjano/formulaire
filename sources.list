@@ -1,9 +1,9 @@
 src/iut/algo/form/view/Text.java
+src/iut/algo/form/view/JTextFieldLimit.java
 src/iut/algo/form/view/Array.java
 src/iut/algo/form/view/Control.java
 src/iut/algo/form/view/Buttons.java
 src/iut/algo/form/view/Dropdown.java
-src/iut/algo/form/view/JTextFieldLimit.java
 src/iut/algo/form/view/Checkbox.java
 src/iut/algo/form/view/Frame.java
 src/iut/algo/form/view/FormKeyListener.java

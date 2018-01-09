@@ -27,6 +27,7 @@ public class FormController
 {
 	private static File dtdFile = createDtdFile();
 	private static boolean windowIsOpen = false;
+	private static Frame frame;
 
 	/**
 	 * methode appellée par une classe externe au package permettant d'appeller tous les utilitaires nécessaire au formulaire
@@ -97,7 +98,7 @@ public class FormController
 			}
 			else
 			{
-				Frame.createFrame( (Element) (root.getFirstChild()) );
+				frame = Frame.createFrame( (Element) (root.getFirstChild()) );
 				pauseUntilWindowClosed();
 			}
 		}
@@ -178,6 +179,8 @@ public class FormController
 
 	private static void pauseUntilWindowClosed()
 	{
+		frame.setVisible(true);
+
 		windowIsOpen = true;
 		while(windowIsOpen)
 		{
@@ -192,6 +195,7 @@ public class FormController
 
 	public static void windowClosed()
 	{
+		frame = null;
 		windowIsOpen = false;
 	}
 
