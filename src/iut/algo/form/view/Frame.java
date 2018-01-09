@@ -138,10 +138,10 @@ public class Frame extends JFrame implements ActionListener
 				title	= root.getAttribute("title");
 				width	= Integer.parseInt( root.getAttribute("width") );
 				length	= Integer.parseInt( root.getAttribute("length") );
-				break;	
+				break;
 		}
 		Frame frame = new Frame(title, width, length, frameX, frameY);
-		
+
 
 		// Création du formulaire
 		for (int i = 0; i < listElements.getLength(); i++)
@@ -159,7 +159,7 @@ public class Frame extends JFrame implements ActionListener
 				String		id			= attrElement.getNamedItem("id").getNodeValue();
 				int			x			= (nodeX == null) ? Control.DFLT_WIDTH : Integer.parseInt( nodeX.getNodeValue() );
 				int			y			= (nodeY == null) ? Control.DFLT_WIDTH : Integer.parseInt( nodeY.getNodeValue() );
-				
+
 				NodeList	listChoices;
 				Object[]	choices;
 				Control		control 	= null;
@@ -192,7 +192,7 @@ public class Frame extends JFrame implements ActionListener
 								baseType = BaseType.Char;
 								break;
 						}
-						
+
 						control = new Text( label, id, baseType, x, y );
 						break;
 
@@ -223,7 +223,9 @@ public class Frame extends JFrame implements ActionListener
 
 					case "tableau":
 					case "array":
-						control = null;
+						NamedNodeMap	attrChoice	= nodeElement.getAttributes();
+						String typeTemp = attrChoice.getNamedItem("type").getNodeValue();
+						control = new Array (label, id, BaseType.getBaseType(typeTemp), x, y, new Object[1][1]);
 						break;
 
 					case "boutons":
