@@ -3,12 +3,11 @@ package iut.algo.form.view;
 import iut.algo.form.job.BaseType;
 
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.Component;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.DocumentEvent;
+import javax.swing.SpinnerModel;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -63,18 +62,7 @@ public class Text extends Control
 				break;
 
 			case Char:
-				this.textF	= new JTextField();
-				(JTextField) (this.textF).getDocument().addDocumentListener( new DocumentListener() {
-					public void changedUpdate(DocumentEvent e) {
-						System.out.println("OHOHO");
-					}
-					public void removeUpdate(DocumentEvent e) {
-						System.out.println("AHAHA");
-					}
-					public void insertUpdate(DocumentEvent e) {
-						System.out.println("UHUHU");
-					}
-				} );
+				this.textF	= new JTextFieldLimit(1);
 				break;
 		}
 
