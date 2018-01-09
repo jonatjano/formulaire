@@ -4,6 +4,7 @@ import iut.algo.form.job.BaseType;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
  * @author Team Infotik
  * @version 2018-01-08
  */
-public class Array extends Control implements ActionListener
+public class Array extends Control //implements ActionListener
 {
 	private Object[][] 	objects;
 	private JLabel 		labelL;
@@ -135,7 +136,7 @@ public class Array extends Control implements ActionListener
 
 	public Array (String label, String id, int x, int y, Object[][] objects)
 	{
-		this(label, id, Control.DFLT_WIDTH, x, y, nbC, nbL, objects);
+		this(label, id, Control.DFLT_WIDTH, x, y, objects);
 	}
 
 	/**
