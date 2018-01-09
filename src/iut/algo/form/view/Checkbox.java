@@ -12,7 +12,7 @@ import java.awt.Color;
  */
 public class Checkbox extends Control
 {
-	private private JCheckBox	checkbox;
+	private JCheckBox	checkbox;
 	private JLabel 		labelL;
 	private boolean		baseValue;
 
