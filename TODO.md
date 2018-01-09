@@ -81,3 +81,4 @@ Fichier inexistant</u>
 ## Ajouté par nous
 ### Controles
 - [ ] label seul
+- [ ] ajout d'une marge de 20-30 sur la gauche des controles
