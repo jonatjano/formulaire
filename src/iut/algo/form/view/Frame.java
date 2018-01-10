@@ -34,6 +34,8 @@ public class Frame extends JFrame implements ActionListener
 	private int				formWidth;
 	private int				formHeight;
 
+	private Language		lang;
+
 	/** Liste des éléments intégrés au formulaire */
 	private List<Control>	controls;
 
@@ -145,9 +147,9 @@ public class Frame extends JFrame implements ActionListener
 		// par l'utilisateur, ou s'ils sont placés automatiquement
 		boolean		isPlacedAutomatically	= false;
 		NodeList	listElements 			= root.getChildNodes();
-		Language	lang;
-		if ( root.getNodeName().equals("fenetre") )	lang = Language.FR;
-		else										lang = Language.EN;
+
+		if ( root.getNodeName().equals("fenetre") )	this.lang = Language.FR;
+		else										this.lang = Language.EN;
 
 
 		// Création de la fenêtre
@@ -470,6 +472,14 @@ public class Frame extends JFrame implements ActionListener
 	public JPanel obtainForm ()
 	{
 		return this.upperPanel;
+	}
+
+	/**
+	 * Retourne le langage avec lequel le XML a été chargé
+	 */
+	private Language getLang ()
+	{
+		return this.lang;
 	}
 
 	public List<Control> getControls ()
