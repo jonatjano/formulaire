@@ -50,7 +50,7 @@ public class Calendar extends Control
 	}
 
 	@Override
-	public String getvalues()
+	public String getValues()
 	{
 		return date.getDate().toString();
 	}
