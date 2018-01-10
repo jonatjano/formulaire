@@ -52,7 +52,7 @@ public class Array extends Control
 
 
 				// Enregistrement dans le tableau de valeurs
-				Object value = valueControl.getValues();
+				Object value = valueControl.getValue();
 				tabValues[oriR + prevR][oriC + prevC] = value;
 
 				this.prevR = row;
@@ -266,7 +266,7 @@ public class Array extends Control
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
 	@Override
-	public Object getValues ()
+	public Object getValue ()
 	{
 		return this.objects;
 	}

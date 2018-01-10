@@ -237,31 +237,31 @@ public class FormController
 		booleanMap = new HashMap<String, Boolean>();
 		for (Control ctrl : frame.getControls())
 		{
-			// System.out.println(ctrl.getType() + " : " + ctrl.getValues() + " <--> " + ctrl.getId());
+			// System.out.println(ctrl.getType() + " : " + ctrl.getValue() + " <--> " + ctrl.getId());
 			if (!(ctrl instanceof iut.algo.form.view.Array)) {
 				switch (ctrl.getType())
 				{
 					case Int:
-						intMap.put(ctrl.getId(), (Integer)(ctrl.getValues()));
+						intMap.put(ctrl.getId(), (Integer)(ctrl.getValue()));
 					break;
 
 					case Double:
-						doubleMap.put(ctrl.getId(), (Double)(ctrl.getValues()));
+						doubleMap.put(ctrl.getId(), (Double)(ctrl.getValue()));
 					break;
 
 					case String:
-						stringMap.put(ctrl.getId(), (String)(ctrl.getValues()));
+						stringMap.put(ctrl.getId(), (String)(ctrl.getValue()));
 					break;
 
 					case Char:
-						if (((String)(ctrl.getValues())).length() > 0)
+						if (((String)(ctrl.getValue())).length() > 0)
 						{
-							charMap.put(ctrl.getId(), ((String)(ctrl.getValues())).charAt(0));
+							charMap.put(ctrl.getId(), ((String)(ctrl.getValue())).charAt(0));
 						}
 					break;
 
 					case Boolean:
-						booleanMap.put(ctrl.getId(), (Boolean)(ctrl.getValues()));
+						booleanMap.put(ctrl.getId(), (Boolean)(ctrl.getValue()));
 					break;
 				}
 			}

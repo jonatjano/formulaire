@@ -67,7 +67,7 @@ public class Checkbox extends Control
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
 	@Override
-	public Boolean getValues ()
+	public Boolean getValue ()
 	{
 		return checkbox.isSelected();
 	}

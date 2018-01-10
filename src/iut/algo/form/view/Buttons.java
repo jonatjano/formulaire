@@ -85,7 +85,7 @@ public class Buttons extends Control
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
 	@Override
-	public String getValues ()
+	public String getValue ()
 	{
 		for ( JRadioButton button : buttonList )
 		{

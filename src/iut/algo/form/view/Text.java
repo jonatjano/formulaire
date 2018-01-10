@@ -117,7 +117,7 @@ public class Text extends Control
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
 	@Override
-	public Object getValues ()
+	public Object getValue ()
 	{
 		switch (type)
 		{
