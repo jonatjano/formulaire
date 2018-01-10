@@ -30,7 +30,14 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
+/**
+  * Cette classe permet la création du DatePicker
+  * Cette classe ne venant pas de nous, voici le lien vers le code original :
+  * https://stackoverflow.com/a/11739037
+  * PS : pour des soucis d'optimisation et d'ergonomie, ce code à été modifié
+  * @author Liu ghanghua
+  * @version 2012-07-31
+  */
 public class DateTextField extends JTextField {
 
     private static String DEFAULT_DATE_FORMAT = "dd/MM/yyyy";
@@ -41,10 +48,17 @@ public class DateTextField extends JTextField {
     private DatePanel datePanel = null;
     private JDialog dateDialog = null;
 
+	/**
+	  * Constructeur de base, date par défaut(d'aujourd'hui)
+	  */
     public DateTextField() {
         this(new Date());
     }
 
+	/**
+	  * Constructeur permetant d'initialiser la date
+	  * @param date La date par défaut du DatePanel
+	  */
     public DateTextField(Date date) {
         setDate(date);
         setEditable(false);
@@ -52,6 +66,9 @@ public class DateTextField extends JTextField {
         addListeners();
     }
 
+	/**
+	  * Ajoute les MouseListeners sur le TextField
+	  */
     private void addListeners() {
         addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent paramMouseEvent) {
@@ -65,6 +82,11 @@ public class DateTextField extends JTextField {
         });
     }
 
+	/**
+	  * Affiche le DatePanel
+	  * @param dateChooser le DatePanel a afficher
+	  * @param position la position à laquelle afficher le DatePanel
+	  */
     private void showDateDialog(DatePanel dateChooser, Point position) {
         Frame owner = (Frame) SwingUtilities
                 .getWindowAncestor(DateTextField.this);
@@ -75,6 +97,12 @@ public class DateTextField extends JTextField {
         dateDialog.setVisible(true);
     }
 
+	/**
+	  * Crée le DatePanel s'il ne l'est pas
+	  * @param owner la Frame affichant le DateTextField
+	  * @param contentPanel le JPanel devant posséder le DatePanel
+	  * @return le DatePanel
+	  */
     private JDialog createDateDialog(Frame owner, JPanel contentPanel) {
         JDialog dialog = new JDialog(owner, "Date Selected", true);
         dialog.setUndecorated(true);
@@ -84,6 +112,12 @@ public class DateTextField extends JTextField {
         return dialog;
     }
 
+	/**
+	  * Calcule la position idéale pour afficher le DatePanel
+	  * @param owner la Frame affichant le DateTextField
+	  * @param position la position à laquelle devra etre afficher le DatePanel
+	  * @return la position exacte
+	  */
     private Point getAppropriateLocation(Frame owner, Point position) {
         Point result = new Point(position);
         Point p = owner.getLocation();
@@ -101,6 +135,10 @@ public class DateTextField extends JTextField {
         return result;
     }
 
+	/**
+	  * Getter du format de la date par defaut
+	  * @return le format de la date
+	  */
     private SimpleDateFormat getDefaultDateFormat() {
         if (dateFormat == null) {
             dateFormat = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
@@ -108,14 +146,26 @@ public class DateTextField extends JTextField {
         return dateFormat;
     }
 
+	/**
+	  * Override le setText du JTextField
+	  * @param date la date à laquelle on veut réinitialiser le DateTextField
+	  */
     public void setText(Date date) {
         setDate(date);
     }
 
+	/**
+	  * Setter du texte du DateTextField
+	  * @param date la date à laquelle on veut réinitialiser le DateTextField
+	  */
     public void setDate(Date date) {
         super.setText(getDefaultDateFormat().format(date));
     }
 
+	/**
+	  * Getter de la date choisi
+	  * @return la date qui a été choisi
+	  */
     public Date getDate() {
         try {
             return getDefaultDateFormat().parse(getText());
@@ -124,6 +174,9 @@ public class DateTextField extends JTextField {
         }
     }
 
+	/**
+	  * La classe gérant le calendrier affiché pour choisir la date
+	  */
     private class DatePanel extends JPanel implements ChangeListener {
         int startYear = 1980;
         int lastYear = 2500;
@@ -142,6 +195,9 @@ public class DateTextField extends JTextField {
         JSpinner monthSpin;
         JButton[][] daysButton = new JButton[6][7];
 
+		/**
+		  * Constructeur du DatePanel
+		  */
         DatePanel() {
             setLayout(new BorderLayout());
             setBorder(new LineBorder(backGroundColor, 2));
@@ -155,6 +211,10 @@ public class DateTextField extends JTextField {
             reflushWeekAndDay();
         }
 
+		/**
+		  * Créateur du Panel contenant l'année et le mois à choisir
+		  * @return le panel contenant l'année et le mois à choisir
+		  */
         private JPanel createYearAndMonthPanal() {
             Calendar cal = getCalendar();
             int currentYear = cal.get(Calendar.YEAR);
@@ -190,6 +250,10 @@ public class DateTextField extends JTextField {
             return panel;
         }
 
+		/**
+		  * Créateur du panel contenant le jour du mois à choisir
+		  * @return le panel contenant le jour du mois à choisir
+		  */
         private JPanel createWeekAndDayPanal() {
             String colname[] = { "S", "M", "T", "W", "T", "F", "S" };
             JPanel panel = new JPanel();
@@ -247,20 +311,37 @@ public class DateTextField extends JTextField {
             return panel;
         }
 
+		/**
+		  * Getter du calendrier
+		  * @return le calendrier
+		  */
         private Calendar getCalendar() {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(getDate());
             return calendar;
         }
 
+		/**
+		  * Getter de l'année sélectionnée
+		  * @return l'année séléctionnée
+		  */
         private int getSelectedYear() {
             return ((Integer) yearSpin.getValue()).intValue();
         }
 
+		/**
+		  * Getter du mois sélectionnée
+		  * @return le mois sélectionnée
+		  */
         private int getSelectedMonth() {
             return ((Integer) monthSpin.getValue()).intValue();
         }
 
+		/**
+		  * Méthode permettant de recolorer le jour choisi précédement ou le
+		  * jour désormais séléctionné
+		  * @param isOldDay true si c'est le jour choisi précédemment séléctionné, false sinon
+		  */
         private void dayColorUpdate(boolean isOldDay) {
             Calendar cal = getCalendar();
             int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -270,7 +351,7 @@ public class DateTextField extends JTextField {
             int j = actionCommandId % 7;
             if (isOldDay) {
 				if (j == 0 || j == 6)
-					daysButton[i][j].setForeground(weekendFontColor);
+				daysButton[i][j].setForeground(weekendFontColor);
 				else
 					daysButton[i][j].setForeground(dateFontColor);
             } else {
@@ -278,6 +359,9 @@ public class DateTextField extends JTextField {
             }
         }
 
+		/**
+		  * Raffraichit l'affichage des jours
+		  */
         private void reflushWeekAndDay() {
             Calendar cal = getCalendar();
             cal.set(Calendar.DAY_OF_MONTH, 1);
@@ -296,6 +380,11 @@ public class DateTextField extends JTextField {
             dayColorUpdate(false);
         }
 
+		/**
+		  *	si un jour à été sélectionné, cette méthode permet d'effectuer tout
+		  * les changements nécessaires
+		  * @param event l'evenement du changement
+		  */
         public void stateChanged(ChangeEvent e) {
             dayColorUpdate(true);
 
