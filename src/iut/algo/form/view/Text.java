@@ -31,7 +31,7 @@ public class Text extends Control
 	@SuppressWarnings("unchecked")
 	public Text (String label, String id, BaseType type, int width, int x, int y)
 	{
-		super(label, id, width, x, y);
+		super(label, id, type, width, x, y);
 		this.type 		= type;
 		this.baseValue	= "";
 

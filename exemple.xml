@@ -1,20 +1,20 @@
 <form>
 	<fenetre longueur="900" titre="test" largeur="1600" x="100" y="100">
-		<case x="30" y="25" label="texte" id="p01"/>
+		<case x="30" y="30" label="texte" id="p01"/>
 
-		<texte x="30" y="50" label="groupeBoutton" id="p05" type ="entier"/>
+		<texte x="30" y="60" label="groupeBoutton" id="p05" type ="entier"/>
 
-		<texte x="30" y="75" label="groupeBoutton" id="p06" type ="caractere"/>
+		<texte x="30" y="90" label="groupeBoutton" id="p06" type ="caractere"/>
 
-		<menu x="30" y="100" label="deroulant" id="p02">
+		<menu x="30" y="120" label="deroulant" id="p02">
 			<choix label="ah"/>
 			<choix label="oh"/>
 			<choix label="uh"/>
 		</menu>
 
-		<tableau x="400" y="75" label="box" id="p03" type="chaine" nb_lig="3" nb_col="4"/>
+		<tableau x="400" y="120" label="box" id="p03" type="chaine" nb_lig="3" nb_col="4"/>
 
-		<boutons x="30" y="125" id="m002" label="bouton">
+		<boutons x="30" y="150" id="m002" label="bouton">
 			<bouton>25</bouton>
 		</boutons>
 

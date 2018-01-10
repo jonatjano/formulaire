@@ -26,7 +26,8 @@ public class Buttons extends Control
 
 	public Buttons (String label, String id, int width, int x, int y, Object[] choices)
 	{
-		super(label, id, width, x, y);
+		super(label, id, BaseType.String, width, x, y);
+		this.type = type;
 
 
 		/* Création des radio boutons */

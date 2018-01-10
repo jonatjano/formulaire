@@ -21,8 +21,9 @@ public class Checkbox extends Control
 
 	public Checkbox (String label, String id, int width, int x, int y)
 	{
-		super(label, id, width, x, y);
-		this.baseValue = false;
+		super(label, id, BaseType.Boolean, width, x, y);
+		this.type 		= type;
+		this.baseValue	= false;
 
 
 		/* Création de la case à cocher */
