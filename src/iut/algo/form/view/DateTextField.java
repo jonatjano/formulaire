@@ -178,7 +178,7 @@ public class DateTextField extends JTextField {
 
             monthSpin = new JSpinner(new SpinnerNumberModel(currentMonth, 1,
                     12, 1));
-            monthSpin.setPreferredSize(new Dimension(46, 20));
+            monthSpin.setPreferredSize(new Dimension(48, 20));
             monthSpin.setName("Month");
             monthSpin.addChangeListener(this);
             panel.add(monthSpin);
