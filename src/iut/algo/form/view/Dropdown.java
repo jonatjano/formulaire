@@ -65,4 +65,10 @@ public class Dropdown extends Control
 		// Enfin, la première valeur est celle mise en valeur
 		this.dropdownD.setSelectedIndex(0);
 	}
+
+	@Override
+	public Object getValues()
+	{
+		return dropdownD.getSelectedItem();
+	}
 }

@@ -51,6 +51,7 @@ public class Array extends Control
 		this.nbR	= nbR;
 		this.nbC	= nbC;
 
+		objects = new Object[nbR][nbC];
 
 		// Les dimensions du tableau
 		int tabWidth	= (Math.min(5, nbC) + 2) * 25;
@@ -86,10 +87,10 @@ public class Array extends Control
 		/* Création du tableau logique */
 		tabValues = new Object[nbR][nbC];
 
-		
+
 		Font baseFont	= this.panel.getFont();
 		Font newFont	= baseFont.deriveFont(baseFont.getStyle() | Font.BOLD);
-		
+
 		/* Création du tableau sur l'interface */
 		for (int i = -1; i < clampedRow + 1; i++)
 		{
@@ -115,7 +116,7 @@ public class Array extends Control
 			this.arrayP.add( new JLabel() );
 		}
 
-		
+
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~*/
 		/*  Panel de modification  */
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -140,5 +141,11 @@ public class Array extends Control
 	public void reset ()
 	{
 		//this.checkbox.setSelected( this.baseValue );
+	}
+
+	@Override
+	public Object[][] getValues()
+	{
+		return this.objects;
 	}
 }

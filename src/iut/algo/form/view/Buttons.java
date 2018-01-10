@@ -79,4 +79,14 @@ public class Buttons extends Control
 	{
 		this.buttonList.get(0).setSelected(true);
 	}
+
+	@Override
+	public Object getValues()
+	{
+		for ( JRadioButton button : buttonList )
+		{
+			if ( button.isSelected() ) return button.getText();
+		}
+		return null;
+	}
 }

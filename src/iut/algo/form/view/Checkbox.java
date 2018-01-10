@@ -51,4 +51,10 @@ public class Checkbox extends Control
 	{
 		this.checkbox.setSelected( this.baseValue );
 	}
+
+	@Override
+	public Boolean getValues()
+	{
+		return checkbox.isSelected();
+	}
 }

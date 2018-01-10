@@ -100,4 +100,13 @@ public class Text extends Control
 			field.setValue(0);
 		}
 	}
+
+	@Override
+	public Object getValues()
+	{
+		if ( this.textF instanceof JTextField)
+			return ((JTextField) (textF)).getText();
+		else
+			return (Integer)((JSpinner) (textF)).getValue();
+	}
 }
