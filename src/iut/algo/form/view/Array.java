@@ -41,7 +41,7 @@ public class Array extends Control
 	private JPanel 		arrayP;
 	private Control 	cellControl;
 
-	private Component[][] tabButtons;
+	private Object[][]	tabValues;
 
 
 	public Array (String label, String id, BaseType type, int width, int x, int y, int nbR, int nbC)
@@ -80,16 +80,11 @@ public class Array extends Control
 		this.arrayP.setBounds( Control.LABEL_WIDTH, 0, tabWidth, tabHeight );
 		this.arrayP.setBackground( Frame.obtainFormColor() );
 
-		tabButtons 			= new Component[clampedRow][clampedCol];
-
 		this.panel.add( this.arrayP );
 
 
 		/* Création du tableau logique */
-		tabButtons = new Component[clampedRow][clampedCol];
-		for (int i = 0; i < tabButtons.length; i++)
-			for (int j = 0; j < tabButtons[i].length; j++)
-				tabButtons[i][j] = new JButton();
+		tabValues = new Object[nbR][nbC];
 
 		
 		Font baseFont	= this.panel.getFont();
@@ -109,7 +104,7 @@ public class Array extends Control
 
 				if (inColBounds)
 				{
-					if (inRowBounds)	this.arrayP.add( tabButtons[i][j] );
+					if (inRowBounds)	this.arrayP.add( new JButton() );
 					else				this.arrayP.add( new JLabel(((i < 0) ? "" : "" + j), SwingConstants.CENTER) );
 				}
 				else

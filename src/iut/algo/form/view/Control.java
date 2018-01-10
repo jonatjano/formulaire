@@ -31,7 +31,7 @@ public abstract class Control
 	/** Position sur l'axe des ordonnées de l'élément */
 	protected int 		y;
 
-	//protected String	id;
+	protected String	id;
 	protected BaseType	type;
 	protected String	label;
 
@@ -47,6 +47,7 @@ public abstract class Control
 	{
 		this.label	= label;
 		this.type	= type;
+		this.id		= id;
 
 		this.panel	= new JPanel();
 		this.panel.setBounds(x, y, width + Control.LABEL_WIDTH + 20, Control.DFLT_HEIGHT); //this.panel.getPreferredSize().height);
@@ -115,7 +116,7 @@ public abstract class Control
 	{
 		return this.typePanel;
 	}
-	
+
 
 	public void toggleId ()
 	{
