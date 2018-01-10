@@ -31,6 +31,9 @@ public class Frame extends JFrame implements ActionListener
 	private FormKeyListener fKeyListener;
 	public static final Language language = Language.FR;
 
+	private int				formWidth;
+	private int				formHeight;
+
 	/** Liste des éléments intégrés au formulaire */
 	private List<Control>	controls;
 
@@ -43,8 +46,8 @@ public class Frame extends JFrame implements ActionListener
 	/** Panel inférieur du formulaire */
 	private JPanel 			lowerPanel;
 
-	private JButton validateB;
-	private JButton deleteB;
+	private JButton 		validateB;
+	private JButton 		deleteB;
 
 
 	public Frame (String title, int width, int height, int x, int y)
@@ -86,10 +89,13 @@ public class Frame extends JFrame implements ActionListener
 		/*  Panel supérieur  */
 		/*~~~~~~~~~~~~~~~~~~~*/
 
+		this.formWidth	= (int) (width - 1/15f * width);
+		this.formHeight	= Math.max(0, height - 100);
+
 		this.upperPanel	= new JPanel();
 		this.upperPanel.setLayout( null );
 		this.upperPanel.setBackground( Frame.obtainFormColor() );
-		this.upperPanel.setPreferredSize( new Dimension((int) (width - 1/15f * width), Math.max(0, height - 100)) );
+		this.upperPanel.setPreferredSize( new Dimension(this.formWidth, this.formHeight) );
 		this.upperPanel.setBorder( BorderFactory.createLineBorder(Color.black) );
 
 		this.secondaryPanel.add( BorderLayout.CENTER, upperPanel );
@@ -135,8 +141,11 @@ public class Frame extends JFrame implements ActionListener
 
 	public static Frame createFrame (Element root)
 	{
-		NodeList listElements = root.getChildNodes();
-		Language lang;
+		// Booléen indiquant si les éléments sont placés avec les positions précisées
+		// par l'utilisateur, ou s'ils sont placés automatiquement
+		boolean		isPlacedAutomatically	= true;
+		NodeList	listElements 			= root.getChildNodes();
+		Language	lang;
 		if ( root.getNodeName().equals("fenetre") )	lang = Language.FR;
 		else										lang = Language.EN;
 
@@ -163,7 +172,10 @@ public class Frame extends JFrame implements ActionListener
 		Frame frame = new Frame(title, width, length, frameX, frameY);
 
 
-		// Création du formulaire
+		/*~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+		/*  Création du formulaire  */
+		/*~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
 		for (int i = 0; i < listElements.getLength(); i++)
 		{
 			Node 			nodeElement	= listElements.item(i);
@@ -275,12 +287,27 @@ public class Frame extends JFrame implements ActionListener
 						control = new Calendar(label, id, x, y);
 						break;
 				}
-
+				// Cache l'élément
+				control.getPanel().setVisible(false);
+				// Ajoute au formulaire
 				frame.addControl( control );
 			}
 		}
-
+		// Ajoute récursivement le key listener à tous les éléments, pour interargir avec le clavier où que
+		// soit le focus
 		frame.addKeyListenerToAllComponents();
+
+		// Range les controles par identifiant
+		//this.controls.sort(  );
+
+		// Affiche tous éléments automatiquement si au moins l'un d'entre eux n'a pas de x ou de y
+		if (isPlacedAutomatically)	frame.placeControlsAutomatically();
+		// Sinon, affiche tous éléments comme l'utilisateur l'a choisi
+		else
+		{
+			for (Control controlToPlace : frame.controls)
+				controlToPlace.getPanel().setVisible(true);
+		}
 
 		return frame;
 	}
@@ -306,6 +333,75 @@ public class Frame extends JFrame implements ActionListener
 		this.repaint();
 	}
 
+	/**
+	 * Permet de placer tous les éléments automatiquement
+	 */
+	public void placeControlsAutomatically ()
+	{
+		int totalWidth		= 0;	// Largeur de toutes les colonnes déjà créées
+		int currentHeight	= 0;	// La hauteur de la colonne, réinitialisée quand la colonne est pleine
+		int currentWidth	= 0;	// La largeur de la colonne, basée sur la largeur du plus grand élément
+		List<Control> colControls	= new ArrayList<Control>();
+
+		int paddingX		= 35;
+
+
+		// Parcourt tous les éléments du formulaire à placer
+		for (Control control : this.controls)
+		{
+			// Ajoute les éléments à une nouvelle colonne quand la hauteur cumulé des éléments dépasse celle
+			// du formulaire
+			if ( currentHeight + control.obtainHeight() > this.formHeight )
+			{
+				// Si les éléments à placer sur cette colonne dépasse, il n'y a plus rien à faire : le formulaire est plein
+				if ( totalWidth + currentWidth + paddingX > this.formWidth )
+				{
+					this.hideControls( colControls );
+				}
+				else
+				{
+					// Place les éléments de la colonne
+					currentHeight	= 0;
+					int indexRow	= 0;
+					for (Control controlToPlace : colControls)
+					{
+						controlToPlace.move( paddingX + totalWidth, 10 + 5*indexRow++ + currentHeight );
+						controlToPlace.getPanel().setVisible(true);
+						currentHeight += controlToPlace.obtainHeight();
+					}
+				}
+				
+				// Réinitialise et incrémente les attributs
+				totalWidth 		+= currentWidth;
+				currentWidth	= currentHeight = 0;
+				colControls		= new ArrayList<Control>();
+			}
+
+			colControls.add(control);
+			currentHeight += control.obtainHeight();
+
+			// Met à jour la largeur de la colonne si celle de l'élément courant lui est supérieure
+			if ( currentWidth < control.obtainWidth() )
+				currentWidth = control.obtainWidth();
+		}
+		// Cache les éléments restants
+		this.hideControls( colControls );
+
+
+		this.revalidate();
+		this.repaint();
+	}
+
+	/**
+	 * Cache les éléments passés en paramètres
+	 * @param control Eléments à cacher
+	 */
+	public void hideControls (List<Control> controls)
+	{
+		for (Control control : controls)
+			control.getPanel().setVisible(false);
+	}
+
 
 	/*-------------------*/
 	/*       EVENTS      */
@@ -327,6 +423,9 @@ public class Frame extends JFrame implements ActionListener
 		}
 	}
 
+	/**
+	 * Rétablit l'état de base de l'ensemble des éléments du formulaire
+	 */
 	public void resetAll ()
 	{
 		for (Control control : controls)

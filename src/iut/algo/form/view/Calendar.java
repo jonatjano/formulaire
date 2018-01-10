@@ -28,14 +28,30 @@ import java.util.Date;
  */
 public class Calendar extends Control
 {
+	private JLabel			labelL;
+	private DateTextField	date;
 
-	private DateTextField date;
-
+	/**
+	 * Initialise un novueau calendrier
+	 */
 	public Calendar (String label, String id, int width, int x, int y)
 	{
-		super(label,id,BaseType.String,width,x,y);
+		super( label, id, BaseType.String, width, x, y );
+
+
+		/* Création du label */
+
+		this.labelL	= new JLabel( String.format("%s : ", this.label), SwingConstants.RIGHT );
+		this.labelL.setForeground( Color.GRAY );
+		this.labelL.setPreferredSize( new Dimension(Control.LABEL_WIDTH, this.panel.getSize().height) );
+
+		this.panel.add( labelL );
+
+
+		/* Création de la date */
+
 		date = new DateTextField();
-		this.panel.add(date);
+		this.panel.add( date );
 	}
 
 	public Calendar (String label, String id, int x, int y)

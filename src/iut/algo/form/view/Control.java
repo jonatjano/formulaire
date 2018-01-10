@@ -50,10 +50,12 @@ public abstract class Control
 		this.type	= type;
 		this.id		= id;
 
+
 		this.panel	= new JPanel();
-		this.panel.setBounds(x, y, width + Control.LABEL_WIDTH + 20, Control.DFLT_HEIGHT); //this.panel.getPreferredSize().height);
+		this.panel.setBounds(x, y, width + Control.LABEL_WIDTH + 20, Control.DFLT_HEIGHT);
 		this.panel.setBackground( Frame.obtainFormColor() );
-		this.panel.setLayout( new FlowLayout(FlowLayout.LEFT) );
+		this.panel.setLayout( new FlowLayout(FlowLayout.LEFT, 0, 0) );
+		//this.panel.setBorder( BorderFactory.createLineBorder(Color.red) );
 
 		Font font 	= this.panel.getFont();
 
@@ -87,9 +89,39 @@ public abstract class Control
 
 
 		// Par défaut, cache les identifiants et les types
-		this.idPanel.setVisible(true);
-		this.typePanel.setVisible(true);
+		this.idPanel.setVisible(false);
+		this.typePanel.setVisible(false);
 	}
+
+	/**
+	 * Déplace l'élément à la position passée en paramètre
+	 * @param x Abscisse de la nouvelle position
+	 * @param y Ordonnée de la nouvelle position
+	 */
+	public void move (int x, int y)
+	{
+		this.panel.setBounds(x, y, this.panel.getSize().width, this.panel.getSize().height);
+	}
+
+
+	/*-------------------*/
+	/*      Toggles      */
+	/*-------------------*/
+
+	public void toggleId ()
+	{
+		this.idPanel.setVisible( !this.idPanel.isVisible() );
+	}
+
+	public void toggleType ()
+	{
+		this.typePanel.setVisible( !this.typePanel.isVisible() );
+	}
+
+
+	/*-------------------*/
+	/*      GETTERS      */
+	/*-------------------*/
 
 	/**
 	 * Renvoie le panel contenant l'élément
@@ -118,16 +150,24 @@ public abstract class Control
 		return this.typePanel;
 	}
 
-
-	public void toggleId ()
+	/**
+	 * Renvoie la hauteur totale de l'élément
+	 * @return La hauteur de l'élément
+	 */
+	public int obtainHeight ()
 	{
-		this.idPanel.setVisible( !this.idPanel.isVisible() );
+		return this.panel.getSize().height;
 	}
 
-	public void toggleType ()
+	/**
+	 * Renvoie la largeur totale de l'élément
+	 * @return La largeur de l'élément
+	 */
+	public int obtainWidth ()
 	{
-		this.typePanel.setVisible( !this.typePanel.isVisible() );
+		return this.panel.getSize().width;
 	}
+
 
 	/**
 	 * Remet l'élément à son état initial
