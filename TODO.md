@@ -18,11 +18,11 @@
 #### [ ] Les différents Contrôles à gérer.
 Les différents Contrôles devront posséder :
 - [x] **une étiquette associée**
-- [x] **un  identifiant numérique, indépendant de l'ordre dans lequel les contrôles sont définis**
+- [x] <u>**un  identifiant numérique, indépendant de l'ordre dans lequel les contrôles sont définis**</u>
 - [ ] un positionnement Sans valeur x y les différents Controles seront placées les uns en dessous des autres dans l'ordre de leur identifiant
 - [x] **la définition de la largeur (qui par défaut sera de 150)**
 - [x] **la hauteur sera fixe, et correspondra à une hauteur standard**
-- [x] L'association à un des 5 types de base
+- [x] **L'association à un des 5 types de base**
 
 #### [x] Les différents Contrôles à gérer sont
 - [x] **La zone de texte**
@@ -51,8 +51,8 @@ Les différents Contrôles devront posséder :
 
 #### [x] Un bouton effacer, permettra d'effacer l'ensemble des champs de saisie.
 
-#### [ ] Cinématique.
-- [ ] Naviguez entre les différents Controle
+#### [x] Cinématique.
+- [x] **Naviguez entre les différents Controle**
 
 #### [ ] Chargement du formulaire
 - [ ] Récupération des différentes valeurs à l'aide d'une primitive spécifique pour chaque type de bases. Chaque primitives prendra en argument le nom de l'étiquette ou l'identifiant associé au Contrôle que l'on souhaite récupérer.
@@ -82,3 +82,11 @@ Fichier inexistant</u>
 ### Controles
 - [ ] label seul
 - [ ] ajout d'une marge de 20-30 sur la gauche des controles
+
+## Avenants
+### Avenant n°1
+- [ ] Définir un Controle Calendrier qui permettra la saisie d'une date à l'aide d'une grille graphique. La date sera stockée sous forme de chaine au format jj/mm/aaaa.
+### Avenant n°2
+- [ ] Définir une feuille de style xsl, permettant de prévisualiser un formulaire dans un navigateur.
+### Avenant n°3
+- [ ] Gérer une historisation des saisies sur les controles zone de texte (référencé par l'étiquette associé au Controle)

@@ -85,7 +85,7 @@ public abstract class Control
 
 		this.typePanel.add( typeL );
 
-		
+
 		// Par défaut, cache les identifiants et les types
 		this.idPanel.setVisible(true);
 		this.typePanel.setVisible(true);

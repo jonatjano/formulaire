@@ -73,6 +73,6 @@ public class Dropdown extends Control
 	@Override
 	public Object obtainValue ()
 	{
-		return null;
+		return dropdownD.getSelectedItem();
 	}
 }

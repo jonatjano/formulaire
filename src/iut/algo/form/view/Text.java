@@ -119,6 +119,9 @@ public class Text extends Control
 	@Override
 	public Object obtainValue ()
 	{
-		return null;
+		if ( this.textF instanceof JTextField)
+			return ((JTextField) (textF)).getText();
+		else
+			return (Integer) ((JSpinner) (textF)).getValue();
 	}
 }

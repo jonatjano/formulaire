@@ -247,7 +247,7 @@ public class Frame extends JFrame implements ActionListener
 						NamedNodeMap	attrChoice	= nodeElement.getAttributes();
 						String	typeTemp	= attrChoice.getNamedItem("type").getNodeValue();
 						int		nbR			= Integer.parseInt( attrChoice.getNamedItem("nb_lig").getNodeValue() );
-						int		nbC			= Integer.parseInt( attrChoice.getNamedItem("nb_col").getNodeValue() );						
+						int		nbC			= Integer.parseInt( attrChoice.getNamedItem("nb_col").getNodeValue() );
 
 						control = new Array(label, id, BaseType.getBaseType(typeTemp), x, y, nbR, nbC);
 						break;
@@ -268,6 +268,11 @@ public class Frame extends JFrame implements ActionListener
 						}
 
 						control = new Buttons( label, id, x, y, choices );
+						break;
+
+					case "calendar":
+					case "calendrier":
+						control = new Calendar(label, id, x, y);
 						break;
 				}
 

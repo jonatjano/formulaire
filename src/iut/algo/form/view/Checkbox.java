@@ -69,6 +69,6 @@ public class Checkbox extends Control
 	@Override
 	public Object obtainValue ()
 	{
-		return null;
+		return checkbox.isSelected();
 	}
 }
