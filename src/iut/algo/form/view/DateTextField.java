@@ -1,5 +1,7 @@
 package iut.algo.form.view;
 
+import iut.algo.form.job.Language;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -301,10 +303,10 @@ public class DateTextField extends JTextField
 		private JPanel createWeekAndDayPanel()
 		{
 			String[] colname = new String[7];
-			switch (Frame.getLang())
+			switch ( iut.algo.form.view.Frame.getLang() )
 			{
-				case Language.FR : colname = new String[] { "D", "L", "M", "M", "J", "V", "S" }; break;
-				default : colname = new String[] { "S", "M", "T", "W", "T", "F", "S" };
+				case FR: colname = new String[] { "D", "L", "M", "M", "J", "V", "S" }; break;
+				default: colname = new String[] { "S", "M", "T", "W", "T", "F", "S" };
 			}
 
 			JPanel panel = new JPanel();
