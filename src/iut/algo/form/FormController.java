@@ -35,18 +35,6 @@ public class FormController
 	 */
 	public static void showForm(String filePath)
 	{
-		showForm(filePath, null);
-	}
-
-	/**
-	 * methode appellée par une classe externe au package permettant d'appeller tous les utilitaires nécessaire au formulaire
-	 * @param filePath  Le chemin du fichier XML permettant de générer le formlaire
-	 *                  	Lu comme absolu sur classType est null
-	 *                  	Lu comme relatif si classType n'est pas null
-	 * @param classType La classe demandant le formulaire utilisée quand le filePath est un chemin relatif à la classe appellante
-	 */
-	public static void showForm(String filePath, Class classType)
-	{
 		// on recupere le fichier
 		File xmlFile = new File(filePath);
 
