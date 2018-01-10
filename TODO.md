@@ -82,3 +82,11 @@ Fichier inexistant</u>
 ### Controles
 - [ ] label seul
 - [ ] ajout d'une marge de 20-30 sur la gauche des controles
+
+## Avenants
+### Avenant n°1
+- [ ] Définir un Controle Calendrier qui permettra la saisie d'une date à l'aide d'une grille graphique. La date sera stockée sous forme de chaine au format jj/mm/aaaa.
+### Avenant n°2
+- [ ] Définir une feuille de style xsl, permettant de prévisualiser un formulaire dans un navigateur.
+### Avenant n°3
+- [ ] Gérer une historisation des saisies sur les controles zone de texte (référencé par l'étiquette associé au Controle)
