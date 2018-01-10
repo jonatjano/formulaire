@@ -123,6 +123,16 @@ public abstract class Control
 	/*      GETTERS      */
 	/*-------------------*/
 
+	public int getX ()
+	{
+		return this.x;
+	}
+
+	public int getY ()
+	{
+		return this.y;
+	}
+
 	/**
 	 * Renvoie l'id de l'élément du formulaire
 	 * @return Identifiant de l'élément
@@ -187,5 +197,5 @@ public abstract class Control
 	 * Retourne la valeur contenu dans l'élément du formulaire
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
-	public abstract Object obtainValue ();
+	public abstract Object getValues ();
 }

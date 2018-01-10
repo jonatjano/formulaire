@@ -117,7 +117,7 @@ public class Text extends Control
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
 	@Override
-	public Object obtainValue ()
+	public Object getValues ()
 	{
 		if ( this.textF instanceof JTextField)
 			return ((JTextField) (textF)).getText();
