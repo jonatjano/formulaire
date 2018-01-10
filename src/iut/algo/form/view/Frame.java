@@ -28,8 +28,8 @@ import iut.algo.form.FormController;
  */
 public class Frame extends JFrame implements ActionListener
 {
-	private FormKeyListener fKeyListener;
-	public static final Language language;
+	public static Language language;
+	private FormKeyListener 	fKeyListener;
 
 	private int				formWidth;
 	private int				formHeight;
@@ -139,6 +139,12 @@ public class Frame extends JFrame implements ActionListener
 		this("", width, height, x, y);
 	}
 
+	public void majIhm ()
+	{
+		this.revalidate();
+		this.repaint();
+	}
+
 	public static Frame createFrame (Element root)
 	{
 		// Booléen indiquant si les éléments sont placés avec les positions précisées
@@ -156,7 +162,7 @@ public class Frame extends JFrame implements ActionListener
 		int 	length	= 0;
 		int 	frameX	= Integer.parseInt( root.getAttribute("x") );
 		int 	frameY	= Integer.parseInt( root.getAttribute("y") );
-		switch (lang)
+		switch (Frame.language)
 		{
 			case FR:
 				title	= root.getAttribute("titre");
@@ -331,9 +337,6 @@ public class Frame extends JFrame implements ActionListener
 
 		/* Ajout du panel type */
 		this.upperPanel.add( control.getTypePanel() );
-
-		this.revalidate();
-		this.repaint();
 	}
 
 	/**
@@ -391,8 +394,7 @@ public class Frame extends JFrame implements ActionListener
 		this.hideControls( colControls );
 
 
-		this.revalidate();
-		this.repaint();
+		this.majIhm();
 	}
 
 	/**
@@ -477,7 +479,7 @@ public class Frame extends JFrame implements ActionListener
 	 */
 	public static Language getLang ()
 	{
-		return Frame.lang;
+		return Frame.language;
 	}
 
 	public List<Control> getControls ()

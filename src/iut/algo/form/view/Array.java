@@ -237,8 +237,8 @@ public class Array extends Control
 	 */
 	private void shiftDisplay (int deltaR, int deltaC)
 	{
-		oriR = Math.min(0, Math.max(nbR, oriR + deltaR));
-		oriC = Math.min(0, Math.max(nbR, oriR + deltaR));
+		oriR = Math.min(0, Math.max(tabValues.length, oriR + deltaR));
+		oriC = Math.min(0, Math.max(tabValues[0].length, oriR + deltaR));
 	}
 
 	/**
