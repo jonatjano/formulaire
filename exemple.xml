@@ -14,32 +14,6 @@
 
 		<tableau x="500" y="120" label="box" id="p03" type="chaine" nb_lig="7" nb_col="8"/>
 
-		<tableau x="500" y="120" label="box" id="p18" type="chaine" nb_lig="7" nb_col="8"/>
-
-		<tableau x="500" y="120" label="box" id="p21" type="chaine" nb_lig="7" nb_col="8"/>
-
-		<tableau x="500" y="120" label="box" id="p22" type="chaine" nb_lig="7" nb_col="8"/>
-
-		<tableau x="500" y="120" label="box" id="p23" type="chaine" nb_lig="7" nb_col="8"/>
-
-		<tableau x="500" y="120" label="box" id="p24" type="chaine" nb_lig="7" nb_col="8"/>
-
-		<tableau x="500" y="120" label="box" id="p25" type="chaine" nb_lig="7" nb_col="8"/>
-
-		<tableau x="500" y="120" label="box" id="p26" type="chaine" nb_lig="7" nb_col="8"/>
-
-		<tableau x="500" y="120" label="box" id="p27" type="chaine" nb_lig="7" nb_col="8"/>
-		<tableau x="500" y="120" label="box" id="p28" type="chaine" nb_lig="7" nb_col="8"/>
-		<tableau x="500" y="120" label="box" id="p29" type="chaine" nb_lig="7" nb_col="8"/>
-		<tableau x="500" y="120" label="box" id="p30" type="chaine" nb_lig="7" nb_col="8"/>
-		<tableau x="500" y="120" label="box" id="p31" type="chaine" nb_lig="7" nb_col="8"/>
-		<tableau x="500" y="120" label="box" id="p32" type="chaine" nb_lig="7" nb_col="8"/>
-		<tableau x="500" y="120" label="box" id="p33" type="chaine" nb_lig="7" nb_col="8"/>
-		<tableau x="500" y="120" label="box" id="p34" type="chaine" nb_lig="7" nb_col="8"/>
-		<tableau x="500" y="120" label="box" id="p35" type="chaine" nb_lig="7" nb_col="8"/>
-		<tableau x="500" y="120" label="box" id="p36" type="chaine" nb_lig="7" nb_col="8"/>
-		<tableau x="500" y="120" label="box" id="p37" type="chaine" nb_lig="7" nb_col="8"/>
-
 		<boutons x="36" y="150" id="m002" label="bouton">
 			<bouton>25</bouton>
 		</boutons>

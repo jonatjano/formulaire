@@ -143,7 +143,7 @@ public class Frame extends JFrame implements ActionListener
 	{
 		// Booléen indiquant si les éléments sont placés avec les positions précisées
 		// par l'utilisateur, ou s'ils sont placés automatiquement
-		boolean		isPlacedAutomatically	= true;
+		boolean		isPlacedAutomatically	= false;
 		NodeList	listElements 			= root.getChildNodes();
 		Language	lang;
 		if ( root.getNodeName().equals("fenetre") )	lang = Language.FR;
@@ -189,8 +189,8 @@ public class Frame extends JFrame implements ActionListener
 				String		controlName	= nodeElement.getNodeName();
 				String		label		= attrElement.getNamedItem("label").getNodeValue();
 				String		id			= attrElement.getNamedItem("id").getNodeValue();
-				int			x			= (nodeX == null) ? Control.DFLT_WIDTH : Integer.parseInt( nodeX.getNodeValue() );
-				int			y			= (nodeY == null) ? Control.DFLT_WIDTH : Integer.parseInt( nodeY.getNodeValue() );
+				int			x			= (nodeX == null) ? -1 : Integer.parseInt( nodeX.getNodeValue() );
+				int			y			= (nodeY == null) ? -1 : Integer.parseInt( nodeY.getNodeValue() );
 
 				NodeList	listChoices;
 				Object[]	choices;
@@ -291,6 +291,9 @@ public class Frame extends JFrame implements ActionListener
 				control.getPanel().setVisible(false);
 				// Ajoute au formulaire
 				frame.addControl( control );
+
+				if ( !isPlacedAutomatically && (x == -1 || y == -1) )
+					isPlacedAutomatically = true;
 			}
 		}
 		// Ajoute récursivement le key listener à tous les éléments, pour interargir avec le clavier où que

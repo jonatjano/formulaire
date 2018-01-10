@@ -50,7 +50,9 @@ public class Calendar extends Control
 
 		/* Création de la date */
 
-		date = new DateTextField();
+		this.date = new DateTextField();
+		this.date.setPreferredSize( new Dimension(width, (int) (this.panel.getSize().height - (Control.DFLT_HEIGHT / 5f))) );
+
 		this.panel.add( date );
 	}
 
