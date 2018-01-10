@@ -119,9 +119,21 @@ public class Text extends Control
 	@Override
 	public Object getValues ()
 	{
-		if ( this.textF instanceof JTextField)
-			return ((JTextField) (textF)).getText();
-		else
-			return (Integer) ((JSpinner) (textF)).getValue();
+		switch (type)
+		{
+			case Int:
+				return (Integer) (((JSpinner) (textF)).getValue());
+
+			case Double:
+				return (Double) (((JSpinner) (textF)).getValue());
+
+			case String:
+				return ((JTextField) (textF)).getText();
+
+			case Char:
+				return ((JTextField) (textF)).getText();
+
+			default : return null;
+		}
 	}
 }

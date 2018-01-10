@@ -1,22 +1,27 @@
 package iut.algo.form;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-
 import iut.algo.form.job.SimpleErrorHandler;
+import iut.algo.form.view.Control;
 import iut.algo.form.view.Frame;
+import iut.algo.form.job.BaseType;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
+
 import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+import java.util.Map;
+import java.util.HashMap;
+import org.xml.sax.SAXParseException;
 
 /**
  * classe permettant de controller les formulaires depuis des programmes exterieurs
@@ -25,27 +30,45 @@ import javax.xml.parsers.ParserConfigurationException;
  */
 public class FormController
 {
+	/**
+	 * le fichier dtd utilisé pour valider le xml
+	 */
 	private static File dtdFile = createDtdFile();
+	/**
+	 * permet de savoir si un formulaire est actuellement ouvert
+	 */
 	private static boolean windowIsOpen = false;
+	/**
+	 * la fenetre du dernier formulaire
+	 */
 	private static Frame frame;
+
+	/**
+	 * {@link Map} contennant les valeurs des différent champs de type {@link Integer}
+	 */
+	private static Map<String, Integer> intMap;
+	/**
+	 * {@link Map} contennant les valeurs des différent champs de type {@link String}
+	 */
+	private static Map<String, String> stringMap;
+	/**
+	 * {@link Map} contennant les valeurs des différent champs de type {@link Double}
+	 */
+	private static Map<String, Double> doubleMap;
+	/**
+	 * {@link Map} contennant les valeurs des différent champs de type {@link Boolean}
+	 */
+	private static Map<String, Boolean> booleanMap;
+	/**
+	 * {@link Map} contennant les valeurs des différent champs de type {@link Character}
+	 */
+	private static Map<String, Character> charMap;
 
 	/**
 	 * methode appellée par une classe externe au package permettant d'appeller tous les utilitaires nécessaire au formulaire
 	 * @param filePath  Le chemin du fichier XML permettant de générer le formlaire
 	 */
 	public static void showForm(String filePath)
-	{
-		showForm(filePath, null);
-	}
-
-	/**
-	 * methode appellée par une classe externe au package permettant d'appeller tous les utilitaires nécessaire au formulaire
-	 * @param filePath  Le chemin du fichier XML permettant de générer le formlaire
-	 *                  	Lu comme absolu sur classType est null
-	 *                  	Lu comme relatif si classType n'est pas null
-	 * @param classType La classe demandant le formulaire utilisée quand le filePath est un chemin relatif à la classe appellante
-	 */
-	public static void showForm(String filePath, Class classType)
 	{
 		// on recupere le fichier
 		File xmlFile = new File(filePath);
@@ -207,8 +230,98 @@ public class FormController
 
 	public static void windowClosed()
 	{
+		intMap = new HashMap<String, Integer>();
+		doubleMap = new HashMap<String, Double>();
+		stringMap = new HashMap<String, String>();
+		charMap = new HashMap<String, Character>();
+		booleanMap = new HashMap<String, Boolean>();
+		for (Control ctrl : frame.getControls())
+		{
+			// System.out.println(ctrl.getType() + " : " + ctrl.getValues() + " <--> " + ctrl.getId());
+			if (!(ctrl instanceof iut.algo.form.view.Array)) {
+				switch (ctrl.getType())
+				{
+					case Int:
+						intMap.put(ctrl.getId(), (Integer)(ctrl.getValues()));
+					break;
+
+					case Double:
+						doubleMap.put(ctrl.getId(), (Double)(ctrl.getValues()));
+					break;
+
+					case String:
+						stringMap.put(ctrl.getId(), (String)(ctrl.getValues()));
+					break;
+
+					case Char:
+						if (((String)(ctrl.getValues())).length() > 0)
+						{
+							charMap.put(ctrl.getId(), ((String)(ctrl.getValues())).charAt(0));
+						}
+					break;
+
+					case Boolean:
+						booleanMap.put(ctrl.getId(), (Boolean)(ctrl.getValues()));
+					break;
+				}
+			}
+			else
+			{
+				// System.out.println("c'est un array");
+			}
+		}
 		frame = null;
 		windowIsOpen = false;
+	}
+
+	/**
+	 * retourne la valeur d'un controle numerique entier
+	 * @param  id id du controle
+	 * @return la valeur correspondante au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 */
+	public static Integer getInt(String id)
+	{
+		return intMap.get(id);
+	}
+
+	/**
+	 * retourne la valeur d'un controle numerique
+	 * @param  id id du controle
+	 * @return la valeur correspondante au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 */
+	public static Double getDouble(String id)
+	{
+		return doubleMap.get(id);
+	}
+
+	/**
+	 * retourne la valeur d'un controle de texte
+	 * @param  id id du controle
+	 * @return la valeur correspondante au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 */
+	public static String getString(String id)
+	{
+		return stringMap.get(id);
+	}
+
+	/**
+	 * retourne la valeur d'un controle de caractere
+	 * @param  id id du controle
+	 * @return la valeur correspondante au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 */
+	public static Character getChar(String id)
+	{
+		return charMap.get(id);
+	}
+
+	/**
+	 * retourne la valeur d'un controle boolean
+	 * @param  id id du controle
+	 * @return la valeur correspondante au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 */
+	public static Boolean getBoolean(String id)
+	{
+		return booleanMap.get(id);
 	}
 
 	/**
