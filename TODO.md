@@ -39,6 +39,12 @@ Les différents Contrôles devront posséder :
 - [ ] Documentation Programmeur Avec une Cartographie du programme, une table des matières par fonctionnalité
 - [ ] Documentation Utilisateur
 
+### [ ] Rajout
+- [ ] Gérer toutes les erreurs XML :
+	- [ ] Type incorrect
+	- [x] **Oubli Chevron**
+	- [x] **Erreur DTD**
+
 ## Important
 
 #### [x] Paramétrage du formulaire
