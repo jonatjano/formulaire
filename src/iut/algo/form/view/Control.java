@@ -177,15 +177,24 @@ public abstract class Control
 		return this.panel.getSize().width;
 	}
 
+	/**
+	 * Renvoie le type de donnée du control
+	 * @return le BaseType du control
+	 */
+	public BaseType getType ()
+	{
+		return this.type;
+	}
+
 
 	/**
 	 * Remet l'élément à son état initial
 	 */
 	public abstract void reset ();
-	
+
 	/**
 	 * Retourne la valeur contenu dans l'élément du formulaire
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
-	public abstract Object obtainValue ();
+	public abstract Object getValues ();
 }

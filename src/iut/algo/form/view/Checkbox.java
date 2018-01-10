@@ -39,7 +39,7 @@ public class Checkbox extends Control
 
 		this.checkbox	= new JCheckBox();
 
-		
+
 		this.panel.add( checkbox );
 	}
 
@@ -67,7 +67,7 @@ public class Checkbox extends Control
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
 	@Override
-	public Object obtainValue ()
+	public Boolean getValues ()
 	{
 		return checkbox.isSelected();
 	}

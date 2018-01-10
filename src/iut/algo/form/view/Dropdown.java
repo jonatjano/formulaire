@@ -71,8 +71,8 @@ public class Dropdown extends Control
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
 	@Override
-	public Object obtainValue ()
+	public String getValues ()
 	{
-		return dropdownD.getSelectedItem();
+		return (String)(dropdownD.getSelectedItem());
 	}
 }

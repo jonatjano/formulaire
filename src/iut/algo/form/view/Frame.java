@@ -251,7 +251,9 @@ public class Frame extends JFrame implements ActionListener
 							// Si le noeud est un élément, ajoute l'attribut label aux choix possibles
 							if ( attrChoice != null &&
 								 (nodeChoice.getNodeName().equals("choix") || nodeChoice.getNodeName().equals("choice")) )
+							{
 								choices[j] = attrChoice.getNamedItem("label").getNodeValue();
+							}
 						}
 
 						control = new Dropdown( label, id, x, y, choices );
@@ -387,7 +389,7 @@ public class Frame extends JFrame implements ActionListener
 						currentHeight += controlToPlace.obtainHeight();
 					}
 				}
-				
+
 				// Réinitialise et incrémente les attributs
 				totalWidth 		+= currentWidth;
 				currentWidth	= currentHeight = 0;
