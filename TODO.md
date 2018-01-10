@@ -15,11 +15,11 @@
 	- [x] **boolean**
 - [x] **L'utilisateur pourra définir plusieurs formulaires et utiliser plusieurs formulaires dans un même programme.**
 
-#### [ ] Les différents Contrôles à gérer.
+#### [x] Les différents Contrôles à gérer.
 Les différents Contrôles devront posséder :
 - [x] **une étiquette associée**
 - [x] <u>**un  identifiant numérique, indépendant de l'ordre dans lequel les contrôles sont définis**</u>
-- [ ] un positionnement Sans valeur x y les différents Controles seront placées les uns en dessous des autres dans l'ordre de leur identifiant
+- [x] **un positionnement Sans valeur x y les différents Controles seront placées les uns en dessous des autres dans l'ordre de leur identifiant**
 - [x] **la définition de la largeur (qui par défaut sera de 150)**
 - [x] **la hauteur sera fixe, et correspondra à une hauteur standard**
 - [x] **L'association à un des 5 types de base**
@@ -29,9 +29,9 @@ Les différents Contrôles devront posséder :
 - [x] **Une case à cocher**
 
 #### [ ] Un  bouton  valider,  permettra  de  rendre  la main  au  programme  appelant.  Cela  provoquera  la fermeture de la fenêtre liée au formulaire
-#### [ ] Chargement du formulaire
+#### [x] Chargement du formulaire
 - [x] **Chargement d'un Objet Formulaire à partir du nom d'un fichier**
-- [x] Ouverture du Formulaire à l'aide d'une primitive simple. Tant  que  le  formulaire  n'aura  pas  été  définitivement  fermé,  l'ouverture affichera le formulaire dans son état précédent.
+- [x] **Ouverture du Formulaire à l'aide d'une primitive simple. Tant  que  le  formulaire  n'aura  pas  été  définitivement  fermé,  l'ouverture affichera le formulaire dans son état précédent.**
 - [x] **L'utilisateur  pourra  initialiser  chaque  champ  du  formulaire,  à  l'aide  d'une  primitive spécifique, avant l'ouverture du formulaire.**
 - [x] **Fermeture définitive du formulaire**
 
@@ -82,10 +82,11 @@ Fichier inexistant</u>
 ### Controles
 - [ ] label seul
 - [ ] ajout d'une marge de 20-30 sur la gauche des controles
+- [x] **Changement de langue**
 
 ## Avenants
 ### Avenant n°1
-- [ ] Définir un Controle Calendrier qui permettra la saisie d'une date à l'aide d'une grille graphique. La date sera stockée sous forme de chaine au format jj/mm/aaaa.
+- [x] **Définir un Controle Calendrier qui permettra la saisie d'une date à l'aide d'une grille graphique. La date sera stockée sous forme de chaine au format jj/mm/aaaa.**
 ### Avenant n°2
 - [ ] Définir une feuille de style xsl, permettant de prévisualiser un formulaire dans un navigateur.
 ### Avenant n°3
