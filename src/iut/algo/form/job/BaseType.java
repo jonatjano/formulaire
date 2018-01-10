@@ -2,13 +2,56 @@ package iut.algo.form.job;
 
 public enum BaseType
 {
-	Int,
-	String,
-	Double,
-	Boolean,
-	Char;
+	Int 		(	"Entier",
+					"Integer" ),
+	String		(	"Chaine",
+					"String" ),
+	Double		(	"Double",
+					"Double" ),
+	Boolean		(	"Booléen",
+					"Boolean" ),
+	Char		(	"Caractère",
+					"Character" );
 
-	public static BaseType getBaseType(String type)
+	private String frValue;
+	private String enValue;
+
+	private BaseType (String frValue, String enValue)
+	{
+		this.frValue = frValue;
+		this.enValue = enValue;
+	}
+
+	/**
+	 * Renvoie la valeur française de l'énum d'un type de base
+	 * @return Le nom français du type de base
+	 */
+	public String getFrValue ()
+	{
+		return this.frValue;
+	}
+
+	/**
+	 * Renvoie la valeur anglaise de l'énum d'un type de base
+	 * @return Le nom anglais du type de base
+	 */
+	public String getEnValue ()
+	{
+		return this.enValue;
+	}
+
+	public String getValue (Language lang)
+	{
+		switch (lang)
+		{
+			case FR:	return this.getFrValue();
+			case EN:	return this.getEnValue();
+		}
+		return null;
+	}
+
+
+	public static BaseType getBaseType (String type)
 	{
 		switch(type)
 		{

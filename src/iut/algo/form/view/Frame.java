@@ -29,7 +29,7 @@ import iut.algo.form.FormController;
 public class Frame extends JFrame implements ActionListener
 {
 	private FormKeyListener fKeyListener;
-	private static final int IFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
+	public static final Language language = Language.FR;
 
 	/** Liste des éléments intégrés au formulaire */
 	private List<Control>	controls;
@@ -291,7 +291,11 @@ public class Frame extends JFrame implements ActionListener
 		this.upperPanel.add( control.getPanel() );		// Ajoute l'élément physiquement à l'interface
 		this.controls.add( control );					// Ajoute l'élément à la liste des éléments du formulaire
 
+		/* Ajout du panel identifiant */
 		this.upperPanel.add( control.getIdPanel() );
+
+		/* Ajout du panel type */
+		this.upperPanel.add( control.getTypePanel() );
 
 		this.revalidate();
 		this.repaint();
@@ -325,12 +329,21 @@ public class Frame extends JFrame implements ActionListener
 	}
 
 	/**
-	 * Invers l'état de l'affichage des identifiants
+	 * Inverse l'état de l'affichage des identifiants de tous les éléments du formulaire
 	 */
 	public void toggleIds ()
 	{
 		for (Control control : controls)
-			control.getIdPanel().setVisible( !control.getIdPanel().isVisible() );
+			control.toggleId();
+	}
+
+	/**
+	 * Inverse l'état de l'affichage des types de tous les éléments du formulaire
+	 */
+	public void toggleTypes ()
+	{
+		for (Control control : controls)
+			control.toggleType();
 	}
 
 

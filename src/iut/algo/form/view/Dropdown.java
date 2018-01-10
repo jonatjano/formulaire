@@ -24,8 +24,10 @@ public class Dropdown extends Control
 	@SuppressWarnings("unchecked")
 	public Dropdown (String label, String id, int width, int x, int y, Object[] choices)
 	{
-		super(label, id, width, x, y);
+		super(label, id, BaseType.String, width, x, y);
+		this.type 		= type;
 		this.baseValues = choices;
+
 
 		/* Création de la liste déroulante */
 
