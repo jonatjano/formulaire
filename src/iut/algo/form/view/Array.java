@@ -37,8 +37,6 @@ public class Array extends Control
 {
 	class ArrayListener implements ActionListener
 	{
-		private int prevR;
-		private int prevC;
 
 
 		public void actionPerformed (ActionEvent e)
@@ -49,19 +47,73 @@ public class Array extends Control
 
 				int row = Integer.parseInt( pos[0] );
 				int col = Integer.parseInt( pos[1] );
-
-
+				
 				// Enregistrement dans le tableau de valeurs
 				Object value = valueControl.obtainValue();
+				
 				tabValues[oriR + prevR][oriC + prevC] = value;
-
-				this.prevR = row;
-				this.prevC = col;
-
-
+				
+				int deltaR = 0;
+				int deltaC = 0;
+				
+				switch (row)
+				{
+					case 0 :
+						deltaR = -1;
+						break;
+					case 4 :
+						deltaR = 1;
+						break;
+				}
+				switch (col)
+				{
+					case 0 :
+						deltaC = -1;
+						break;
+					case 4 :
+						deltaC = 1;
+						break;
+				}
+				
+				
+				int oriRTemp = oriR;
+				int oriCTemp = oriC;
 				// Décale le tableau
-				shiftDisplay(0, 0);
-
+				shiftDisplay( deltaR, deltaC);
+				
+				if (oriR - oriRTemp == -1)
+					row++;
+				if (oriR - oriRTemp == 1)
+					row--;
+				if (oriC - oriCTemp == -1)
+					col++;
+				if (oriC - oriCTemp == 1)
+					col--;
+					
+				for (int i = 0; i < tabButtons.length; i++)
+				{
+					tabButtons[i][prevC].setBackground(normalColor);
+				}
+				for (int i = 0; i < tabButtons[prevR].length; i++)
+				{
+					tabButtons[prevR][i].setBackground(normalColor);
+				}
+				
+				for (int i = 0; i < tabButtons.length; i++)
+				{
+					tabButtons[i][col].setBackground(selectedRowColor);
+				}
+				for (int i = 0; i < tabButtons[row].length; i++)
+				{
+					tabButtons[row][i].setBackground(selectedColColor);
+				}
+				
+				tabButtons[row][col].setBackground(selectedCellColor);
+				
+				prevR = row;
+				prevC = col;
+				
+				
 
 				// Change le focus pour le mettre sur l'élément à modifier
 			}
@@ -75,12 +127,19 @@ public class Array extends Control
 	private static final int maxRow = 5;
 
 	private static final int gapX	= 10;
+	
+	private static final Color normalColor = new Color(255,255,255);
+	private static final Color selectedRowColor = new Color(0,0,0);
+	private static final Color selectedColColor = new Color(0,0,0);
+	private static final Color selectedCellColor = new Color(255,0,0);
 
-	private Object[][] 		objects;
 	private JLabel 			labelL;
 
 	private int				oriC;
 	private int				oriR;
+	
+	private int prevR;
+	private int prevC;
 
 	private JPanel 			arrayP;
 	private JPanel 			valuePanel;
@@ -88,6 +147,8 @@ public class Array extends Control
 
 	private List<JLabel>	colLabels;
 	private List<JLabel>	rowLabels;
+	
+	private JButton[][]		tabButtons;
 
 	private Object[][]		tabValues;
 
@@ -98,8 +159,6 @@ public class Array extends Control
 		this.type	= type;
 		this.oriC	= 0;
 		this.oriR	= 0;
-
-		objects = new Object[nbR][nbC];
 
 		// Les dimensions du tableau
 		int tabWidth	= (Math.min(5, nbC) + 2) * 25;
@@ -146,24 +205,34 @@ public class Array extends Control
 		Font newFont	= baseFont.deriveFont(baseFont.getStyle() | Font.BOLD);
 
 		/* Création du tableau sur l'interface */
+		
+		tabButtons = new JButton[maxRow][maxCol];
 		for (int i = -1; i < clampedRow + 1; i++)
 		{
 			boolean inRowBounds = i >= 0 && i < clampedRow;
 
 			// Ajout des labels des colonnes à la liste correspondante
-			JLabel labelCol = null;
+			JLabel labelRow = null;
 			if (inRowBounds)
 			{
-				labelCol = new JLabel( String.format("%d", clampedRow - i - 1) );
-				this.colLabels.add( labelCol );
+				labelRow = new JLabel( String.format("%d", clampedRow - i - 1) );
+				this.rowLabels.add( labelRow );
 			}
 			else
 			{
-				labelCol = new JLabel();
+				labelRow = new JLabel();
 			}
-			this.arrayP.add( labelCol );
+			this.arrayP.add( labelRow );
 
 			/* CORPS */
+			
+			int maxRow = Array.maxRow;
+			if (tabValues.length < Array.maxRow - 1 )
+				maxRow = tabValues.length ;
+			
+			int maxCol = Array.maxCol ;
+			if (tabValues[0].length < Array.maxCol - 1 )
+				maxCol = tabValues.length;
 			for (int j = 0; j < clampedCol; j++)
 			{
 				boolean inColBounds = j >= 0 && j < clampedCol;
@@ -173,24 +242,26 @@ public class Array extends Control
 					if (inRowBounds)
 					{
 						JButton cellB = new JButton();
+						tabButtons[clampedRow - i - 1][j] = cellB;
 						cellB.addActionListener( new ArrayListener() );
 						cellB.setActionCommand( String.format("%d;%d", clampedRow - i - 1, j) );
+						cellB.setBackground(normalColor);
 						this.arrayP.add( cellB );
 					}
 					else
 					{
 						// Ajout des labels des lignes à la liste correspondante
-						JLabel labelRow = null;
+						JLabel colLabels = null;
 						if (i >= 0)
 						{
-							labelRow = new JLabel( String.format("%d", j), SwingConstants.CENTER );
-							this.rowLabels.add( labelRow );
+							colLabels = new JLabel( String.format("%d", j), SwingConstants.CENTER );
+							this.colLabels.add( colLabels );
 						}
 						else
 						{
-							labelRow = new JLabel();
+							colLabels = new JLabel();
 						}
-						this.arrayP.add( labelRow );
+						this.arrayP.add( colLabels );
 					}
 				}
 				else
@@ -237,8 +308,21 @@ public class Array extends Control
 	 */
 	private void shiftDisplay (int deltaR, int deltaC)
 	{
-		oriR = Math.max(0, Math.min(tabValues.length, oriR + deltaR));
-		oriC = Math.max(0, Math.min(tabValues[0].length, oriC + deltaC));
+		int oriRTemp = oriR;
+		int oriCTemp = oriC;
+
+		int maxRow = Array.maxRow - 1;
+		if (tabValues.length < Array.maxRow - 1 )
+			maxRow = tabValues.length -1;
+		
+		int maxCol = Array.maxCol - 1;
+		if (tabValues[0].length < Array.maxCol - 1 )
+			maxCol = tabValues.length -1;
+		
+		
+		oriR = Math.max(0, Math.min(tabValues.length -1 - maxRow, oriR + deltaR));
+		oriC = Math.max(0, Math.min(tabValues[0].length -1 - maxCol, oriC + deltaC));
+		
 		
 		for (int i = 0; i < rowLabels.size(); i++)
 			rowLabels.get(i).setText((oriR + rowLabels.size() - 1 - i) + "");
@@ -268,6 +352,6 @@ public class Array extends Control
 	@Override
 	public Object obtainValue ()
 	{
-		return this.objects;
+		return this.tabValues;
 	}
 }
