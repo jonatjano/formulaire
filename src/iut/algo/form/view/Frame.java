@@ -29,12 +29,10 @@ import iut.algo.form.FormController;
 public class Frame extends JFrame implements ActionListener
 {
 	private FormKeyListener fKeyListener;
-	public static final Language language = Language.FR;
+	public static final Language language;
 
 	private int				formWidth;
 	private int				formHeight;
-
-	private Language		lang;
 
 	/** Liste des éléments intégrés au formulaire */
 	private List<Control>	controls;
@@ -148,8 +146,8 @@ public class Frame extends JFrame implements ActionListener
 		boolean		isPlacedAutomatically	= false;
 		NodeList	listElements 			= root.getChildNodes();
 
-		if ( root.getNodeName().equals("fenetre") )	this.lang = Language.FR;
-		else										this.lang = Language.EN;
+		if ( root.getNodeName().equals("fenetre") )	Frame.language = Language.FR;
+		else										Frame.language = Language.EN;
 
 
 		// Création de la fenêtre
@@ -477,9 +475,9 @@ public class Frame extends JFrame implements ActionListener
 	/**
 	 * Retourne le langage avec lequel le XML a été chargé
 	 */
-	private Language getLang ()
+	public static Language getLang ()
 	{
-		return this.lang;
+		return Frame.lang;
 	}
 
 	public List<Control> getControls ()
