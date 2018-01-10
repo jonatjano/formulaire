@@ -4,7 +4,7 @@
 
 		<texte x="36" y="60" label="groupeBoutton" id="a05" type ="entier"/>
 
-		<texte x="36" label="groupeBoutton" id="a06" type ="caractere"/>
+		<texte x="36" y="90" label="groupeBoutton" id="a06" type ="caractere"/>
 
 		<menu x="36" y="120" label="deroulant" id="p02">
 			<choix label="ah"/>

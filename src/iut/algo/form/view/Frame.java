@@ -446,8 +446,8 @@ public class Frame extends JFrame implements ActionListener
 
 
 						// Met à jour la position la plus éloignée si besoin
-						furthestX = control.getX() + control.getPanel().getSize().width;
-						furthestY = control.getY() + control.getPanel().getSize().height;
+						furthestX = controlToPlace.getX() + controlToPlace.getPanel().getSize().width;
+						furthestY = controlToPlace.getY() + controlToPlace.getPanel().getSize().height;
 
 						if ( furthestLocation.width < furthestX )	furthestLocation.width	= furthestX;
 						if ( furthestLocation.height < furthestY )	furthestLocation.height = furthestY;
@@ -503,7 +503,7 @@ public class Frame extends JFrame implements ActionListener
 	 */
 	public Dimension placeControlsAutomatically ()
 	{
-		return this.placeControlsAutomatically(Frame.X_AXIS, false);
+		return this.placeControlsAutomatically(Frame.Y_AXIS, false);
 	}
 
 	/**

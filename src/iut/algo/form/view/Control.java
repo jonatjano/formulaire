@@ -80,7 +80,7 @@ public abstract class Control
 		/* Création du panel de type */
 
 		this.typePanel	= new JPanel();
-		this.typePanel.setBounds( x + width + Control.LABEL_WIDTH + 25, y, 100, Control.DFLT_HEIGHT );
+		this.typePanel.setBounds( x + this.panel.getSize().width, y, 100, Control.DFLT_HEIGHT );
 		this.typePanel.setLayout( new BorderLayout() );
 		this.typePanel.setBackground( new Color(0.60f, 0.90f, 0.35f) );
 		this.typePanel.setBorder( new CompoundBorder(BorderFactory.createLineBorder(Color.black), new EmptyBorder(3,3,3,3)) );
@@ -107,6 +107,8 @@ public abstract class Control
 		this.y = y;
 
 		this.panel.setBounds(this.x, this.y, this.panel.getSize().width, this.panel.getSize().height);
+		this.typePanel.setBounds( x + this.panel.getSize().width, y, 100, Control.DFLT_HEIGHT );
+		this.idPanel.setBounds( x - Control.DFLT_HEIGHT, y, Control.DFLT_HEIGHT, Control.DFLT_HEIGHT );
 	}
 
 
@@ -114,11 +116,17 @@ public abstract class Control
 	/*      Toggles      */
 	/*-------------------*/
 
+	/**
+	 * Inverse l'état de l'affichage de l'identifiant
+	 */
 	public void toggleId ()
 	{
 		this.idPanel.setVisible( !this.idPanel.isVisible() );
 	}
 
+	/**
+	 * Inverse l'état de l'affichage du type
+	 */
 	public void toggleType ()
 	{
 		this.typePanel.setVisible( !this.typePanel.isVisible() );
