@@ -166,7 +166,7 @@ public class DateTextField extends JTextField {
 
             yearSpin = new JSpinner(new SpinnerNumberModel(currentYear,
                     startYear, lastYear, 1));
-            yearSpin.setPreferredSize(new Dimension(72, 20));
+            yearSpin.setPreferredSize(new Dimension(65, 20));
             yearSpin.setName("Year");
             yearSpin.setEditor(new JSpinner.NumberEditor(yearSpin, "####"));
             yearSpin.addChangeListener(this);
@@ -178,7 +178,7 @@ public class DateTextField extends JTextField {
 
             monthSpin = new JSpinner(new SpinnerNumberModel(currentMonth, 1,
                     12, 1));
-            monthSpin.setPreferredSize(new Dimension(42, 20));
+            monthSpin.setPreferredSize(new Dimension(46, 20));
             monthSpin.setName("Month");
             monthSpin.addChangeListener(this);
             panel.add(monthSpin);
@@ -213,7 +213,7 @@ public class DateTextField extends JTextField {
                 for (int j = 0; j < 7; j++) {
                     JButton numBtn = new JButton();
                     numBtn.setBorder(null);
-                    numBtn.setHorizontalAlignment(SwingConstants.RIGHT);
+                    numBtn.setHorizontalAlignment(SwingConstants.CENTER);
                     numBtn.setActionCommand(String
                             .valueOf(actionCommandId));
                     numBtn.setBackground(palletTableColor);
