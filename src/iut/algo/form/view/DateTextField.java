@@ -126,7 +126,7 @@ public class DateTextField extends JTextField {
 
     private class DatePanel extends JPanel implements ChangeListener {
         int startYear = 1980;
-        int lastYear = 2050;
+        int lastYear = 2500;
 
         Color backGroundColor = Color.gray;
         Color palletTableColor = Color.white;
@@ -269,7 +269,10 @@ public class DateTextField extends JTextField {
             int i = actionCommandId / 7;
             int j = actionCommandId % 7;
             if (isOldDay) {
-                daysButton[i][j].setForeground(dateFontColor);
+				if (j == 0 || j == 6)
+					daysButton[i][j].setForeground(weekendFontColor);
+				else
+					daysButton[i][j].setForeground(dateFontColor);
             } else {
                 daysButton[i][j].setForeground(todayBackColor);
             }
