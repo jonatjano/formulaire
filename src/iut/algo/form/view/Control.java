@@ -10,6 +10,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.CompoundBorder;
 
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
@@ -27,6 +28,7 @@ public abstract class Control
 	public final static int DFLT_HEIGHT	= 35;
 	public final static int LABEL_WIDTH = 100;
 
+	protected Component compo;
 	/** Position sur l'axe des abscisses de l'élément */
 	protected int 		x;
 	/** Position sur l'axe des ordonnées de l'élément */
@@ -210,6 +212,10 @@ public abstract class Control
 		return this.type;
 	}
 
+	public void requestFocus()
+	{
+		compo.requestFocus();
+	}
 
 	/**
 	 * Remet l'élément à son état initial

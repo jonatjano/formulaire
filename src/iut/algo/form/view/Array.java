@@ -97,6 +97,7 @@ public class Array extends Control
 				prevC = col;
 				
 				valueControl.setValues(tabValues[oriR + row][oriC + col]);
+				valueControl.requestFocus();
 
 				// Change le focus pour le mettre sur l'élément à modifier
 			}

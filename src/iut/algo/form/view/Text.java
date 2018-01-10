@@ -20,7 +20,6 @@ import java.awt.Color;
  */
 public class Text extends Control
 {
-	private Component	textF;
 	private JLabel 		labelL;
 	private String		baseValue;
 
@@ -55,25 +54,25 @@ public class Text extends Control
 		{
 			case Int:
 				spinnerModel = new SpinnerNumberModel(0, Integer.MIN_VALUE, Integer.MAX_VALUE, 1);
-				this.textF	= new JSpinner(spinnerModel);
+				this.compo	= new JSpinner(spinnerModel);
 				break;
 
 			case Double:
 				spinnerModel = new SpinnerNumberModel(0, Integer.MIN_VALUE, Integer.MAX_VALUE, 0.1f);
-				this.textF	= new JSpinner(spinnerModel);
+				this.compo	= new JSpinner(spinnerModel);
 				break;
 
 			case String:
-				this.textF	= new JTextField();
+				this.compo	= new JTextField();
 				break;
 
 			case Char:
-				this.textF	= new JTextFieldLimit(1);
+				this.compo	= new JTextFieldLimit(1);
 				break;
 		}
 
-		this.textF.setPreferredSize( new Dimension(width, (int) (this.panel.getSize().height - (Control.DFLT_HEIGHT / 5f))) );
-		this.panel.add( textF );
+		this.compo.setPreferredSize( new Dimension(width, (int) (this.panel.getSize().height - (Control.DFLT_HEIGHT / 5f))) );
+		this.panel.add( compo );
 	}
 
 	/**
@@ -100,14 +99,14 @@ public class Text extends Control
 	@Override
 	public void reset ()
 	{
-		if (this.textF instanceof JTextField)
+		if (this.compo instanceof JTextField)
 		{
-			JTextField field = (JTextField) (this.textF);
+			JTextField field = (JTextField) (this.compo);
 			field.setText( baseValue );
 		}
 		else
 		{
-			JSpinner field = (JSpinner) (this.textF);
+			JSpinner field = (JSpinner) (this.compo);
 			field.setValue(0);
 		}
 	}
@@ -122,16 +121,16 @@ public class Text extends Control
 		switch (type)
 		{
 			case Int:
-				return (Integer) (((JSpinner) (textF)).getValue());
+				return (Integer) (((JSpinner) (compo)).getValue());
 
 			case Double:
-				return (Double) (((JSpinner) (textF)).getValue());
+				return (Double) (((JSpinner) (compo)).getValue());
 
 			case String:
-				return ((JTextField) (textF)).getText();
+				return ((JTextField) (compo)).getText();
 
 			case Char:
-				return ((JTextField) (textF)).getText();
+				return ((JTextField) (compo)).getText();
 
 			default : return null;
 		}
@@ -139,9 +138,9 @@ public class Text extends Control
 	
 	public void setValues (Object obj)
 	{
-		if (textF instanceof JSpinner)
-			((JSpinner) (textF)).setValue(obj);
+		if (compo instanceof JSpinner)
+			((JSpinner) (compo)).setValue(obj);
 		else
-			((JTextField) (textF)).setText((String)obj);
+			((JTextField) (compo)).setText((String)obj);
 	}
 }
