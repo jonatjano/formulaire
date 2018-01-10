@@ -30,8 +30,11 @@ import iut.algo.form.FormController;
  */
 public class Frame extends JFrame implements ActionListener
 {
-	public static Language language;
-	private FormKeyListener 	fKeyListener;
+	public static final int X_AXIS = 0;
+	public static final int Y_AXIS = 1;
+
+	public static Language	language;
+	private FormKeyListener fKeyListener;
 
 	private int				formWidth;
 	private int				formHeight;
@@ -41,10 +44,10 @@ public class Frame extends JFrame implements ActionListener
 
 	/** Panel principal prenant l'intégralité de la frame */
 	private JPanel 			mainPanel;
-	/** Panel contenant le formulaire, avec un léger décalage par rapport au bord */
+	/** Panel contenant le corps de la fenêtre, avec un léger décalage par rapport au bord */
 	private JPanel 			secondaryPanel;
-	/** Panel supérieur du formulaire */
-	private JPanel 			upperPanel;
+	/** Panel supérieur, contenant le formulaire */
+	private JPanel 			formPanel;
 	/** Panel inférieur du formulaire */
 	private JPanel 			lowerPanel;
 
@@ -80,27 +83,29 @@ public class Frame extends JFrame implements ActionListener
 
 
 		/*~~~~~~~~~~~~~~~~~~~*/
-		/*  Panel formulaire */
+		/*  Panel secondaire */
 		/*~~~~~~~~~~~~~~~~~~~*/
 
 		this.secondaryPanel	= new JPanel();
 		this.secondaryPanel.setLayout( new BoxLayout(this.secondaryPanel, BoxLayout.Y_AXIS) );
 
-
 		/*~~~~~~~~~~~~~~~~~~~*/
 		/*  Panel supérieur  */
 		/*~~~~~~~~~~~~~~~~~~~*/
 
-		this.formWidth	= (int) (width - 1/15f * width);
+		this.formWidth	= (int) (width - 1/15f*width);
 		this.formHeight	= Math.max(0, height - 100);
 
-		this.upperPanel	= new JPanel();
-		this.upperPanel.setLayout( null );
-		this.upperPanel.setBackground( Frame.obtainFormColor() );
-		this.upperPanel.setPreferredSize( new Dimension(this.formWidth, this.formHeight) );
-		this.upperPanel.setBorder( BorderFactory.createLineBorder(Color.black) );
+		this.formPanel	= new JPanel();
+		this.formPanel.setLayout( null );
+		this.formPanel.setBackground( Frame.obtainFormColor() );
+		this.formPanel.setPreferredSize( new Dimension(this.formWidth, this.formHeight) );
+		this.formPanel.setBorder( BorderFactory.createLineBorder(Color.black) );
+		
+		JScrollPane scrollPane = new JScrollPane( this.formPanel );
+		scrollPane.setPreferredSize( new Dimension(this.formWidth, this.formHeight) );
 
-		this.secondaryPanel.add( BorderLayout.CENTER, upperPanel );
+		this.secondaryPanel.add( BorderLayout.CENTER, scrollPane );
 
 
 		/*~~~~~~~~~~~~~~~~~~~*/
@@ -109,9 +114,9 @@ public class Frame extends JFrame implements ActionListener
 
 		this.lowerPanel	= new JPanel();
 		this.lowerPanel.setLayout( new FlowLayout(FlowLayout.LEFT) );
-		validateB = new JButton("Valider");
+		validateB 		= new JButton("Valider");
 		validateB.addActionListener(this);
-		deleteB	= new JButton("Effacer");
+		deleteB			= new JButton("Effacer");
 		deleteB.addActionListener(this);
 
 		this.lowerPanel.add(validateB);
@@ -149,6 +154,9 @@ public class Frame extends JFrame implements ActionListener
 
 	public static Frame createFrame (Element root)
 	{
+		// La position la plus éloignée
+		Dimension furthestLocation			= new Dimension(0, 0);
+
 		// Booléen indiquant si les éléments sont placés avec les positions précisées
 		// par l'utilisateur, ou s'ils sont placés automatiquement
 		boolean		isPlacedAutomatically	= false;
@@ -164,6 +172,7 @@ public class Frame extends JFrame implements ActionListener
 		int 	length	= 0;
 		int 	frameX	= Integer.parseInt( root.getAttribute("x") );
 		int 	frameY	= Integer.parseInt( root.getAttribute("y") );
+
 		switch (Frame.language)
 		{
 			case FR:
@@ -251,7 +260,9 @@ public class Frame extends JFrame implements ActionListener
 							// Si le noeud est un élément, ajoute l'attribut label aux choix possibles
 							if ( attrChoice != null &&
 								 (nodeChoice.getNodeName().equals("choix") || nodeChoice.getNodeName().equals("choice")) )
+							{
 								choices[j] = attrChoice.getNamedItem("label").getNodeValue();
+							}
 						}
 
 						control = new Dropdown( label, id, x, y, choices );
@@ -295,6 +306,16 @@ public class Frame extends JFrame implements ActionListener
 						control = new Calendar(label, id, x, y);
 						break;
 				}
+
+
+				// Met à jour la position la plus éloignée si besoin
+				int furthestX = control.getX() + control.getPanel().getSize().width;
+				int furthestY = control.getY() + control.getPanel().getSize().height;
+
+				if ( furthestLocation.width < furthestX )	furthestLocation.width	= furthestX;
+				if ( furthestLocation.height < furthestY )	furthestLocation.height = furthestY;
+
+
 				// Cache l'élément
 				control.getPanel().setVisible(false);
 				// Ajoute au formulaire
@@ -308,6 +329,7 @@ public class Frame extends JFrame implements ActionListener
 		// soit le focus
 		frame.addKeyListenerToAllComponents();
 
+
 		// Range les controles par identifiant
 		Collections.sort( frame.controls, new Comparator<Control>() {
 			@Override
@@ -320,7 +342,7 @@ public class Frame extends JFrame implements ActionListener
 		// Affiche tous éléments automatiquement si au moins l'un d'entre eux n'a pas de x ou de y
 		if (isPlacedAutomatically)
 		{
-			frame.placeControlsAutomatically();
+			furthestLocation = frame.placeControlsAutomatically();
 		}
 		// Sinon, affiche tous éléments comme l'utilisateur l'a choisi
 		else
@@ -329,6 +351,9 @@ public class Frame extends JFrame implements ActionListener
 				controlToPlace.getPanel().setVisible(true);
 		}
 
+		// Modifie la taille du formulaire en fonction du contenu
+		frame.formPanel.setPreferredSize( furthestLocation );
+		System.out.println(furthestLocation);
 		return frame;
 	}
 
@@ -340,24 +365,30 @@ public class Frame extends JFrame implements ActionListener
 		if (control == null ) {
 			return;
 		}
-		this.upperPanel.add( control.getPanel() );		// Ajoute l'élément physiquement à l'interface
+		this.formPanel.add( control.getPanel() );		// Ajoute l'élément physiquement à l'interface
 		this.controls.add( control );					// Ajoute l'élément à la liste des éléments du formulaire
 
 		/* Ajout du panel identifiant */
-		this.upperPanel.add( control.getIdPanel() );
+		this.formPanel.add( control.getIdPanel() );
 
 		/* Ajout du panel type */
-		this.upperPanel.add( control.getTypePanel() );
+		this.formPanel.add( control.getTypePanel() );
 	}
 
 	/**
 	 * Permet de placer tous les éléments automatiquement
 	 */
-	public void placeControlsAutomatically ()
+	public Dimension placeControlsAutomatically (int scrollAxis, boolean isStoppedWhenOutOfBounds)
 	{
+		Dimension furthestLocation	= new Dimension(0, 0);
+
+		int furthestX		= 0;
+		int furthestY		= 0;
+
 		int totalWidth		= 0;	// Largeur de toutes les colonnes déjà créées
 		int currentHeight	= 0;	// La hauteur de la colonne, réinitialisée quand la colonne est pleine
 		int currentWidth	= 0;	// La largeur de la colonne, basée sur la largeur du plus grand élément
+		int indexRow		= 0;	// L'index de la ligne de l'élément courant
 		List<Control> colControls	= new ArrayList<Control>();
 
 		int paddingX		= 35;
@@ -366,12 +397,33 @@ public class Frame extends JFrame implements ActionListener
 		// Parcourt tous les éléments du formulaire à placer
 		for (Control control : this.controls)
 		{
-			// Ajoute les éléments à une nouvelle colonne quand la hauteur cumulé des éléments dépasse celle
+			if 		( scrollAxis == Frame.Y_AXIS )
+			{
+				// Si la hauteur dépasse celle du formulaire, les éléments sont cachés
+				if ( currentHeight + control.obtainHeight() > this.formHeight && isStoppedWhenOutOfBounds )
+				{
+					control.getPanel().setVisible(false);
+				}
+				else
+				{
+					control.move( paddingX, 10 + 5*indexRow++ + currentHeight );
+					control.getPanel().setVisible(true);
+				}
+
+
+				// Met à jour la position la plus éloignée si besoin
+				furthestX = control.getX() + control.getPanel().getSize().width;
+				furthestY = control.getY() + control.getPanel().getSize().height;
+
+				if ( furthestLocation.width < furthestX )	furthestLocation.width	= furthestX;
+				if ( furthestLocation.height < furthestY )	furthestLocation.height = furthestY;
+			}
+			// Ajoute les éléments à une nouvelle colonne quand la hauteur cumulée des éléments dépasse celle
 			// du formulaire
-			if ( currentHeight + control.obtainHeight() > this.formHeight )
+			else if ( currentHeight + control.obtainHeight() > this.formHeight )
 			{
 				// Si les éléments à placer sur cette colonne dépasse, il n'y a plus rien à faire : le formulaire est plein
-				if ( totalWidth + currentWidth + paddingX > this.formWidth )
+				if ( totalWidth + currentWidth + paddingX > this.formWidth && isStoppedWhenOutOfBounds )
 				{
 					this.hideControls( colControls );
 				}
@@ -379,22 +431,31 @@ public class Frame extends JFrame implements ActionListener
 				{
 					// Place les éléments de la colonne
 					currentHeight	= 0;
-					int indexRow	= 0;
+					indexRow		= 0;
+
 					for (Control controlToPlace : colControls)
 					{
 						controlToPlace.move( paddingX + totalWidth, 10 + 5*indexRow++ + currentHeight );
 						controlToPlace.getPanel().setVisible(true);
 						currentHeight += controlToPlace.obtainHeight();
+
+
+						// Met à jour la position la plus éloignée si besoin
+						furthestX = control.getX() + control.getPanel().getSize().width;
+						furthestY = control.getY() + control.getPanel().getSize().height;
+
+						if ( furthestLocation.width < furthestX )	furthestLocation.width	= furthestX;
+						if ( furthestLocation.height < furthestY )	furthestLocation.height = furthestY;
 					}
 				}
-				
+
 				// Réinitialise et incrémente les attributs
 				totalWidth 		+= currentWidth;
 				currentWidth	= currentHeight = 0;
 				colControls		= new ArrayList<Control>();
 			}
 
-			colControls.add(control);
+			colControls.add( control );
 			currentHeight += control.obtainHeight();
 
 			// Met à jour la largeur de la colonne si celle de l'élément courant lui est supérieure
@@ -402,30 +463,42 @@ public class Frame extends JFrame implements ActionListener
 				currentWidth = control.obtainWidth();
 		}
 
-		/* Gère les éléments restants */
-		if ( totalWidth + paddingX > this.formWidth )
+		/* Gère les éléments restants quand géré par colonnes */
+		if (scrollAxis == X_AXIS)
 		{
-			this.hideControls( colControls );
-		}
-		else
-		{
-			int indexRow = currentHeight = 0;
-			for (Control controlToPlace : colControls)
+			if ( isStoppedWhenOutOfBounds && totalWidth + paddingX > this.formWidth )
 			{
-				if (currentHeight + controlToPlace.obtainHeight() <= this.formWidth)
+				this.hideControls( colControls );
+			}
+			else
+			{
+				indexRow = currentHeight = 0;
+				for (Control controlToPlace : colControls)
 				{
-					controlToPlace.move( paddingX + totalWidth, 10 + 5*indexRow++ + currentHeight );
-					controlToPlace.getPanel().setVisible(true);
-				}
-				else
-					this.hideControls( controlToPlace );
+					if (currentHeight + controlToPlace.obtainHeight() <= this.formWidth)
+					{
+						controlToPlace.move( paddingX + totalWidth, 10 + 5*indexRow++ + currentHeight );
+						controlToPlace.getPanel().setVisible(true);
+					}
+					else
+						controlToPlace.getPanel().setVisible(false);
 
-				currentHeight += controlToPlace.obtainHeight();
+					currentHeight += controlToPlace.obtainHeight();
+				}
 			}
 		}
 
-
 		this.majIhm();
+		return furthestLocation;
+	}
+
+	/**
+	 * Place automatiquement tous les éléments d'un formulaire en fonction de leur identifiant sans s'arrêter
+	 * quand les éléments débordent de l'interface
+	 */
+	public Dimension placeControlsAutomatically ()
+	{
+		return this.placeControlsAutomatically(Frame.Y_AXIS, false);
 	}
 
 	/**
@@ -511,7 +584,7 @@ public class Frame extends JFrame implements ActionListener
 	 */
 	public JPanel obtainForm ()
 	{
-		return this.upperPanel;
+		return this.formPanel;
 	}
 
 	/**
@@ -552,9 +625,12 @@ public class Frame extends JFrame implements ActionListener
 	}
 
 
-	public static void main (String[] args)
+	/**
+	 * Tests à la main de la frame, sans fichier XML
+	 */
+	/*public static void main (String[] args)
 	{
-		/*Frame frame = new Frame(1200, 600, 200, 50);
+		Frame frame = new Frame(1200, 600, 200, 50);
 
 		Checkbox 	checkbox 	= new Checkbox("Mangeable", "a01", 20, 25);
 		Text 		text1 		= new Text("Nom", "a02", BaseType.String, 20, 50);
@@ -570,6 +646,6 @@ public class Frame extends JFrame implements ActionListener
 		frame.addControl( dropdown );
 		frame.addControl( buttons );
 		frame.addControl( text3 );
-		frame.addControl( array );*/
-	}
+		frame.addControl( array );
+	}*/
 }
