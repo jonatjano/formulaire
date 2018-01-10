@@ -18,6 +18,7 @@
 			<bouton>25</bouton>
 		</boutons>
 
+		<calendrier x="300" y="300" id="m003" label="date"/>
 
 	</fenetre>
 </form>
