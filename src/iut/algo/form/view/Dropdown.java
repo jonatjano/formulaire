@@ -35,7 +35,7 @@ public class Dropdown extends Control
 		this.labelL.setForeground(Color.GRAY);
 		this.labelL.setPreferredSize( new Dimension(Control.LABEL_WIDTH, this.panel.getSize().height) );
 		this.dropdownD	= new JComboBox(choices);
-		this.dropdownD.setPreferredSize( new Dimension(width, this.panel.getSize().height) );
+		this.dropdownD.setPreferredSize( new Dimension(width, (int) (this.panel.getSize().height - (Control.DFLT_HEIGHT / 5f))) );
 		this.dropdownD.setEditable(true);
 
 
@@ -64,5 +64,15 @@ public class Dropdown extends Control
 
 		// Enfin, la première valeur est celle mise en valeur
 		this.dropdownD.setSelectedIndex(0);
+	}
+
+	/**
+	 * Retourne la valeur contenu dans l'élément du formulaire
+	 * @return La valeur rentrée par l'utilisateur dans cet élément
+	 */
+	@Override
+	public Object obtainValue ()
+	{
+		return null;
 	}
 }

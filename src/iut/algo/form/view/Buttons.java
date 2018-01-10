@@ -79,4 +79,14 @@ public class Buttons extends Control
 	{
 		this.buttonList.get(0).setSelected(true);
 	}
+
+	/**
+	 * Retourne la valeur contenu dans l'élément du formulaire
+	 * @return La valeur rentrée par l'utilisateur dans cet élément
+	 */
+	@Override
+	public Object obtainValue ()
+	{
+		return null;
+	}
 }

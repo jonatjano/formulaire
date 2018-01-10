@@ -28,19 +28,29 @@ public class Checkbox extends Control
 
 		/* Création de la case à cocher */
 
-		this.labelL		= new JLabel( String.format("%s : ", this.label), SwingConstants.RIGHT );
-		this.labelL.setForeground(Color.GRAY);
-		this.labelL.setPreferredSize( new Dimension(Control.LABEL_WIDTH, this.panel.getSize().height) );
+		if (label != null)
+		{
+			this.labelL		= new JLabel( String.format("%s : ", this.label), SwingConstants.RIGHT );
+			this.labelL.setForeground(Color.GRAY);
+			this.labelL.setPreferredSize( new Dimension(Control.LABEL_WIDTH, this.panel.getSize().height) );
+
+			this.panel.add( labelL );
+		}
 
 		this.checkbox	= new JCheckBox();
 
-		this.panel.add( labelL );
+		
 		this.panel.add( checkbox );
 	}
 
 	public Checkbox (String label, String id, int x, int y)
 	{
 		this(label, id, Control.DFLT_WIDTH, x, y);
+	}
+
+	public Checkbox (String id, int width, int x, int y)
+	{
+		this(null, id, width, x, y);
 	}
 
 	/**
@@ -50,5 +60,15 @@ public class Checkbox extends Control
 	public void reset ()
 	{
 		this.checkbox.setSelected( this.baseValue );
+	}
+
+	/**
+	 * Retourne la valeur contenu dans l'élément du formulaire
+	 * @return La valeur rentrée par l'utilisateur dans cet élément
+	 */
+	@Override
+	public Object obtainValue ()
+	{
+		return null;
 	}
 }

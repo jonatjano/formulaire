@@ -38,9 +38,15 @@ public class Text extends Control
 
 		/* Création de la zone texte */
 
-		this.labelL	= new JLabel( String.format("%s : ", this.label), SwingConstants.RIGHT );
-		this.labelL.setForeground(Color.GRAY);
-		this.labelL.setPreferredSize( new Dimension(Control.LABEL_WIDTH, this.panel.getSize().height) );
+		if (label != null)
+		{
+			this.labelL	= new JLabel( String.format("%s : ", this.label), SwingConstants.RIGHT );
+			this.labelL.setForeground(Color.GRAY);
+			this.labelL.setPreferredSize( new Dimension(Control.LABEL_WIDTH, this.panel.getSize().height) );
+
+			this.panel.add( labelL );
+		}
+
 
 		SpinnerModel spinnerModel;
 
@@ -66,10 +72,7 @@ public class Text extends Control
 				break;
 		}
 
-		this.textF.setPreferredSize( new Dimension(width, this.panel.getSize().height) );
-
-
-		this.panel.add( labelL );
+		this.textF.setPreferredSize( new Dimension(width, (int) (this.panel.getSize().height - (Control.DFLT_HEIGHT / 5f))) );
 		this.panel.add( textF );
 	}
 
@@ -79,6 +82,14 @@ public class Text extends Control
 	public Text (String label, String id, BaseType type, int x, int y)
 	{
 		this(label, id, type, Control.DFLT_WIDTH, x, y);
+	}
+
+	/**
+	 * Crée un objet Texte, qui comprend une zone de texte avec laquelle il est possible d'interargir
+	 */
+	public Text (String id, BaseType type, int width, int x, int y)
+	{
+		this(null, id, type, width, x, y);
 	}
 
 
@@ -99,5 +110,15 @@ public class Text extends Control
 			JSpinner field = (JSpinner) (this.textF);
 			field.setValue(0);
 		}
+	}
+
+	/**
+	 * Retourne la valeur contenu dans l'élément du formulaire
+	 * @return La valeur rentrée par l'utilisateur dans cet élément
+	 */
+	@Override
+	public Object obtainValue ()
+	{
+		return null;
 	}
 }

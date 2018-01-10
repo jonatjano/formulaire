@@ -9,6 +9,10 @@ import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 
 import java.awt.Component;
 import java.awt.Font;
@@ -18,7 +22,11 @@ import java.awt.GridLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Zone de texte à placer dans le formulaire
@@ -27,29 +35,69 @@ import java.util.ArrayList;
  */
 public class Array extends Control
 {
+	class ArrayListener implements ActionListener
+	{
+		private int prevR;
+		private int prevC;
+
+
+		public void actionPerformed (ActionEvent e)
+		{
+			if (e.getSource() instanceof JButton)
+			{
+				String[] pos = e.getActionCommand().split(";");
+
+				int row = Integer.parseInt( pos[0] );
+				int col = Integer.parseInt( pos[1] );
+
+
+				// Enregistrement dans le tableau de valeurs
+				Object value = valueControl.obtainValue();
+				tabValues[oriR + prevR][oriC + prevC] = value;
+
+				this.prevR = row;
+				this.prevC = col;
+
+
+				// Décale le tableau
+				shiftDisplay(0, 0);
+
+
+				// Change le focus pour le mettre sur l'élément à modifier
+			}
+		}
+	}
+
+
 	private static final int minCol = 1;
 	private static final int minRow = 1;
 	private static final int maxCol = 5;
 	private static final int maxRow = 5;
 
-	private Object[][] 	objects;
-	private JLabel 		labelL;
+	private static final int gapX	= 10;
 
-	private int 		nbC;
-	private int 		nbR;
+	private Object[][] 		objects;
+	private JLabel 			labelL;
 
-	private JPanel 		arrayP;
-	private Control 	cellControl;
+	private int				oriC;
+	private int				oriR;
 
-	private Object[][]	tabValues;
+	private JPanel 			arrayP;
+	private JPanel 			valuePanel;
+	private Control			valueControl;
+
+	private List<JLabel>	colLabels;
+	private List<JLabel>	rowLabels;
+
+	private Object[][]		tabValues;
 
 
 	public Array (String label, String id, BaseType type, int width, int x, int y, int nbR, int nbC)
 	{
 		super(label, id, type, width, x, y);
 		this.type	= type;
-		this.nbR	= nbR;
-		this.nbC	= nbC;
+		this.oriC	= 0;
+		this.oriR	= 0;
 
 
 		// Les dimensions du tableau
@@ -57,7 +105,9 @@ public class Array extends Control
 		int tabHeight	= (Math.min(5, nbR) + 2) * 25;
 
 		this.panel.setLayout( null );
-		this.panel.setBounds( x, y, tabWidth + width + Control.LABEL_WIDTH, tabHeight );
+		this.panel.setBounds( x, y, tabWidth + width + Control.LABEL_WIDTH + Array.gapX, tabHeight );
+
+		this.typePanel.setBounds( x + width + Control.LABEL_WIDTH + tabWidth + Array.gapX, y, 100, Control.DFLT_HEIGHT );
 
 
 		/*~~~~~~~~~~~~~~~~~~~~~*/
@@ -69,16 +119,20 @@ public class Array extends Control
 		this.labelL.setBounds( 0, 0, Control.LABEL_WIDTH, Control.DFLT_HEIGHT );
 		this.labelL.setForeground(Color.GRAY);
 
-		this.panel.add( labelL );
+		this.panel.add( this.labelL );
 
 
 		/* Tableau */
+		this.colLabels		= new ArrayList<JLabel>();
+		this.rowLabels		= new ArrayList<JLabel>();
+
 		int clampedCol 		= Math.max( 0, Math.min(Array.maxCol, nbC) );
 		int clampedRow 		= Math.max( 0, Math.min(Array.maxRow, nbR) );
 
 		this.arrayP			= new JPanel( new GridLayout(clampedRow + 2, clampedCol + 2) );
 		this.arrayP.setBounds( Control.LABEL_WIDTH, 0, tabWidth, tabHeight );
-		this.arrayP.setBackground( Frame.obtainFormColor() );
+		this.arrayP.setBackground( Color.lightGray );
+		this.arrayP.setBorder( new CompoundBorder(BorderFactory.createLineBorder(Color.black), new EmptyBorder(0,Array.gapX,0,0)) );
 
 		this.panel.add( this.arrayP );
 
@@ -95,7 +149,18 @@ public class Array extends Control
 		{
 			boolean inRowBounds = i >= 0 && i < clampedRow;
 
-			this.arrayP.add( new JLabel((inRowBounds ? "" + (clampedRow - i - 1) : "")) );
+			// Ajout des labels des colonnes à la liste correspondante
+			JLabel labelCol = null;
+			if (inRowBounds)
+			{
+				labelCol = new JLabel( String.format("%d", clampedRow - i - 1) );
+				this.colLabels.add( labelCol );
+			}
+			else
+			{
+				labelCol = new JLabel();
+			}
+			this.arrayP.add( labelCol );
 
 			/* CORPS */
 			for (int j = 0; j < clampedCol; j++)
@@ -104,8 +169,28 @@ public class Array extends Control
 
 				if (inColBounds)
 				{
-					if (inRowBounds)	this.arrayP.add( new JButton() );
-					else				this.arrayP.add( new JLabel(((i < 0) ? "" : "" + j), SwingConstants.CENTER) );
+					if (inRowBounds)
+					{
+						JButton cellB = new JButton();
+						cellB.addActionListener( new ArrayListener() );
+						cellB.setActionCommand( String.format("%d;%d", clampedRow - i - 1, j) );
+						this.arrayP.add( cellB );
+					}
+					else
+					{
+						// Ajout des labels des lignes à la liste correspondante
+						JLabel labelRow = null;
+						if (i >= 0)
+						{
+							labelRow = new JLabel( String.format("%d", j), SwingConstants.CENTER );
+							this.rowLabels.add( labelRow );
+						}
+						else
+						{
+							labelRow = new JLabel();
+						}
+						this.arrayP.add( labelRow );
+					}
 				}
 				else
 					this.arrayP.add( new JLabel() );
@@ -120,12 +205,23 @@ public class Array extends Control
 		/*  Panel de modification  */
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-		if (type == BaseType.Boolean)	this.cellControl = new Checkbox("value", "value", 0, 0);
-		else							this.cellControl = new Text("value", "value", type, 0, 0);
+		this.valuePanel = new JPanel();
+		this.valuePanel.setBackground( Frame.obtainFormColor() );
+		this.valuePanel.setLayout( new GridLayout(2, 1) );
+		this.valuePanel.setBounds( tabWidth + Control.LABEL_WIDTH + Array.gapX, (int) (tabHeight / 4f), width, (int) (tabHeight / 2f) );
 
-		this.cellControl.getPanel().setBorder( BorderFactory.createLineBorder(Color.red) );
-		this.cellControl.getPanel().setBounds( tabWidth + Control.LABEL_WIDTH, 0, width, Control.DFLT_HEIGHT );
-		this.panel.add( cellControl.getPanel() );
+		JLabel valueL = new JLabel( "Value :", SwingConstants.LEFT );
+		valueL.setForeground( Color.GRAY );
+
+		this.valuePanel.add( valueL );
+
+		if (type == BaseType.Boolean)		this.valueControl	= new Checkbox("cdfz", width - 11, 0, 0);
+		else								this.valueControl	= new Text("dzdz", type, width - 11, 0, 0);
+
+		this.valuePanel.add( valueControl.getPanel() );
+
+
+		this.panel.add( this.valuePanel );
 	}
 
 	public Array (String label, String id, BaseType type, int x, int y, int nbR, int nbC)
@@ -134,11 +230,36 @@ public class Array extends Control
 	}
 
 	/**
+	 * Décale l'affichage du tableau
+	 * @param deltaR Décalage en ligne
+	 * @param deltaC Décalage en colonne
+	 */
+	private void shiftDisplay (int deltaR, int deltaC)
+	{
+
+	}
+
+	/**
 	* Remet l'élément à son état initial
 	*/
 	@Override
 	public void reset ()
 	{
-		//this.checkbox.setSelected( this.baseValue );
+		for (Object[] row : tabValues)
+			for (Object col : row)
+				col = null;
+
+		oriR = oriC = 0;
+		// DEPLACER DANS LE TABLEAU (RESET QUOI)
+	}
+
+	/**
+	 * Retourne la valeur contenu dans l'élément du formulaire
+	 * @return La valeur rentrée par l'utilisateur dans cet élément
+	 */
+	@Override
+	public Object obtainValue ()
+	{
+		return null;
 	}
 }

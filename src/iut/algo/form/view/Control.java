@@ -5,6 +5,7 @@ import iut.algo.form.job.BaseType;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.CompoundBorder;
@@ -23,7 +24,7 @@ import java.awt.Color;
 public abstract class Control
 {
 	public final static int DFLT_WIDTH	= 150;
-	public final static int DFLT_HEIGHT	= 30;
+	public final static int DFLT_HEIGHT	= 35;
 	public final static int LABEL_WIDTH = 100;
 
 	/** Position sur l'axe des abscisses de l'élément */
@@ -60,12 +61,12 @@ public abstract class Control
 		/* Création du panel d'identifiant */
 
 		this.idPanel	= new JPanel();
-		this.idPanel.setBounds(x - 25, y, 25, Control.DFLT_HEIGHT);
+		this.idPanel.setBounds(x - Control.DFLT_HEIGHT, y, Control.DFLT_HEIGHT, Control.DFLT_HEIGHT);
 		this.idPanel.setLayout( new BorderLayout() );
 		this.idPanel.setBorder( BorderFactory.createLineBorder(Color.black) );
 		this.idPanel.setBackground( new Color(0.86f, 0.34f, 0.53f) );
 
-		JLabel	idL		= new JLabel(id);
+		JLabel	idL		= new JLabel(id, SwingConstants.CENTER);
 		idL.setFont( font.deriveFont(font.getStyle() | Font.BOLD) );
 
 		this.idPanel.add( idL );
@@ -74,7 +75,7 @@ public abstract class Control
 		/* Création du panel de type */
 
 		this.typePanel	= new JPanel();
-		this.typePanel.setBounds(width + Control.LABEL_WIDTH + 50, y, 100, Control.DFLT_HEIGHT);
+		this.typePanel.setBounds( x + width + Control.LABEL_WIDTH + 25, y, 100, Control.DFLT_HEIGHT );
 		this.typePanel.setLayout( new BorderLayout() );
 		this.typePanel.setBackground( new Color(0.60f, 0.90f, 0.35f) );
 		this.typePanel.setBorder( new CompoundBorder(BorderFactory.createLineBorder(Color.black), new EmptyBorder(3,3,3,3)) );
@@ -132,4 +133,10 @@ public abstract class Control
 	 * Remet l'élément à son état initial
 	 */
 	public abstract void reset ();
+	
+	/**
+	 * Retourne la valeur contenu dans l'élément du formulaire
+	 * @return La valeur rentrée par l'utilisateur dans cet élément
+	 */
+	public abstract Object obtainValue ();
 }
