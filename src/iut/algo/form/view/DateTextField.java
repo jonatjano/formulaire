@@ -30,284 +30,373 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
+/**
+  * Cette classe permet la création du DatePicker
+  * Cette classe ne venant pas de nous, voici le lien vers le code original :
+  * https://stackoverflow.com/a/11739037
+  * PS : pour des soucis d'optimisation et d'ergonomie, ce code à été modifié
+  * @author Liu ghanghua
+  * @version 2012-07-31
+  */
 public class DateTextField extends JTextField {
 
-	private static String DEFAULT_DATE_FORMAT = "dd/MM/yyyy";
-	private static final int DIALOG_WIDTH = 200;
-	private static final int DIALOG_HEIGHT = 200;
+    private static String DEFAULT_DATE_FORMAT = "dd/MM/yyyy";
+    private static final int DIALOG_WIDTH = 200;
+    private static final int DIALOG_HEIGHT = 200;
 
-	private SimpleDateFormat dateFormat;
-	private DatePanel datePanel = null;
-	private JDialog dateDialog = null;
+    private SimpleDateFormat dateFormat;
+    private DatePanel datePanel = null;
+    private JDialog dateDialog = null;
 
-	public DateTextField() {
-		this(new Date());
-	}
+	/**
+	  * Constructeur de base, date par défaut(d'aujourd'hui)
+	  */
+    public DateTextField() {
+        this(new Date());
+    }
 
-	public DateTextField(Date date) {
-		setDate(date);
-		setEditable(false);
-		setCursor(new Cursor(Cursor.HAND_CURSOR));
-		addListeners();
-	}
+	/**
+	  * Constructeur permetant d'initialiser la date
+	  * @param date La date par défaut du DatePanel
+	  */
+    public DateTextField(Date date) {
+        setDate(date);
+        setEditable(false);
+        setCursor(new Cursor(Cursor.HAND_CURSOR));
+        addListeners();
+    }
 
-	private void addListeners() {
-		addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent paramMouseEvent) {
-				if (datePanel == null) {
-					datePanel = new DatePanel();
-				}
-				Point point = getLocationOnScreen();
-				point.y = point.y + 30;
-				showDateDialog(datePanel, point);
-			}
-		});
-	}
+	/**
+	  * Ajoute les MouseListeners sur le TextField
+	  */
+    private void addListeners() {
+        addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent paramMouseEvent) {
+                if (datePanel == null) {
+                    datePanel = new DatePanel();
+                }
+                Point point = getLocationOnScreen();
+                point.y = point.y + 30;
+                showDateDialog(datePanel, point);
+            }
+        });
+    }
 
-	private void showDateDialog(DatePanel dateChooser, Point position) {
-		Frame owner = (Frame) SwingUtilities
-		.getWindowAncestor(DateTextField.this);
-		if (dateDialog == null || dateDialog.getOwner() != owner) {
-			dateDialog = createDateDialog(owner, dateChooser);
-		}
-		dateDialog.setLocation(getAppropriateLocation(owner, position));
-		dateDialog.setVisible(true);
-	}
+	/**
+	  * Affiche le DatePanel
+	  * @param dateChooser le DatePanel a afficher
+	  * @param position la position à laquelle afficher le DatePanel
+	  */
+    private void showDateDialog(DatePanel dateChooser, Point position) {
+        Frame owner = (Frame) SwingUtilities
+                .getWindowAncestor(DateTextField.this);
+        if (dateDialog == null || dateDialog.getOwner() != owner) {
+            dateDialog = createDateDialog(owner, dateChooser);
+        }
+        dateDialog.setLocation(getAppropriateLocation(owner, position));
+        dateDialog.setVisible(true);
+    }
 
-	private JDialog createDateDialog(Frame owner, JPanel contentPanel) {
-		JDialog dialog = new JDialog(owner, "Date Selected", true);
-		dialog.setUndecorated(true);
-		dialog.getContentPane().add(contentPanel, BorderLayout.CENTER);
-		dialog.pack();
-		dialog.setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
-		return dialog;
-	}
+	/**
+	  * Crée le DatePanel s'il ne l'est pas
+	  * @param owner la Frame affichant le DateTextField
+	  * @param contentPanel le JPanel devant posséder le DatePanel
+	  * @return le DatePanel
+	  */
+    private JDialog createDateDialog(Frame owner, JPanel contentPanel) {
+        JDialog dialog = new JDialog(owner, "Date Selected", true);
+        dialog.setUndecorated(true);
+        dialog.getContentPane().add(contentPanel, BorderLayout.CENTER);
+        dialog.pack();
+        dialog.setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
+        return dialog;
+    }
 
-	private Point getAppropriateLocation(Frame owner, Point position) {
-		Point result = new Point(position);
-		Point p = owner.getLocation();
-		int offsetX = (position.x + DIALOG_WIDTH) - (p.x + owner.getWidth());
-		int offsetY = (position.y + DIALOG_HEIGHT) - (p.y + owner.getHeight());
+	/**
+	  * Calcule la position idéale pour afficher le DatePanel
+	  * @param owner la Frame affichant le DateTextField
+	  * @param position la position à laquelle devra etre afficher le DatePanel
+	  * @return la position exacte
+	  */
+    private Point getAppropriateLocation(Frame owner, Point position) {
+        Point result = new Point(position);
+        Point p = owner.getLocation();
+        int offsetX = (position.x + DIALOG_WIDTH) - (p.x + owner.getWidth());
+        int offsetY = (position.y + DIALOG_HEIGHT) - (p.y + owner.getHeight());
 
-		if (offsetX > 0) {
-			result.x -= offsetX;
-		}
+        if (offsetX > 0) {
+            result.x -= offsetX;
+        }
 
-		if (offsetY > 0) {
-			result.y -= offsetY;
-		}
+        if (offsetY > 0) {
+            result.y -= offsetY;
+        }
 
-		return result;
-	}
+        return result;
+    }
 
-	private SimpleDateFormat getDefaultDateFormat() {
-		if (dateFormat == null) {
-			dateFormat = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
-		}
-		return dateFormat;
-	}
+	/**
+	  * Getter du format de la date par defaut
+	  * @return le format de la date
+	  */
+    private SimpleDateFormat getDefaultDateFormat() {
+        if (dateFormat == null) {
+            dateFormat = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
+        }
+        return dateFormat;
+    }
 
-	public void setText(Date date) {
-		setDate(date);
-	}
+	/**
+	  * Override le setText du JTextField
+	  * @param date la date à laquelle on veut réinitialiser le DateTextField
+	  */
+    public void setText(Date date) {
+        setDate(date);
+    }
 
-	public void setDate(Date date) {
-		super.setText(getDefaultDateFormat().format(date));
-	}
+	/**
+	  * Setter du texte du DateTextField
+	  * @param date la date à laquelle on veut réinitialiser le DateTextField
+	  */
+    public void setDate(Date date) {
+        super.setText(getDefaultDateFormat().format(date));
+    }
 
-	public Date getDate() {
-		try {
-			return getDefaultDateFormat().parse(getText());
-		} catch (ParseException e) {
-			return new Date();
-		}
-	}
+	/**
+	  * Getter de la date choisi
+	  * @return la date qui a été choisi
+	  */
+    public Date getDate() {
+        try {
+            return getDefaultDateFormat().parse(getText());
+        } catch (ParseException e) {
+            return new Date();
+        }
+    }
 
-	private class DatePanel extends JPanel implements ChangeListener {
-		int startYear = 1980;
-		int lastYear = 2500;
+	/**
+	  * La classe gérant le calendrier affiché pour choisir la date
+	  */
+    private class DatePanel extends JPanel implements ChangeListener {
+        int startYear = 1980;
+        int lastYear = 2500;
 
-		Color backGroundColor = Color.gray;
-		Color palletTableColor = Color.white;
-		Color todayBackColor = Color.orange;
-		Color weekFontColor = Color.blue;
-		Color dateFontColor = Color.black;
-		Color weekendFontColor = Color.red;
+        Color backGroundColor = Color.gray;
+        Color palletTableColor = Color.white;
+        Color todayBackColor = Color.orange;
+        Color weekFontColor = Color.blue;
+        Color dateFontColor = Color.black;
+        Color weekendFontColor = Color.red;
 
-		Color controlLineColor = Color.pink;
-		Color controlTextColor = Color.white;
+        Color controlLineColor = Color.pink;
+        Color controlTextColor = Color.white;
 
-		JSpinner yearSpin;
-		JSpinner monthSpin;
-		JButton[][] daysButton = new JButton[6][7];
+        JSpinner yearSpin;
+        JSpinner monthSpin;
+        JButton[][] daysButton = new JButton[6][7];
 
-		DatePanel() {
-			setLayout(new BorderLayout());
-			setBorder(new LineBorder(backGroundColor, 2));
-			setBackground(backGroundColor);
+		/**
+		  * Constructeur du DatePanel
+		  */
+        DatePanel() {
+            setLayout(new BorderLayout());
+            setBorder(new LineBorder(backGroundColor, 2));
+            setBackground(backGroundColor);
 
-			JPanel topYearAndMonth = createYearAndMonthPanal();
-			add(topYearAndMonth, BorderLayout.NORTH);
-			JPanel centerWeekAndDay = createWeekAndDayPanal();
-			add(centerWeekAndDay, BorderLayout.CENTER);
+            JPanel topYearAndMonth = createYearAndMonthPanal();
+            add(topYearAndMonth, BorderLayout.NORTH);
+            JPanel centerWeekAndDay = createWeekAndDayPanal();
+            add(centerWeekAndDay, BorderLayout.CENTER);
 
-			reflushWeekAndDay();
-		}
+            reflushWeekAndDay();
+        }
 
-		private JPanel createYearAndMonthPanal() {
-			Calendar cal = getCalendar();
-			int currentYear = cal.get(Calendar.YEAR);
-			int currentMonth = cal.get(Calendar.MONTH) + 1;
+		/**
+		  * Créateur du Panel contenant l'année et le mois à choisir
+		  * @return le panel contenant l'année et le mois à choisir
+		  */
+        private JPanel createYearAndMonthPanal() {
+            Calendar cal = getCalendar();
+            int currentYear = cal.get(Calendar.YEAR);
+            int currentMonth = cal.get(Calendar.MONTH) + 1;
 
-			JPanel panel = new JPanel();
-			panel.setLayout(new FlowLayout());
-			panel.setBackground(controlLineColor);
+            JPanel panel = new JPanel();
+            panel.setLayout(new FlowLayout());
+            panel.setBackground(controlLineColor);
 
-			yearSpin = new JSpinner(new SpinnerNumberModel(currentYear,
-			startYear, lastYear, 1));
-			yearSpin.setPreferredSize(new Dimension(65, 20));
-			yearSpin.setName("Year");
-			yearSpin.setEditor(new JSpinner.NumberEditor(yearSpin, "####"));
-			yearSpin.addChangeListener(this);
-			panel.add(yearSpin);
+            yearSpin = new JSpinner(new SpinnerNumberModel(currentYear,
+                    startYear, lastYear, 1));
+            yearSpin.setPreferredSize(new Dimension(65, 20));
+            yearSpin.setName("Year");
+            yearSpin.setEditor(new JSpinner.NumberEditor(yearSpin, "####"));
+            yearSpin.addChangeListener(this);
+            panel.add(yearSpin);
 
-			JLabel yearLabel = new JLabel("Year");
-			yearLabel.setForeground(controlTextColor);
-			panel.add(yearLabel);
+            JLabel yearLabel = new JLabel("Year");
+            yearLabel.setForeground(controlTextColor);
+            panel.add(yearLabel);
 
-			monthSpin = new JSpinner(new SpinnerNumberModel(currentMonth, 1,
-			12, 1));
-			monthSpin.setPreferredSize(new Dimension(48, 20));
-			monthSpin.setName("Month");
-			monthSpin.addChangeListener(this);
-			panel.add(monthSpin);
+            monthSpin = new JSpinner(new SpinnerNumberModel(currentMonth, 1,
+                    12, 1));
+            monthSpin.setPreferredSize(new Dimension(48, 20));
+            monthSpin.setName("Month");
+            monthSpin.addChangeListener(this);
+            panel.add(monthSpin);
 
-			JLabel monthLabel = new JLabel("Month");
-			monthLabel.setForeground(controlTextColor);
-			panel.add(monthLabel);
+            JLabel monthLabel = new JLabel("Month");
+            monthLabel.setForeground(controlTextColor);
+            panel.add(monthLabel);
 
-			return panel;
-		}
+            return panel;
+        }
 
-		private JPanel createWeekAndDayPanal() {
-			String colname[] = { "S", "M", "T", "W", "T", "F", "S" };
-			JPanel panel = new JPanel();
-			panel.setFont(new Font("Arial", Font.PLAIN, 10));
-			panel.setLayout(new GridLayout(7, 7));
-			panel.setBackground(Color.white);
+		/**
+		  * Créateur du panel contenant le jour du mois à choisir
+		  * @return le panel contenant le jour du mois à choisir
+		  */
+        private JPanel createWeekAndDayPanal() {
+            String colname[] = { "S", "M", "T", "W", "T", "F", "S" };
+            JPanel panel = new JPanel();
+            panel.setFont(new Font("Arial", Font.PLAIN, 10));
+            panel.setLayout(new GridLayout(7, 7));
+            panel.setBackground(Color.white);
 
-			for (int i = 0; i < 7; i++) {
-				JLabel cell = new JLabel(colname[i]);
-				cell.setHorizontalAlignment(JLabel.CENTER);
-				if (i == 0 || i == 6) {
-					cell.setForeground(weekendFontColor);
-				} else {
-					cell.setForeground(weekFontColor);
-				}
-				panel.add(cell);
-			}
+            for (int i = 0; i < 7; i++) {
+                JLabel cell = new JLabel(colname[i]);
+                cell.setHorizontalAlignment(JLabel.CENTER);
+                if (i == 0 || i == 6) {
+                    cell.setForeground(weekendFontColor);
+                } else {
+                    cell.setForeground(weekFontColor);
+                }
+                panel.add(cell);
+            }
 
-			int actionCommandId = 0;
-			for (int i = 0; i < 6; i++)
-			for (int j = 0; j < 7; j++) {
-				JButton numBtn = new JButton();
-				numBtn.setBorder(null);
-				numBtn.setHorizontalAlignment(SwingConstants.CENTER);
-				numBtn.setActionCommand(String
-				.valueOf(actionCommandId));
-				numBtn.setBackground(palletTableColor);
-				numBtn.setForeground(dateFontColor);
-				numBtn.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent event) {
-						JButton source = (JButton) event.getSource();
-						if (source.getText().length() == 0) {
-							return;
-						}
-						dayColorUpdate(true);
-						source.setForeground(todayBackColor);
-						int newDay = Integer.parseInt(source.getText());
-						Calendar cal = getCalendar();
-						cal.set(Calendar.DAY_OF_MONTH, newDay);
-						setDate(cal.getTime());
+            int actionCommandId = 0;
+            for (int i = 0; i < 6; i++)
+                for (int j = 0; j < 7; j++) {
+                    JButton numBtn = new JButton();
+                    numBtn.setBorder(null);
+                    numBtn.setHorizontalAlignment(SwingConstants.CENTER);
+                    numBtn.setActionCommand(String
+                            .valueOf(actionCommandId));
+                    numBtn.setBackground(palletTableColor);
+                    numBtn.setForeground(dateFontColor);
+                    numBtn.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent event) {
+                            JButton source = (JButton) event.getSource();
+                            if (source.getText().length() == 0) {
+                                return;
+                            }
+                            dayColorUpdate(true);
+                            source.setForeground(todayBackColor);
+                            int newDay = Integer.parseInt(source.getText());
+                            Calendar cal = getCalendar();
+                            cal.set(Calendar.DAY_OF_MONTH, newDay);
+                            setDate(cal.getTime());
 
-						dateDialog.setVisible(false);
-					}
-				});
+                            dateDialog.setVisible(false);
+                        }
+                    });
 
-				if (j == 0 || j == 6)
-				numBtn.setForeground(weekendFontColor);
-				else
-				numBtn.setForeground(dateFontColor);
-				daysButton[i][j] = numBtn;
-				panel.add(numBtn);
-				actionCommandId++;
-			}
+                    if (j == 0 || j == 6)
+                        numBtn.setForeground(weekendFontColor);
+                    else
+                        numBtn.setForeground(dateFontColor);
+                    daysButton[i][j] = numBtn;
+                    panel.add(numBtn);
+                    actionCommandId++;
+                }
 
-			return panel;
-		}
+            return panel;
+        }
 
-		private Calendar getCalendar() {
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(getDate());
-			return calendar;
-		}
+		/**
+		  * Getter du calendrier
+		  * @return le calendrier
+		  */
+        private Calendar getCalendar() {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(getDate());
+            return calendar;
+        }
 
-		private int getSelectedYear() {
-			return ((Integer) yearSpin.getValue()).intValue();
-		}
+		/**
+		  * Getter de l'année sélectionnée
+		  * @return l'année séléctionnée
+		  */
+        private int getSelectedYear() {
+            return ((Integer) yearSpin.getValue()).intValue();
+        }
 
-		private int getSelectedMonth() {
-			return ((Integer) monthSpin.getValue()).intValue();
-		}
+		/**
+		  * Getter du mois sélectionnée
+		  * @return le mois sélectionnée
+		  */
+        private int getSelectedMonth() {
+            return ((Integer) monthSpin.getValue()).intValue();
+        }
 
-		private void dayColorUpdate(boolean isOldDay) {
-			Calendar cal = getCalendar();
-			int day = cal.get(Calendar.DAY_OF_MONTH);
-			cal.set(Calendar.DAY_OF_MONTH, 1);
-			int actionCommandId = day - 2 + cal.get(Calendar.DAY_OF_WEEK);
-			int i = actionCommandId / 7;
-			int j = actionCommandId % 7;
-			if (isOldDay) {
+		/**
+		  * Méthode permettant de recolorer le jour choisi précédement ou le
+		  * jour désormais séléctionné
+		  * @param isOldDay true si c'est le jour choisi précédemment séléctionné, false sinon
+		  */
+        private void dayColorUpdate(boolean isOldDay) {
+            Calendar cal = getCalendar();
+            int day = cal.get(Calendar.DAY_OF_MONTH);
+            cal.set(Calendar.DAY_OF_MONTH, 1);
+            int actionCommandId = day - 2 + cal.get(Calendar.DAY_OF_WEEK);
+            int i = actionCommandId / 7;
+            int j = actionCommandId % 7;
+            if (isOldDay) {
 				if (j == 0 || j == 6)
 				daysButton[i][j].setForeground(weekendFontColor);
 				else
-				daysButton[i][j].setForeground(dateFontColor);
-			} else {
-				daysButton[i][j].setForeground(todayBackColor);
-			}
-		}
+					daysButton[i][j].setForeground(dateFontColor);
+            } else {
+                daysButton[i][j].setForeground(todayBackColor);
+            }
+        }
 
-		private void reflushWeekAndDay() {
-			Calendar cal = getCalendar();
-			cal.set(Calendar.DAY_OF_MONTH, 1);
-			int maxDayNo = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-			int dayNo = 2 - cal.get(Calendar.DAY_OF_WEEK);
-			for (int i = 0; i < 6; i++) {
-				for (int j = 0; j < 7; j++) {
-					String s = "";
-					if (dayNo >= 1 && dayNo <= maxDayNo) {
-						s = String.valueOf(dayNo);
-					}
-					daysButton[i][j].setText(s);
-					dayNo++;
-				}
-			}
-			dayColorUpdate(false);
-		}
+		/**
+		  * Raffraichit l'affichage des jours
+		  */
+        private void reflushWeekAndDay() {
+            Calendar cal = getCalendar();
+            cal.set(Calendar.DAY_OF_MONTH, 1);
+            int maxDayNo = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+            int dayNo = 2 - cal.get(Calendar.DAY_OF_WEEK);
+            for (int i = 0; i < 6; i++) {
+                for (int j = 0; j < 7; j++) {
+                    String s = "";
+                    if (dayNo >= 1 && dayNo <= maxDayNo) {
+                        s = String.valueOf(dayNo);
+                    }
+                    daysButton[i][j].setText(s);
+                    dayNo++;
+                }
+            }
+            dayColorUpdate(false);
+        }
 
-		public void stateChanged(ChangeEvent e) {
-			dayColorUpdate(true);
+		/**
+		  *	si un jour à été sélectionné, cette méthode permet d'effectuer tout
+		  * les changements nécessaires
+		  * @param event l'evenement du changement
+		  */
+        public void stateChanged(ChangeEvent e) {
+            dayColorUpdate(true);
 
-			JSpinner source = (JSpinner) e.getSource();
-			Calendar cal = getCalendar();
-			if (source.getName().equals("Year")) {
-				cal.set(Calendar.YEAR, getSelectedYear());
-			} else {
-				cal.set(Calendar.MONTH, getSelectedMonth() - 1);
-			}
-			setDate(cal.getTime());
-			reflushWeekAndDay();
-		}
-	}
+            JSpinner source = (JSpinner) e.getSource();
+            Calendar cal = getCalendar();
+            if (source.getName().equals("Year")) {
+                cal.set(Calendar.YEAR, getSelectedYear());
+            } else {
+                cal.set(Calendar.MONTH, getSelectedMonth() - 1);
+            }
+            setDate(cal.getTime());
+            reflushWeekAndDay();
+        }
+    }
 }
