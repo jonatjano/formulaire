@@ -54,7 +54,7 @@ public class Calendar extends Control
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
 	@Override
-	public String obtainValues ()
+	public String obtainValue ()
 	{
 		return date.getDate().toString();
 	}
