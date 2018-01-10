@@ -11,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.w3c.dom.Element;
@@ -123,11 +125,11 @@ public class Frame extends JFrame implements ActionListener
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		addWindowListener(new WindowAdapter()
 		{
-		    public void windowClosing(WindowEvent e)
-		    {
+			public void windowClosing(WindowEvent e)
+			{
 				FormController.windowClosed();
 				dispose();
-		    }
+			}
 		});
 
 		this.mainPanel.add( secondaryPanel );
@@ -307,10 +309,19 @@ public class Frame extends JFrame implements ActionListener
 		frame.addKeyListenerToAllComponents();
 
 		// Range les controles par identifiant
-		//this.controls.sort(  );
+		Collections.sort( frame.controls, new Comparator<Control>() {
+			@Override
+			public int compare (Control control1, Control control2)
+			{
+				return control1.getId().compareTo( control2.getId() );
+			}
+		});
 
 		// Affiche tous éléments automatiquement si au moins l'un d'entre eux n'a pas de x ou de y
-		if (isPlacedAutomatically)	frame.placeControlsAutomatically();
+		if (isPlacedAutomatically)
+		{
+			frame.placeControlsAutomatically();
+		}
 		// Sinon, affiche tous éléments comme l'utilisateur l'a choisi
 		else
 		{
@@ -390,8 +401,28 @@ public class Frame extends JFrame implements ActionListener
 			if ( currentWidth < control.obtainWidth() )
 				currentWidth = control.obtainWidth();
 		}
-		// Cache les éléments restants
-		this.hideControls( colControls );
+
+		/* Gère les éléments restants */
+		if ( totalWidth + paddingX > this.formWidth )
+		{
+			this.hideControls( colControls );
+		}
+		else
+		{
+			int indexRow = currentHeight = 0;
+			for (Control controlToPlace : colControls)
+			{
+				if (currentHeight + controlToPlace.obtainHeight() <= this.formWidth)
+				{
+					controlToPlace.move( paddingX + totalWidth, 10 + 5*indexRow++ + currentHeight );
+					controlToPlace.getPanel().setVisible(true);
+				}
+				else
+					this.hideControls( controlToPlace );
+
+				currentHeight += controlToPlace.obtainHeight();
+			}
+		}
 
 
 		this.majIhm();
@@ -402,6 +433,15 @@ public class Frame extends JFrame implements ActionListener
 	 * @param control Eléments à cacher
 	 */
 	public void hideControls (List<Control> controls)
+	{
+		for (Control control : controls)
+			control.getPanel().setVisible(false);
+	}
+	/**
+	 * Cache les éléments passés en paramètres
+	 * @param control Eléments à cacher
+	 */
+	public void hideControls (Control... controls)
 	{
 		for (Control control : controls)
 			control.getPanel().setVisible(false);
@@ -501,14 +541,14 @@ public class Frame extends JFrame implements ActionListener
 
 	private static List<Component> getAllComponents(Container c)
 	{
-	    Component[] comps = c.getComponents();
-	    List<Component> compList = new ArrayList<Component>();
-	    for (Component comp : comps) {
-	        compList.add(comp);
-	        if (comp instanceof Container)
-	            compList.addAll(getAllComponents((Container) comp));
-	    }
-	    return compList;
+		Component[] comps = c.getComponents();
+		List<Component> compList = new ArrayList<Component>();
+		for (Component comp : comps) {
+			compList.add(comp);
+			if (comp instanceof Container)
+				compList.addAll(getAllComponents((Container) comp));
+		}
+		return compList;
 	}
 
 

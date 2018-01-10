@@ -124,6 +124,15 @@ public abstract class Control
 	/*-------------------*/
 
 	/**
+	 * Renvoie l'id de l'élément du formulaire
+	 * @return Identifiant de l'élément
+	 */
+	public String getId ()
+	{
+		return this.id;
+	}
+
+	/**
 	 * Renvoie le panel contenant l'élément
 	 * @return Panel de l'élément
 	 */
