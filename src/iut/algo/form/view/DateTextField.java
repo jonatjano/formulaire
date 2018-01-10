@@ -1,5 +1,7 @@
 package iut.algo.form.view;
 
+import iut.algo.form.job.Language;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -30,6 +32,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import iut.algo.form.job.Language;
+
 /**
  * Cette classe permet la création du DatePicker
  * Cette classe ne venant pas de nous, voici le lien vers le code original :
@@ -298,7 +303,12 @@ public class DateTextField extends JTextField
 		private JPanel createWeekAndDayPanel()
 		{
 			String[] colname = new String[7];
-			colname = new String[] { "S", "M", "T", "W", "T", "F", "S" };
+			switch ( iut.algo.form.view.Frame.getLang() )
+			{
+				case FR: colname = new String[] { "D", "L", "M", "M", "J", "V", "S" }; break;
+				default: colname = new String[] { "S", "M", "T", "W", "T", "F", "S" };
+			}
+
 			JPanel panel = new JPanel();
 			panel.setFont(new Font("Arial", Font.PLAIN, 10));
 			panel.setLayout(new GridLayout(7, 7));

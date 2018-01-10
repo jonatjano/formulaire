@@ -237,15 +237,14 @@ public class Array extends Control
 	 */
 	private void shiftDisplay (int deltaR, int deltaC)
 	{
-		oriR = Math.max(0, Math.min(nbR-1, oriR + deltaR));
-		oriC = Math.max(0, Math.min(nbC-1, oriC + deltaC));
+		oriR = Math.max(0, Math.min(tabValues.length, oriR + deltaR));
+		oriC = Math.max(0, Math.min(tabValues[0].length, oriC + deltaC));
 		
 		for (int i = 0; i < rowLabels(); i++)
 			rowLabels.get(i).setText(oriR + rowLabels.size() - 1 - i);
 		
 		for (int i = 0; i < colLabels(); i++)
 			colLabels.get(i).setText(oriC + i);
-		
 	}
 
 	/**
