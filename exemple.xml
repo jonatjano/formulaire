@@ -12,7 +12,7 @@
 			<choix label="uh"/>
 		</menu>
 
-		<tableau x="400" y="120" label="box" id="p03" type="chaine" nb_lig="3" nb_col="4"/>
+		<tableau x="500" y="120" label="box" id="p03" type="chaine" nb_lig="3" nb_col="4"/>
 
 		<boutons x="30" y="150" id="m002" label="bouton">
 			<bouton>25</bouton>

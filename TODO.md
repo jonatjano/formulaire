@@ -5,20 +5,20 @@
 - [x] **Je suis fini et testé**
 
 ## Primordial
-#### [ ] Paramétrage du formulaire
+#### [x] Paramétrage du formulaire
 - [x] **Le formulaire devra être paramétré dans un fichier texte**
-- [ ] Les 5 types de bases devront être gérés :
+- [x] **Les 5 types de bases devront être gérés :**
 	- [x] **int**
 	- [x] **boolean**
 	- [x] **String**
-	- [ ] char
+	- [x] **char**
 	- [x] **boolean**
-- [x] L'utilisateur pourra définir plusieurs formulaires et utiliser plusieurs formulaires dans un même programme.
+- [x] **L'utilisateur pourra définir plusieurs formulaires et utiliser plusieurs formulaires dans un même programme.**
 
 #### [ ] Les différents Contrôles à gérer.
 Les différents Contrôles devront posséder :
 - [x] **une étiquette associée**
-- [ ] un  identifiant numérique, indépendant de l'ordre dans lequel les contrôles sont définis
+- [x] **un  identifiant numérique, indépendant de l'ordre dans lequel les contrôles sont définis**
 - [ ] un positionnement Sans valeur x y les différents Controles seront placées les uns en dessous des autres dans l'ordre de leur identifiant
 - [x] **la définition de la largeur (qui par défaut sera de 150)**
 - [x] **la hauteur sera fixe, et correspondra à une hauteur standard**
@@ -31,9 +31,9 @@ Les différents Contrôles devront posséder :
 #### [ ] Un  bouton  valider,  permettra  de  rendre  la main  au  programme  appelant.  Cela  provoquera  la fermeture de la fenêtre liée au formulaire
 #### [ ] Chargement du formulaire
 - [x] **Chargement d'un Objet Formulaire à partir du nom d'un fichier**
-- [ ] Ouverture du Formulaire à l'aide d'une primitive simple. Tant  que  le  formulaire  n'aura  pas  été  définitivement  fermé,  l'ouverture affichera le formulaire dans son état précédent.
+- [x] Ouverture du Formulaire à l'aide d'une primitive simple. Tant  que  le  formulaire  n'aura  pas  été  définitivement  fermé,  l'ouverture affichera le formulaire dans son état précédent.
 - [x] **L'utilisateur  pourra  initialiser  chaque  champ  du  formulaire,  à  l'aide  d'une  primitive spécifique, avant l'ouverture du formulaire.**
-- [ ] Fermeture définitive du formulaire
+- [x] **Fermeture définitive du formulaire**
 
 #### [ ] Documentation
 - [ ] Documentation Programmeur Avec une Cartographie du programme, une table des matières par fonctionnalité
@@ -66,9 +66,9 @@ Les différents Contrôles devront posséder :
 - [ ] Une zone pour la saisie des tableaux, les dimensions du tableau seront définies par le programme utilisateur. On ne visualisera que 5 cases à la fois.
 
 #### [ ] Cinématique.
-- [ ] Pouvoir visualiser l'identifiant des différents Controles.(cf illustration 2)
-- [ ] Pouvoir visualiser les types associés aux différents Controles(cf Illustration 3)
-- [ ] Controle des valeurs pour les champs numériques
+- [x] **Pouvoir visualiser l'identifiant des différents Controles.(cf illustration 2)**
+- [x] **Pouvoir visualiser les types associés aux différents Controles(cf Illustration 3)**
+- [x] **Controle des valeurs pour les champs numériques**
 - [ ] Utilisation d'une barre de défilement pour les formulaires trop grand.C’est-à-dire ne tenant pas dans la zone définie en début de fichier de paramétrage.Nota : les deux boutons valider et effacer seront toujours visible à l'écran
 
 #### [ ] Chargement du formulaire
