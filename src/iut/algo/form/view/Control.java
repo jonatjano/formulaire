@@ -50,6 +50,9 @@ public abstract class Control
 		this.type	= type;
 		this.id		= id;
 
+		this.x		= x;
+		this.y		= y;
+
 
 		this.panel	= new JPanel();
 		this.panel.setBounds(x, y, width + Control.LABEL_WIDTH + 20, Control.DFLT_HEIGHT);
@@ -100,7 +103,10 @@ public abstract class Control
 	 */
 	public void move (int x, int y)
 	{
-		this.panel.setBounds(x, y, this.panel.getSize().width, this.panel.getSize().height);
+		this.x = x;
+		this.y = y;
+
+		this.panel.setBounds(this.x, this.y, this.panel.getSize().width, this.panel.getSize().height);
 	}
 
 
@@ -206,8 +212,7 @@ public abstract class Control
 	 * Retourne la valeur contenu dans l'élément du formulaire
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
-	public abstract Object getValues ();
+	public abstract Object getValue ();
 	
 	public abstract void setValues (Object obj);
-	
 }

@@ -49,7 +49,7 @@ public class Array extends Control
 				int col = Integer.parseInt( pos[1] );
 				
 				// Enregistrement dans le tableau de valeurs
-				Object value = valueControl.getValues();
+				Object value = valueControl.getValue();
 				tabValues[oriR + prevR][oriC + prevC] = value;
 				
 				int deltaR = 0;
@@ -358,7 +358,7 @@ public class Array extends Control
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
 	@Override
-	public Object getValues ()
+	public Object getValue ()
 	{
 		return this.tabValues;
 	}

@@ -156,6 +156,9 @@ public class Frame extends JFrame implements ActionListener
 	{
 		// La position la plus éloignée
 		Dimension furthestLocation			= new Dimension(0, 0);
+		// Padding à ajouter lorsque le formulaire déborder de l'interface
+		int paddingX	= 10;
+		int paddingY	= 10;
 
 		// Booléen indiquant si les éléments sont placés avec les positions précisées
 		// par l'utilisateur, ou s'ils sont placés automatiquement
@@ -307,7 +310,6 @@ public class Frame extends JFrame implements ActionListener
 						break;
 				}
 
-
 				// Met à jour la position la plus éloignée si besoin
 				int furthestX = control.getX() + control.getPanel().getSize().width;
 				int furthestY = control.getY() + control.getPanel().getSize().height;
@@ -328,6 +330,7 @@ public class Frame extends JFrame implements ActionListener
 		// Ajoute récursivement le key listener à tous les éléments, pour interargir avec le clavier où que
 		// soit le focus
 		frame.addKeyListenerToAllComponents();
+
 
 
 		// Range les controles par identifiant
@@ -352,8 +355,9 @@ public class Frame extends JFrame implements ActionListener
 		}
 
 		// Modifie la taille du formulaire en fonction du contenu
+		if (furthestLocation.width > frame.formWidth)	furthestLocation.width	+= paddingY;
+		if (furthestLocation.height > frame.formHeight)	furthestLocation.height += paddingX;
 		frame.formPanel.setPreferredSize( furthestLocation );
-		System.out.println(furthestLocation);
 		return frame;
 	}
 
@@ -412,6 +416,7 @@ public class Frame extends JFrame implements ActionListener
 
 
 				// Met à jour la position la plus éloignée si besoin
+				System.out.println(control.getX() + ", " + control.getY());
 				furthestX = control.getX() + control.getPanel().getSize().width;
 				furthestY = control.getY() + control.getPanel().getSize().height;
 
@@ -498,7 +503,7 @@ public class Frame extends JFrame implements ActionListener
 	 */
 	public Dimension placeControlsAutomatically ()
 	{
-		return this.placeControlsAutomatically(Frame.Y_AXIS, false);
+		return this.placeControlsAutomatically(Frame.X_AXIS, false);
 	}
 
 	/**
