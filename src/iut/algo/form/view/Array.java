@@ -75,6 +75,7 @@ public class Array extends Control
 				}
 				
 				
+				
 				int oriRTemp = oriR;
 				int oriCTemp = oriC;
 				// Décale le tableau
@@ -88,31 +89,14 @@ public class Array extends Control
 					col++;
 				if (oriC - oriCTemp == 1)
 					col--;
-					
-				for (int i = 0; i < tabButtons.length; i++)
-				{
-					tabButtons[i][prevC].setBackground(normalColor);
-				}
-				for (int i = 0; i < tabButtons[prevR].length; i++)
-				{
-					tabButtons[prevR][i].setBackground(normalColor);
-				}
 				
-				for (int i = 0; i < tabButtons.length; i++)
-				{
-					tabButtons[i][col].setBackground(selectedRowColor);
-				}
-				for (int i = 0; i < tabButtons[row].length; i++)
-				{
-					tabButtons[row][i].setBackground(selectedColColor);
-				}
+				setTabBackground(prevR, prevC, row, col);
 				
-				tabButtons[row][col].setBackground(selectedCellColor);
 				
 				prevR = row;
 				prevC = col;
 				
-				
+				valueControl.setValues(tabValues[oriR + row][oriC + col]);
 
 				// Change le focus pour le mettre sur l'élément à modifier
 			}
@@ -270,7 +254,7 @@ public class Array extends Control
 			// Ajoute des label vide pour combler les de la bordure
 			this.arrayP.add( new JLabel() );
 		}
-
+		setTabBackground(-1, -1, 0, 0);
 
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~*/
 		/*  Panel de modification  */
@@ -328,6 +312,32 @@ public class Array extends Control
 		for (int i = 0; i < colLabels.size(); i++)
 			colLabels.get(i).setText((oriC + i) + "");
 	}
+	
+	public void setTabBackground(int prevR, int prevC, int row, int col)
+	{
+		if (prevR != -1)
+		{
+			for (int i = 0; i < tabButtons.length; i++)
+			{
+				tabButtons[i][prevC].setBackground(normalColor);
+			}
+			for (int i = 0; i < tabButtons[prevR].length; i++)
+			{
+				tabButtons[prevR][i].setBackground(normalColor);
+			}
+		}
+		
+		for (int i = 0; i < tabButtons.length; i++)
+		{
+			tabButtons[i][col].setBackground(selectedRowColor);
+		}
+		for (int i = 0; i < tabButtons[row].length; i++)
+		{
+			tabButtons[row][i].setBackground(selectedColColor);
+		}
+		
+		tabButtons[row][col].setBackground(selectedCellColor);
+	}
 
 	/**
 	* Remet l'élément à son état initial
@@ -351,5 +361,10 @@ public class Array extends Control
 	public Object getValue ()
 	{
 		return this.tabValues;
+	}
+	
+	public void setValues (Object obj)
+	{
+		//TODO
 	}
 }

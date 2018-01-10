@@ -71,4 +71,9 @@ public class Checkbox extends Control
 	{
 		return checkbox.isSelected();
 	}
+	
+	public void setValues (Object obj)
+	{
+		//TODO
+	}
 }

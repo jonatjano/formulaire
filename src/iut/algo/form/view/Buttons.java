@@ -93,4 +93,9 @@ public class Buttons extends Control
 		}
 		return null;
 	}
+	
+	public void setValues (Object obj)
+	{
+		//TODO
+	}
 }

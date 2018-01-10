@@ -77,4 +77,8 @@ public class Calendar extends Control
 		return date.getDate().toString();
 	}
 
+	public void setValues (Object obj)
+	{
+		//TODO
+	}
 }
