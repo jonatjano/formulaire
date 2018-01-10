@@ -207,4 +207,7 @@ public abstract class Control
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
 	public abstract Object getValues ();
+	
+	public abstract void setValues (Object obj);
+	
 }

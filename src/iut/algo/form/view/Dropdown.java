@@ -75,4 +75,9 @@ public class Dropdown extends Control
 	{
 		return (String)(dropdownD.getSelectedItem());
 	}
+	
+	public void setValues (Object obj)
+	{
+		//TODO
+	}
 }

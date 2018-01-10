@@ -136,4 +136,12 @@ public class Text extends Control
 			default : return null;
 		}
 	}
+	
+	public void setValues (Object obj)
+	{
+		if (textF instanceof JSpinner)
+			((JSpinner) (textF)).setValue(obj);
+		else
+			((JTextField) (textF)).setText((String)obj);
+	}
 }
