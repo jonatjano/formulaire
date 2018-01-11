@@ -2,9 +2,9 @@
 	<fenetre longueur="650" titre="test" largeur="1340" x="100" y="100">
 		<case x="36" y="30" label="texte" id="p01"/>
 
-		<texte x="36" y="60" label="groupeBoutton" id="p05" type ="entier"/>
+		<texte x="36" y="60" label="groupeBoutton" id="a05" type ="entier"/>
 
-		<texte x="36" label="groupeBoutton" id="p06" type ="caractere"/>
+		<texte x="36" y="90" label="groupeBoutton" id="a06" type ="caractere"/>
 
 		<menu x="36" y="120" label="deroulant" id="p02">
 			<choix label="ah"/>
@@ -12,7 +12,7 @@
 			<choix label="uh"/>
 		</menu>
 
-		<tableau x="500" y="120" label="box" id="p03" type="chaine" nb_lig="7" nb_col="8"/>
+		<tableau x="500" y="120" label="box" id="p04" type="chaine" nb_lig="7" nb_col="8"/>
 
 		<boutons x="36" y="150" id="m002" label="bouton">
 			<bouton>25</bouton>

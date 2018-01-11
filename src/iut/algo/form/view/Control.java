@@ -10,6 +10,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.CompoundBorder;
 
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
@@ -27,6 +28,7 @@ public abstract class Control
 	public final static int DFLT_HEIGHT	= 35;
 	public final static int LABEL_WIDTH = 100;
 
+	protected Component compo;
 	/** Position sur l'axe des abscisses de l'élément */
 	protected int 		x;
 	/** Position sur l'axe des ordonnées de l'élément */
@@ -49,6 +51,9 @@ public abstract class Control
 		this.label	= label;
 		this.type	= type;
 		this.id		= id;
+
+		this.x		= x;
+		this.y		= y;
 
 
 		this.panel	= new JPanel();
@@ -77,7 +82,7 @@ public abstract class Control
 		/* Création du panel de type */
 
 		this.typePanel	= new JPanel();
-		this.typePanel.setBounds( x + width + Control.LABEL_WIDTH + 25, y, 100, Control.DFLT_HEIGHT );
+		this.typePanel.setBounds( x + this.panel.getSize().width, y, 100, Control.DFLT_HEIGHT );
 		this.typePanel.setLayout( new BorderLayout() );
 		this.typePanel.setBackground( new Color(0.60f, 0.90f, 0.35f) );
 		this.typePanel.setBorder( new CompoundBorder(BorderFactory.createLineBorder(Color.black), new EmptyBorder(3,3,3,3)) );
@@ -100,7 +105,12 @@ public abstract class Control
 	 */
 	public void move (int x, int y)
 	{
-		this.panel.setBounds(x, y, this.panel.getSize().width, this.panel.getSize().height);
+		this.x = x;
+		this.y = y;
+
+		this.panel.setBounds(this.x, this.y, this.panel.getSize().width, this.panel.getSize().height);
+		this.typePanel.setBounds( x + this.panel.getSize().width, y, 100, Control.DFLT_HEIGHT );
+		this.idPanel.setBounds( x - Control.DFLT_HEIGHT, y, Control.DFLT_HEIGHT, Control.DFLT_HEIGHT );
 	}
 
 
@@ -108,11 +118,17 @@ public abstract class Control
 	/*      Toggles      */
 	/*-------------------*/
 
+	/**
+	 * Inverse l'état de l'affichage de l'identifiant
+	 */
 	public void toggleId ()
 	{
 		this.idPanel.setVisible( !this.idPanel.isVisible() );
 	}
 
+	/**
+	 * Inverse l'état de l'affichage du type
+	 */
 	public void toggleType ()
 	{
 		this.typePanel.setVisible( !this.typePanel.isVisible() );
@@ -122,6 +138,16 @@ public abstract class Control
 	/*-------------------*/
 	/*      GETTERS      */
 	/*-------------------*/
+
+	public int getX ()
+	{
+		return this.x;
+	}
+
+	public int getY ()
+	{
+		return this.y;
+	}
 
 	/**
 	 * Renvoie l'id de l'élément du formulaire
@@ -186,6 +212,10 @@ public abstract class Control
 		return this.type;
 	}
 
+	public void requestFocus()
+	{
+		compo.requestFocus();
+	}
 
 	/**
 	 * Remet l'élément à son état initial
@@ -196,5 +226,7 @@ public abstract class Control
 	 * Retourne la valeur contenu dans l'élément du formulaire
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
-	public abstract Object getValues ();
+	public abstract Object getValue ();
+	
+	public abstract void setValues (Object obj);
 }

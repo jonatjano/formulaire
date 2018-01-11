@@ -16,7 +16,6 @@ import java.awt.Color;
  */
 public class Dropdown extends Control
 {
-	private JComboBox	dropdownD;
 	private JLabel 		labelL;
 	private Object[]	baseValues;
 
@@ -34,13 +33,13 @@ public class Dropdown extends Control
 		this.labelL		= new JLabel( String.format("%s : ", this.label), SwingConstants.RIGHT );
 		this.labelL.setForeground(Color.GRAY);
 		this.labelL.setPreferredSize( new Dimension(Control.LABEL_WIDTH, this.panel.getSize().height) );
-		this.dropdownD	= new JComboBox(choices);
-		this.dropdownD.setPreferredSize( new Dimension(width, (int) (this.panel.getSize().height - (Control.DFLT_HEIGHT / 5f))) );
-		this.dropdownD.setEditable(true);
+		this.compo	= new JComboBox(choices);
+		this.compo.setPreferredSize( new Dimension(width, (int) (this.panel.getSize().height - (Control.DFLT_HEIGHT / 5f))) );
+		((JComboBox)this.compo).setEditable(true);
 
 
 		this.panel.add( labelL );
-		this.panel.add( dropdownD );
+		this.panel.add( compo );
 	}
 
 	public Dropdown (String label, String id, int x, int y, Object[] choices)
@@ -56,14 +55,14 @@ public class Dropdown extends Control
 	public void reset ()
 	{
 		// Itère à travers tous les éléments pour rétablir leur valeur initiale
-		for (int i = 0; i < this.dropdownD.getItemCount(); i++)
+		for (int i = 0; i < ((JComboBox)this.compo).getItemCount(); i++)
 		{
-			Object obj = this.dropdownD.getItemAt(i);
+			Object obj = ((JComboBox)this.compo).getItemAt(i);
 			obj = baseValues[i];
 		}
 
 		// Enfin, la première valeur est celle mise en valeur
-		this.dropdownD.setSelectedIndex(0);
+		((JComboBox)this.compo).setSelectedIndex(0);
 	}
 
 	/**
@@ -71,8 +70,13 @@ public class Dropdown extends Control
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
 	@Override
-	public String getValues ()
+	public String getValue ()
 	{
-		return (String)(dropdownD.getSelectedItem());
+		return (String)(((JComboBox)this.compo).getSelectedItem());
+	}
+	
+	public void setValues (Object obj)
+	{
+		//TODO
 	}
 }

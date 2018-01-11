@@ -14,7 +14,6 @@ import java.awt.Color;
  */
 public class Checkbox extends Control
 {
-	private JCheckBox	checkbox;
 	private JLabel 		labelL;
 	private boolean		baseValue;
 
@@ -37,10 +36,10 @@ public class Checkbox extends Control
 			this.panel.add( labelL );
 		}
 
-		this.checkbox	= new JCheckBox();
+		this.compo	= new JCheckBox();
 
 
-		this.panel.add( checkbox );
+		this.panel.add( compo );
 	}
 
 	public Checkbox (String label, String id, int x, int y)
@@ -59,7 +58,7 @@ public class Checkbox extends Control
 	@Override
 	public void reset ()
 	{
-		this.checkbox.setSelected( this.baseValue );
+		((JCheckBox)this.compo).setSelected( this.baseValue );
 	}
 
 	/**
@@ -67,8 +66,13 @@ public class Checkbox extends Control
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
 	@Override
-	public Boolean getValues ()
+	public Boolean getValue ()
 	{
-		return checkbox.isSelected();
+		return ((JCheckBox)this.compo).isSelected();
+	}
+	
+	public void setValues (Object obj)
+	{
+		//TODO
 	}
 }
