@@ -617,7 +617,7 @@ public class Frame extends JFrame implements ActionListener
 		}
 	}
 
-	private static List<Component> getAllComponents(Container c)
+	static List<Component> getAllComponents(Container c)
 	{
 		Component[] comps = c.getComponents();
 		List<Component> compList = new ArrayList<Component>();

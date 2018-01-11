@@ -73,6 +73,6 @@ public class Checkbox extends Control
 	
 	public void setValues (Object obj)
 	{
-		//TODO
+			((JCheckBox)this.compo).setSelected(obj == null ? false : (Boolean)obj);
 	}
 }
