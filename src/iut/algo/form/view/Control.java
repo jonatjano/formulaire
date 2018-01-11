@@ -28,18 +28,25 @@ public abstract class Control
 	public final static int DFLT_HEIGHT	= 35;
 	public final static int LABEL_WIDTH = 100;
 
+	/** Composant principal associé à l'élément */
 	protected Component compo;
 	/** Position sur l'axe des abscisses de l'élément */
 	protected int 		x;
 	/** Position sur l'axe des ordonnées de l'élément */
 	protected int 		y;
 
+	/** Identifiant unique de l'élément */
 	protected String	id;
+	/** Type de l'élément */
 	protected BaseType	type;
+	/** Label sous forme de chaine de l'élément, décrivant l'élément à l'utilisateur */
 	protected String	label;
 
+	/** Panel principal contenant l'intégralité de l'élément */
 	protected JPanel	panel,
+	/** Panel pouvant être affiché ou non contenant l'identifiant de l'élément */
 						idPanel,
+	/** Panel pouvant être affiché ou non contenant le type de l'élément */
 						typePanel;
 
 
@@ -52,6 +59,7 @@ public abstract class Control
 		this.type	= type;
 		this.id		= id;
 
+		/* Positions de l'élément dans le formulaire */
 		this.x		= x;
 		this.y		= y;
 
@@ -113,6 +121,14 @@ public abstract class Control
 		this.idPanel.setBounds( x - Control.DFLT_HEIGHT, y, Control.DFLT_HEIGHT, Control.DFLT_HEIGHT );
 	}
 
+	/**
+	 * Demande le focus sur l'élément
+	 */
+	public void requestFocus()
+	{
+		compo.requestFocus();
+	}
+
 
 	/*-------------------*/
 	/*      Toggles      */
@@ -139,11 +155,19 @@ public abstract class Control
 	/*      GETTERS      */
 	/*-------------------*/
 
+	/**
+	 * Renvoie la coordonnée sur l'ax des abscisses de l'élément
+	 * @return Coordonnée "x" de l'élément
+	 */
 	public int getX ()
 	{
 		return this.x;
 	}
 
+	/**
+	 * Renvoie la coordonnée sur l'ax des abscisses de l'élément
+	 * @return Coordonnée "y" de l'élément
+	 */
 	public int getY ()
 	{
 		return this.y;
@@ -212,13 +236,9 @@ public abstract class Control
 		return this.type;
 	}
 
-	public void requestFocus()
-	{
-		compo.requestFocus();
-	}
 
 	/**
-	 * Remet l'élément à son état initial
+	 * Réinitialise l'élément, le retournant au même état que lors de sa création
 	 */
 	public abstract void reset ();
 
@@ -228,5 +248,9 @@ public abstract class Control
 	 */
 	public abstract Object getValue ();
 	
+	/**
+	 * Modifie la valeur associée à l'élément
+	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
+	 */
 	public abstract void setValues (Object obj);
 }

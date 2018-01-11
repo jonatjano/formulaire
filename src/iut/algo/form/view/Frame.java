@@ -24,19 +24,27 @@ import org.w3c.dom.NamedNodeMap;
 import iut.algo.form.FormController;
 
 /**
- * Structure de base de la fenêtre contenant le formulaire
+ * Fenêtre contenant le formulaire, dans laquelle l'utilisateur peut rentrer les valeurs qu'il désire
+ * envoyer vers son programme
  * @author Team Infotik
  * @version 2018-01-08
  */
 public class Frame extends JFrame implements ActionListener
 {
+	/** Constante indiquant que le placement automatique des éléments se fait de manière horizontale */
 	public static final int X_AXIS = 0;
+	/** Constante indiquant que le placement automatique des éléments se fait de manière verticale */
 	public static final int Y_AXIS = 1;
 
+	/** Langue de la fenêtre, mise à jour lors de la lecture du XML en fonction de celle utilisée par l'auteur */
 	public static Language	language;
+
+	/** Classe gérant l'interaction entre le clavier et le formulaire */
 	private FormKeyListener fKeyListener;
 
+	/** Largeur du formulaire, qui correspond à 14/15 de la fenêtre */
 	private int				formWidth;
+	/** Hauteur du formulaire, qui correspond à la hauteur de la fenêtre moins 100 pixels */
 	private int				formHeight;
 
 	/** Liste des éléments intégrés au formulaire */
@@ -51,10 +59,21 @@ public class Frame extends JFrame implements ActionListener
 	/** Panel inférieur du formulaire */
 	private JPanel 			lowerPanel;
 
+	/** Bouton de validation, qui envoie les informations au programme utilisateur */
 	private JButton 		validateB;
+	/** Bouton réinitialisant l'intégralité des éléments du formulaire */
 	private JButton 		deleteB;
 
 
+	/**
+	 * Création de la fenêtetre sans en spécifier le nom, qui est par défaut
+	 * une chaîne vide
+	 * @param title Nom de la fenêtre
+	 * @param width	Largeur de la fenêtre
+	 * @param height Hauteur de la fenêtre
+	 * @param x Coordonnée sur l'axe des abscisses de la fenêtre sur l'écran
+	 * @param y	Coordonnée sur l'axe des ordonnées de la fenêtre sur l'écran		
+	 */
 	public Frame (String title, int width, int height, int x, int y)
 	{
 		super();
@@ -141,17 +160,34 @@ public class Frame extends JFrame implements ActionListener
 		this.add( BorderLayout.CENTER, mainPanel );
 		this.setVisible(true);
 	}
+
+	/**
+	 * Création de la fenêtetre sans en spécifier le nom, qui est par défaut
+	 * une chaîne vide
+	 * @param width	Largeur de la fenêtre
+	 * @param height Hauteur de la fenêtre
+	 * @param x Coordonnée sur l'axe des abscisses de la fenêtre sur l'écran
+	 * @param y	Coordonnée sur l'axe des ordonnées de la fenêtre sur l'écran		
+	 */
 	public Frame (int width, int height, int x, int y)
 	{
 		this("", width, height, x, y);
 	}
 
+
+	/**
+	 * Met à jour l'affichage du formulaire
+	 */
 	public void majIhm ()
 	{
-		this.revalidate();
-		this.repaint();
+		this.formPanel.revalidate();
+		this.formPanel.repaint();
 	}
 
+	/**
+	 * Crée la fenêtre à partir de la strucuture du fichier XML passée en paramètre
+	 * @param root Elément racine du fichier XML à partir duquel est créé le formulaire
+	 */
 	public static Frame createFrame (Element root)
 	{
 		// La position la plus éloignée
@@ -363,6 +399,7 @@ public class Frame extends JFrame implements ActionListener
 
 	/**
 	 * Ajoute un élément dans le formulaire
+	 * @param control Contrôle à ajouter au formulaire
 	 */
 	public void addControl (Control control)
 	{
@@ -380,7 +417,10 @@ public class Frame extends JFrame implements ActionListener
 	}
 
 	/**
-	 * Permet de placer tous les éléments automatiquement
+	 * Permet de placer tous les éléments automatiquement en les rangeant dans l'ordre de leur identifiant
+	 * @param scrollAxis Axe sur lequel sont alignés les éléments
+	 * @param  isStoppedWhenOutOfBounds Si vrai, le formulaire ne dépassera jamais de la fenêtre, et ne requerra
+	 * jamais de barre de défilement
 	 */
 	public Dimension placeControlsAutomatically (int scrollAxis, boolean isStoppedWhenOutOfBounds)
 	{
@@ -416,7 +456,6 @@ public class Frame extends JFrame implements ActionListener
 
 
 				// Met à jour la position la plus éloignée si besoin
-				System.out.println(control.getX() + ", " + control.getY());
 				furthestX = control.getX() + control.getPanel().getSize().width;
 				furthestY = control.getY() + control.getPanel().getSize().height;
 
@@ -498,7 +537,7 @@ public class Frame extends JFrame implements ActionListener
 	}
 
 	/**
-	 * Place automatiquement tous les éléments d'un formulaire en fonction de leur identifiant sans s'arrêter
+	 * Place automatiquement tous les éléments d'un formulaire en les rangeant dans l'ordre de leur identifiant
 	 * quand les éléments débordent de l'interface
 	 */
 	public Dimension placeControlsAutomatically ()
@@ -508,7 +547,7 @@ public class Frame extends JFrame implements ActionListener
 
 	/**
 	 * Cache les éléments passés en paramètres
-	 * @param control Eléments à cacher
+	 * @param controls Eléments à cacher
 	 */
 	public void hideControls (List<Control> controls)
 	{
@@ -517,7 +556,7 @@ public class Frame extends JFrame implements ActionListener
 	}
 	/**
 	 * Cache les éléments passés en paramètres
-	 * @param control Eléments à cacher
+	 * @param controls Eléments à cacher
 	 */
 	public void hideControls (Control... controls)
 	{
@@ -532,6 +571,7 @@ public class Frame extends JFrame implements ActionListener
 
 	/**
 	 * Reset tous les éléments du formulaire à leur état initial
+	 * @param e Evènement contenant toutes les informations qui sont en lien
 	 */
 	public void actionPerformed (ActionEvent e)
 	{
@@ -578,6 +618,10 @@ public class Frame extends JFrame implements ActionListener
 	/*      GETTERS      */
 	/*-------------------*/
 
+	/**
+	 * Renvoie la couleur de base du formulaire, pour garantir une unicité entre les éléments
+	 * @return Couleur de fond du formulaire
+	 */
 	public static Color obtainFormColor ()
 	{
 		return Color.white;
@@ -593,21 +637,31 @@ public class Frame extends JFrame implements ActionListener
 	}
 
 	/**
-	 * Retourne le langage avec lequel le XML a été chargé
+	 * Retourne la langue avec lequel le XML a été chargé
+	 * @return Langue utilisée par l'auteur pour rédiger le XML
 	 */
 	public static Language getLang ()
 	{
 		return Frame.language;
 	}
 
+	/**
+	 * Renoive l'intégralité des éléments placés sur le formulaire
+	 * @return Ensemble des éléments du formulaire, même ceux qui se trouvant en dehors des limites
+	 * et qui ne peuvent être affichés
+	 */
 	public List<Control> getControls ()
 	{
 		return this.controls;
 	}
 
-	private void addKeyListenerToAllComponents()
+	/**
+	 * Ajoute le listener à tous les éléments du formulaire pour que le clavier puisse interargir
+	 * avec celui-ci quel que soit l'élément sélectionné
+	 */
+	private void addKeyListenerToAllComponents ()
 	{
-		List<Component> compList = getAllComponents(this);
+		List<Component> compList = this.getAllComponents(this);
 		for (Component comp : compList)
 		{
 			if (comp.getListeners(FormKeyListener.class).length == 0)
@@ -617,12 +671,21 @@ public class Frame extends JFrame implements ActionListener
 		}
 	}
 
-	private static List<Component> getAllComponents(Container c)
+	/**
+	 * Renvoie tous les composants de l'élément passé en paramètre
+	 * @param c Elément racine à partir duquel sont obtenus les enfants à renvoyer
+	 * @return Ensemble des composants
+	 */
+	private static List<Component> getAllComponents (Container c)
 	{
-		Component[] comps = c.getComponents();
-		List<Component> compList = new ArrayList<Component>();
-		for (Component comp : comps) {
+		Component[] 	comps 		= c.getComponents();
+		List<Component> compList	= new ArrayList<Component>();
+
+
+		for (Component comp : comps)
+		{
 			compList.add(comp);
+
 			if (comp instanceof Container)
 				compList.addAll(getAllComponents((Container) comp));
 		}

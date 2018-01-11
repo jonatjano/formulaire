@@ -29,21 +29,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Zone de texte à placer dans le formulaire
+ * Tableau à placer dans le formulaire
  * @author Team Infotik
  * @version 2018-01-08
  */
 public class Array extends Control
 {
+	/**
+	 * Listener permettant de gérer l'interaction avec le tableau pour s'y déplacer
+	 * avec le clic de la souris ou le clavier
+	 */
 	class ArrayListener implements ActionListener
 	{
-
-
 		public void actionPerformed (ActionEvent e)
 		{
 			if (e.getSource() instanceof JButton)
 			{
+				// Récupère la commande d'action associée à l'événement, contenant
+				// "<ligne>;<colonne>"
 				String[] pos = e.getActionCommand().split(";");
+
 
 				int row = Integer.parseInt( pos[0] );
 				int col = Integer.parseInt( pos[1] );
@@ -105,38 +110,71 @@ public class Array extends Control
 	}
 
 
+	/** Nombre de colonne minimum à afficher */
 	private static final int minCol = 1;
+	/** Nombre de ligne minimum à afficher */
 	private static final int minRow = 1;
+	/** Nombre de colonne maximum à afficher */
 	private static final int maxCol = 5;
+	/** Nombre de ligne maximum à afficher */
 	private static final int maxRow = 5;
 
+	/** Padding sur l'axe des abscisses à placer à droite et à gauche */
 	private static final int gapX	= 10;
 	
-	private static final Color normalColor = new Color(255,255,255);
-	private static final Color selectedRowColor = new Color(0,0,0);
-	private static final Color selectedColColor = new Color(0,0,0);
-	private static final Color selectedCellColor = new Color(255,0,0);
+	/** Couleur de base des cellules du tableau */
+	private static final Color normalColor			= new Color(255,255,255);
+	/** Couleur prise par la ligne sélectionnée */
+	private static final Color selectedRowColor 	= new Color(0,0,0);
+	/** Couleur prise par la colonne sélectionnée */
+	private static final Color selectedColColor 	= new Color(0,0,0);
+	/** Couleur prise par la cellule sélectionnée  */
+	private static final Color selectedCellColor	= new Color(255,0,0);
 
+	/** Label décrivant le contôle à l'utilisateur */
 	private JLabel 			labelL;
 
-	private int				oriC;
+	/** Index de la ligne de la cellule servant d'origine à afficher du tableau */
 	private int				oriR;
+	/** Index de la colonne de la cellule servant d'origine à afficher du tableau */
+	private int				oriC;
 	
-	private int prevR;
-	private int prevC;
+	/** Index de la ligne de la cellule sélectionnée précédente */
+	private int 			prevR;
+	/** Index de la colonne de la cellule sélectionnée précédente */
+	private int 			prevC;
 
+	/** Panel contenant uniquement les cellules le tableau */
 	private JPanel 			arrayP;
+	/** Panel contenant l'élément permettant de modifier la valeur de la cellule sélectionnée */
 	private JPanel 			valuePanel;
+	/** Controle interactible pour modifier la valeur de la cellule sélectionnée */
 	private Control			valueControl;
 
-	private List<JLabel>	colLabels;
+	/* Ensemble des labels affichant l'index des lignes affichées */
 	private List<JLabel>	rowLabels;
-	
-	private JButton[][]		tabButtons;
+	/* Ensemble des labels affichant l'index des colonnes affichées */
+	private List<JLabel>	colLabels;
 
+	/** Ensemble des cellules affichées du tableau */
+	private JButton[][]		tabButtons;
+	/** Ensemble des valeurs du tableau */
 	private Object[][]		tabValues;
 
 
+	/**
+	 * Création d'un tableau, s'affichant par un maximum de 5 cases sur 5 cases,
+	 * avec lesquelles l'utilisateur peut interargir pour en modifier le contenu
+	 * @param label Label à afficher à gauche de l'élément
+	 * @param id Identifiant unique de l'élément
+ 	 * @param type Type associé à l'élément
+	 * @param width Largeur de l'élément
+	 * @param x Coordonnée sur l'axe des abscisses de l'élément
+	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
+	 * @param nbR Nombre total de lignes du tableau
+	 * @param nbC Nombre total de colonnes du tableau
+	 * @return L'élément créé
+	 */
 	public Array (String label, String id, BaseType type, int width, int x, int y, int nbR, int nbC)
 	{
 		super(label, id, type, width, x, y);
@@ -280,6 +318,18 @@ public class Array extends Control
 		this.panel.add( this.valuePanel );
 	}
 
+	/**
+	 * Création d'un tableau, s'affichant par un maximum de 5 cases sur 5 cases,
+	 * avec lesquelles l'utilisateur peut interargir pour en modifier le contenu
+	 * @param label Label à afficher à gauche de l'élément
+	 * @param id Identifiant unique de l'élément
+ 	 * @param type Type associé à l'élément
+	 * @param x Coordonnée sur l'axe des abscisses de l'élément
+	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
+	 * @param nbR Nombre total de lignes du tableau
+	 * @param nbC Nombre total de colonnes du tableau
+	 * @return L'élément créé
+	 */
 	public Array (String label, String id, BaseType type, int x, int y, int nbR, int nbC)
 	{
 		this(label, id, type, Control.DFLT_WIDTH, x, y, nbR, nbC);
@@ -287,8 +337,8 @@ public class Array extends Control
 
 	/**
 	 * Décale l'affichage du tableau
-	 * @param deltaR Décalage en ligne
-	 * @param deltaC Décalage en colonne
+	 * @param deltaR Décalage de "deltaR" ligne(s)
+	 * @param deltaC Décalage de "deltaC" colonne(s)
 	 */
 	private void shiftDisplay (int deltaR, int deltaC)
 	{
@@ -314,7 +364,14 @@ public class Array extends Control
 			colLabels.get(i).setText((oriC + i) + "");
 	}
 	
-	public void setTabBackground(int prevR, int prevC, int row, int col)
+	/**
+	 * Crée ou met à jour l'affichage du tableau
+	 * @param prevR La précédente ligne sélectionnée
+	 * @param prevC La précédente colonne sélectionnée
+	 * @param row La précédente colonne sélectionnée
+	 * @param col La précédente colonne sélectionnée
+	 */
+	public void setTabBackground (int prevR, int prevC, int row, int col)
 	{
 		if (prevR != -1)
 		{
@@ -341,8 +398,8 @@ public class Array extends Control
 	}
 
 	/**
-	* Remet l'élément à son état initial
-	*/
+	 * Réinitialise l'élément, le retournant au même état que lors de sa création
+	 */
 	@Override
 	public void reset ()
 	{
@@ -355,7 +412,7 @@ public class Array extends Control
 	}
 
 	/**
-	 * Retourne la valeur contenu dans l'élément du formulaire
+	 * Retourne la valeur contenue dans l'élément du formulaire
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
 	@Override
@@ -364,7 +421,12 @@ public class Array extends Control
 		return this.tabValues;
 	}
 	
-	public void setValues (Object obj)
+	/**
+	 * Modifie la valeur associée à l'élément
+	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
+	 */
+	@Override
+	public void setValues (Object newValue)
 	{
 		//TODO
 	}

@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.TitledBorder;
 import javax.swing.ButtonGroup;
+import javax.swing.BoxLayout;
 
 import java.awt.GridLayout;
 import java.awt.Color;
@@ -15,15 +16,29 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 
 /**
- * Zone de texte à placer dans le formulaire
+ * Radio boutons à placer dans le formulaire
  * @author Team Infotik
  * @version 2018-01-08
  */
 public class Buttons extends Control
 {
+	/** List des radio boutons affichés contenant les valeurs choisies par l'utilisateur */
 	private ArrayList<JRadioButton> buttonList;
+	/** Groupe de bouton regroupant l'ensemble des radio boutons de l'élément du formulaire */
+	private ButtonGroup				buttonGroup;
 
 
+	/**
+	 * Création d'une liste de radio boutons, où un seul est sélectionnable à la fois, forcément associé à une liste de
+	 * chaînes de caractère
+	 * @param label Label à afficher à gauche de l'élément
+	 * @param id Identifiant unique de l'élément
+ 	 * @param width Largeur de l'élément
+	 * @param x Coordonnée sur l'axe des abscisses de l'élément
+	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
+	 * @param choices Valeurs d'origine associées à l'élément lors de sa création
+	 * @return L'élément créé
+	 */
 	public Buttons (String label, String id, int width, int x, int y, Object[] choices)
 	{
 		super(label, id, BaseType.String, width, x, y);
@@ -32,28 +47,13 @@ public class Buttons extends Control
 
 		/* Création des radio boutons */
 
-		this.panel.setLayout( new GridLayout(choices.length, 1, 0, 7) );
-		this.panel.setBounds(x, y, width, choices.length * 20 + 40);
+		this.panel.setLayout( new BoxLayout(this.panel, BoxLayout.Y_AXIS) );
 
 		// Création des radio boutons
-		ButtonGroup bg 	= new ButtonGroup();
-		this.buttonList	= new ArrayList<JRadioButton>();
+		this.setValues(choices);
 
-
-		for (Object choice : choices)
-		{
-			if (choice != null)
-			{
-				String 			choiceValue = choice.toString();
-				JRadioButton	button		= new JRadioButton( choiceValue );
-				bg.add( button );
-				this.buttonList.add(button);
-
-				this.panel.add( button );
-			}
-		}
-
-		// Si la liste de bouton en contient au moins un
+		// Si la liste de bouton en contient au moins un, le contrôle est créé
+		// Sinon, le panel est vide
 		if ( buttonList.size() != 0)
 		{
 			// Crée et ajoute une bordure à titre
@@ -62,17 +62,26 @@ public class Buttons extends Control
 
 			this.buttonList.get(0).setSelected(true);
 		}
-
 	}
 
+	/**
+	 * Création d'une liste de radio boutons, où un seul est sélectionnable à la fois, forcément associé à une liste de
+	 * chaînes de caractère
+	 * @param label Label à afficher à gauche de l'élément
+	 * @param id Identifiant unique de l'élément
+	 * @param x Coordonnée sur l'axe des abscisses de l'élément
+	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
+	 * @param choices Valeurs d'origine associées à l'élément lors de sa création
+	 * @return L'élément créé
+	 */
 	public Buttons (String label, String id, int x, int y, Object[] choices)
 	{
-		this(label, id, Control.DFLT_WIDTH, x, y, choices);
+		this( label, id, Control.DFLT_WIDTH, x, y, choices );
 	}
 
 
 	/**
-	 * Remet l'élément à son état initial
+	 * Réinitialise l'élément, le retournant au même état que lors de sa création
 	 */
 	@Override
 	public void reset ()
@@ -81,21 +90,53 @@ public class Buttons extends Control
 	}
 
 	/**
-	 * Retourne la valeur contenu dans l'élément du formulaire
+	 * Retourne la valeur contenue dans l'élément du formulaire
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
 	@Override
 	public String getValue ()
 	{
-		for ( JRadioButton button : buttonList )
-		{
-			if ( button.isSelected() ) return button.getText();
-		}
+		for (JRadioButton button : this.buttonList)
+			if ( button.isSelected() )
+				return button.getText();
+
 		return null;
 	}
 	
-	public void setValues (Object obj)
+
+	/**
+	 * Modifie la valeur associée à l'élément
+	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public void setValues (Object newValue)
 	{
-		//TODO
+		Object[] valuesToSet	= (Object[]) newValue;
+		this.buttonGroup		= new ButtonGroup();
+
+		if (this.buttonList != null)
+		{
+			for (JRadioButton button : buttonList)
+				this.panel.remove( button );
+		}
+
+		this.buttonList	= new ArrayList<JRadioButton>();
+		this.panel.setBounds(x, y, this.panel.getSize().width, valuesToSet.length * 18 + 45);
+
+
+		for (Object valueToSet : valuesToSet)
+		{
+			if (valueToSet != null)
+			{
+				String 			valueStr	= valueToSet.toString();
+				JRadioButton	button		= new JRadioButton( valueStr );
+
+				this.buttonGroup.add( button );
+				this.buttonList.add( button );
+
+				this.panel.add( button );
+			}
+		}
 	}
 }

@@ -22,17 +22,25 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Zone de texte à placer dans le formulaire
+ * Zone de texte ouvrant un calendrier à placer dans le formulaire
  * @author Team Infotik
  * @version 2018-01-08
  */
 public class Calendar extends Control
 {
+	/** Label décrivant le contôle à l'utilisateur */
 	private JLabel			labelL;
 	private DateTextField	date;
 
 	/**
-	 * Initialise un novueau calendrier
+	 * Création d'un calendrier, permettant à l'utilisateur de choisir une date de son choix, et forcément
+	 * associé au type chaine
+	 * @param label Label à afficher à gauche de l'élément
+	 * @param id Identifiant unique de l'élément
+	 * @param width Largeur de l'élément
+	 * @param x Coordonnée sur l'axe des abscisses de l'élément
+	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
+	 * @return L'élément créé
 	 */
 	public Calendar (String label, String id, int width, int x, int y)
 	{
@@ -56,11 +64,23 @@ public class Calendar extends Control
 		this.panel.add( date );
 	}
 
+	/**
+	 * Création d'un calendrier, permettant à l'utilisateur de choisir une date de son choix, et forcément
+	 * associé au type chaine
+	 * @param label Label à afficher à gauche de l'élément
+	 * @param id Identifiant unique de l'élément
+	 * @param x Coordonnée sur l'axe des abscisses de l'élément
+	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
+	 * @return L'élément créé
+	 */
 	public Calendar (String label, String id, int x, int y)
 	{
 		this(label,id, Control.DFLT_WIDTH,x,y);
 	}
 
+	/**
+	 * Réinitialise l'élément, le retournant au même état que lors de sa création
+	 */
 	@Override
 	public void reset ()
 	{
@@ -68,7 +88,7 @@ public class Calendar extends Control
 	}
 
 	/**
-	 * Retourne la valeur contenu dans l'élément du formulaire
+	 * Retourne la valeur contenue dans l'élément du formulaire
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
 	@Override
@@ -77,7 +97,12 @@ public class Calendar extends Control
 		return date.getDate().toString();
 	}
 
-	public void setValues (Object obj)
+	/**
+	 * Modifie la valeur associée à l'élément
+	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
+	 */
+	@Override
+	public void setValues (Object newValue)
 	{
 		//TODO
 	}
