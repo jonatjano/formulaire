@@ -51,35 +51,35 @@ Les différents Contrôles devront posséder :
 - [x] **Il devra y avoir des règles de nommage pour le fichier**
 - [x] **Les éléments du langage et option ne devront pas donner lieu à un long apprentissage, 15 min doivent suffire pour appréhender le langage**
 
-#### [ ] Les différents Contrôles à gérer sont :
-- [ ] <u>Un groupement de bouton radio, pour lesquels il faudra définir la liste des boutons radio associés, l'utilisateur devra définir un ordinal pour chacun des boutons radio.</u>
-- [ ] <u>Une Liste déroulante éditable, les différentes valeurs de la liste déroulante seront définis par le programme utilisateur à l'aide d'un tableau.</u>
+#### [x] Les différents Contrôles à gérer sont :
+- [x] <u>**Un groupement de bouton radio, pour lesquels il faudra définir la liste des boutons radio associés, l'utilisateur devra définir un ordinal pour chacun des boutons radio.**</u>
+- [x] <u>**Une Liste déroulante éditable, les différentes valeurs de la liste déroulante seront définis par le programme utilisateur à l'aide d'un tableau.**</u>
 
 #### [x] Un bouton effacer, permettra d'effacer l'ensemble des champs de saisie.
 
 #### [x] Cinématique.
 - [x] **Naviguez entre les différents Controle**
 
-#### [ ] Chargement du formulaire
-- [ ] Récupération des différentes valeurs à l'aide d'une primitive spécifique pour chaque type de bases. Chaque primitives prendra en argument le nom de l'étiquette ou l'identifiant associé au Contrôle que l'on souhaite récupérer.
+#### [x] Chargement du formulaire
+- [x] **Récupération des différentes valeurs à l'aide d'une primitive spécifique pour chaque type de bases. Chaque primitives prendra en argument le nom de l'étiquette ou l'identifiant associé au Contrôle que l'on souhaite récupérer.**
 
 #### [ ] Documentation
 - [ ] Accompagné d'exemples : formulaire + code java
 
 ## Non négligeable
 
-#### [ ] Les différents Contrôles à gérer sont :
-- [ ] Une zone pour la saisie des tableaux, les dimensions du tableau seront définies par le programme utilisateur. On ne visualisera que 5 cases à la fois.
+#### [x] Les différents Contrôles à gérer sont :
+- [x] **Une zone pour la saisie des tableaux, les dimensions du tableau seront définies par le programme utilisateur. On ne visualisera que 5 cases à la fois.**
 
-#### [ ] Cinématique.
+#### [x] Cinématique.
 - [x] **Pouvoir visualiser l'identifiant des différents Controles.(cf illustration 2)**
 - [x] **Pouvoir visualiser les types associés aux différents Controles(cf Illustration 3)**
 - [x] **Controle des valeurs pour les champs numériques**
-- [ ] Utilisation d'une barre de défilement pour les formulaires trop grand.C’est-à-dire ne tenant pas dans la zone définie en début de fichier de paramétrage.Nota : les deux boutons valider et effacer seront toujours visible à l'écran
+- [x] **Utilisation d'une barre de défilement pour les formulaires trop grand.C’est-à-dire ne tenant pas dans la zone définie en début de fichier de paramétrage.Nota : les deux boutons valider et effacer seront toujours visible à l'écran**
 
-#### [ ] Chargement du formulaire
-- [ ] <u>En cas de non chargement l'utilisateur pourra récupérer un message d'erreur du type
-Fichier inexistant</u>
+#### [x] Chargement du formulaire
+- [x] <u>**En cas de non chargement l'utilisateur pourra récupérer un message d'erreur du type
+Fichier inexistant**</u>
 
 #### [ ] Documentation
 - [ ] Aide en ligne
@@ -87,7 +87,7 @@ Fichier inexistant</u>
 ## Ajouté par nous
 ### Controles
 - [ ] label seul
-- [ ] ajout d'une marge de 20-30 sur la gauche des controles
+- [x] **ajout d'une marge de 20-30 sur la gauche des controles**
 - [x] **Changement de langue**
 
 ## Avenants
