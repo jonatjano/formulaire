@@ -5,7 +5,13 @@ import iut.algo.form.job.BaseType;
 
 import javax.swing.*;
 
-import java.awt.*;
+import java.awt.Container;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Color;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.*;
@@ -255,6 +261,10 @@ public class Frame extends JFrame implements ActionListener
 				// Recherche les éléments en fonction de la langue utilisateur
 				switch (controlName)
 				{
+					case "label":
+						control = new Label( label, id, x, y );
+						break;
+
 					case "texte":
 					case "text":
 						String type = attrElement.getNamedItem("type").getNodeValue();
