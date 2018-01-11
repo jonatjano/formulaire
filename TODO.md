@@ -81,12 +81,12 @@ Les différents Contrôles devront posséder :
 - [x] <u>**En cas de non chargement l'utilisateur pourra récupérer un message d'erreur du type
 Fichier inexistant**</u>
 
-#### [ ] Documentation
-- [ ] Aide en ligne
+#### [x] Documentation
+- [x] **Aide en ligne**
 
 ## Ajouté par nous
 ### Controles
-- [x] label seul
+- [x] **label seul**
 - [x] **ajout d'une marge de 20-30 sur la gauche des controles**
 - [x] **Changement de langue**
 
@@ -96,4 +96,4 @@ Fichier inexistant**</u>
 ### Avenant n°2
 - [ ] Définir une feuille de style xsl, permettant de prévisualiser un formulaire dans un navigateur.
 ### Avenant n°3
-- [ ] Gérer une historisation des saisies sur les controles zone de texte (référencé par l'étiquette associé au Controle)
+- [x] **Gérer une historisation des saisies sur les controles zone de texte (référencé par l'étiquette associé au Controle)**
