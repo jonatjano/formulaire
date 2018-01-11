@@ -11,6 +11,6 @@ public class Test
 	public static void main(String[] args)
 	{
 		FormController.showForm("../exemple.xml");
-		System.out.println(FormController.getInt("p05"));
+		//System.out.println( FormController.getInt("p05") );
 	}
 }

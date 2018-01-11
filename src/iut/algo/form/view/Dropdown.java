@@ -5,21 +5,35 @@ import iut.algo.form.job.BaseType;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
+import javax.swing.DefaultComboBoxModel;
 
 import java.awt.Dimension;
 import java.awt.Color;
 
 /**
- * Zone de texte à placer dans le formulaire
+ * Liste déroulante à placer dans le formulaire
  * @author Team Infotik
  * @version 2018-01-08
  */
 public class Dropdown extends Control
 {
+	/** Label décrivant le contôle à l'utilisateur */
 	private JLabel 		labelL;
+	/** Valeur de l'élément lors de sa création */
 	private Object[]	baseValues;
 
 
+	/**
+	 * Création d'une liste déroulante, que l'utilisateur peut éditer à sa guise pendant
+	 * l'utilisation du formulaire, et forcément associée au type chaine
+	 * @param label Label à afficher à gauche de l'élément
+	 * @param id Identifiant unique de l'élément
+	 * @param width Largeur de l'élément
+	 * @param x Coordonnée sur l'axe des abscisses de l'élément
+	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
+	 * @param choices Valeurs d'origine associées à l'élément lors de sa création
+	 * @return L'élément créé
+	 */
 	@SuppressWarnings("unchecked")
 	public Dropdown (String label, String id, int width, int x, int y, Object[] choices)
 	{
@@ -42,6 +56,16 @@ public class Dropdown extends Control
 		this.panel.add( compo );
 	}
 
+	/**
+	 * Création d'une liste déroulante, que l'utilisateur peut éditer à sa guise pendant
+	 * l'utilisation du formulaire, et forcément associée au type chaine
+	 * @param label Label à afficher à gauche de l'élément
+	 * @param id Identifiant unique de l'élément
+	 * @param x Coordonnée sur l'axe des abscisses de l'élément
+	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
+	 * @param choices Valeurs d'origine associées à l'élément lors de sa création
+	 * @return L'élément créé
+	 */
 	public Dropdown (String label, String id, int x, int y, Object[] choices)
 	{
 		this(label, id, Control.DFLT_WIDTH, x, y, choices);
@@ -49,15 +73,15 @@ public class Dropdown extends Control
 
 
 	/**
-	 * Remet l'élément à son état initial
+	 * Réinitialise l'élément, le retournant au même état que lors de sa création
 	 */
 	@Override
 	public void reset ()
 	{
 		// Itère à travers tous les éléments pour rétablir leur valeur initiale
-		for (int i = 0; i < ((JComboBox)this.compo).getItemCount(); i++)
+		for (int i = 0; i < ((JComboBox) this.compo).getItemCount(); i++)
 		{
-			Object obj = ((JComboBox)this.compo).getItemAt(i);
+			Object obj = ((JComboBox) this.compo).getItemAt(i);
 			obj = baseValues[i];
 		}
 
@@ -66,17 +90,26 @@ public class Dropdown extends Control
 	}
 
 	/**
-	 * Retourne la valeur contenu dans l'élément du formulaire
+	 * Retourne la valeur contenue dans l'élément du formulaire
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
 	@Override
 	public String getValue ()
 	{
-		return (String)(((JComboBox)this.compo).getSelectedItem());
+		return ((JComboBox) this.compo).getSelectedItem().toString();
 	}
 	
-	public void setValues (Object obj)
+	/**
+	 * Modifie la valeur associée à l'élément
+	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
+	 */
+	@Override
+	@SuppressWarnings("unchecked")
+	public void setValues (Object newValue)
 	{
-		//TODO
+		Object[] valuesToSet	= (Object[]) newValue;
+		this.baseValues 		= valuesToSet;
+
+		((JComboBox) this.compo).setModel( new DefaultComboBoxModel(valuesToSet) );
 	}
 }

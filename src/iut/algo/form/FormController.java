@@ -35,32 +35,32 @@ public class FormController
 	 */
 	private static File dtdFile = createDtdFile();
 	/**
-	 * permet de savoir si un formulaire est actuellement ouvert
+	 * Fait savoir au programme si un formulaire est actuellement ouvert
 	 */
 	private static boolean windowIsOpen = false;
 	/**
-	 * la fenetre du dernier formulaire
+	 * La fenêtre du dernier formulaire
 	 */
 	private static Frame frame;
 
 	/**
-	 * {@link Map} contennant les valeurs des différent champs de type {@link Integer}
+	 * {@link Map} contenant les valeurs des différent champs de type {@link Integer}
 	 */
 	private static Map<String, Integer> intMap;
 	/**
-	 * {@link Map} contennant les valeurs des différent champs de type {@link String}
+	 * {@link Map} contenant les valeurs des différent champs de type {@link String}
 	 */
 	private static Map<String, String> stringMap;
 	/**
-	 * {@link Map} contennant les valeurs des différent champs de type {@link Double}
+	 * {@link Map} contenant les valeurs des différent champs de type {@link Double}
 	 */
 	private static Map<String, Double> doubleMap;
 	/**
-	 * {@link Map} contennant les valeurs des différent champs de type {@link Boolean}
+	 * {@link Map} contenant les valeurs des différent champs de type {@link Boolean}
 	 */
 	private static Map<String, Boolean> booleanMap;
 	/**
-	 * {@link Map} contennant les valeurs des différent champs de type {@link Character}
+	 * {@link Map} contenant les valeurs des différent champs de type {@link Character}
 	 */
 	private static Map<String, Character> charMap;
 
@@ -68,7 +68,7 @@ public class FormController
 	 * methode appellée par une classe externe au package permettant d'appeller tous les utilitaires nécessaire au formulaire
 	 * @param filePath  Le chemin du fichier XML permettant de générer le formlaire
 	 */
-	public static void showForm(String filePath)
+	public static void showForm (String filePath)
 	{
 		// on recupere le fichier
 		File xmlFile = new File(filePath);
@@ -134,15 +134,23 @@ public class FormController
 		// parseXml(xmlFile);
 	}
 
+	/**
+	 * Vérifie le fichier XML passé en paramètre, en écrivant les éventuels erreurs sur un un popup d'erreur visible par
+	 * l'utilisateur
+	 * @param fileXML le fichier XML a vérifié
+	 * @return L'élément si le fichier valide, sinon null
+	 */
 	private static Element validXml (File fileXML)
 	{
 		return validXml(fileXML, false);
 	}
 
 	/**
-	 * cette méthode permet de savoir si le document XML respecte la dtd et écrit des erreurs dans le terminal sinon
+	 * Vérifie le fichier XML passé en paramètre, en écrivant les éventuels erreurs sur un un popup d'erreur visible par
+	 * l'utilisateur
 	 * @param fileXML le fichier XML a vérifié
-	 * @return boolean L'élément si le fichier valide, sinon null
+	 * @param validate Valeur indiquant si le fichier doit être valide pour continuer
+	 * @return L'élément si le fichier valide, sinon null
 	 */
 	private static Element validXml (File fileXML, boolean validate)
 	{
@@ -155,17 +163,11 @@ public class FormController
 
 			DocumentBuilder builder = factory.newDocumentBuilder();
 
-			//création de notre objet d'erreurs
+			// Création de l'objet gérant les erreurs
 			ErrorHandler errHandler = new SimpleErrorHandler();
 			//Affectation de notre objet au document pour interception des erreurs éventuelles
-			if (validate)
-			{
-				builder.setErrorHandler(errHandler);
-			}
-			else
-			{
-				builder.setErrorHandler(null);
-			}
+			if (validate)	builder.setErrorHandler(errHandler);
+			else			builder.setErrorHandler(null);
 
 			//On rajoute un bloc de capture
 			//pour intercepter les erreurs au cas où il y en a
@@ -181,60 +183,67 @@ public class FormController
 		catch (ParserConfigurationException e)
 		{
 			e.printStackTrace();
+			System.out.println("Parser");
 		}
 		catch (SAXException e)
 		{
 			e.printStackTrace();
+			System.out.println("Sax");
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
+			System.out.println("IO");
 		}
 		return null;
 	}
 
 	/**
 	 * Cette méthode permet d'afficher une erreur à l'écran avec le titre "Erreur"
-	 * @param message message à afficher dans l'erreur
+	 * @param message Message à afficher dans l'erreur
 	 */
-	private static void showError(String message)
+	private static void showError (String message)
 	{
 		showError("Erreur", message);
 	}
 
 	/**
 	 * Cette méthode permet d'afficher une erreur à l'écran
-	 * @param titre titre du message d'erreur
-	 * @param message message à afficher dans l'erreur
+	 * @param titre Titre du message d'erreur
+	 * @param message Message à afficher dans l'erreur
 	 */
 	private static void showError( String titre , String message )
 	{
-		JOptionPane.showMessageDialog(null,message,titre,JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog( null, message, titre, JOptionPane.ERROR_MESSAGE );
 	}
 
-	private static void pauseUntilWindowClosed()
+	/**
+	 * Empêche le programme de progresser tant qu'un formulaire est lancé
+	 */
+	private static void pauseUntilWindowClosed ()
 	{
-		frame.setVisible(true);
+		FormController.frame.setVisible(true);
 
-		windowIsOpen = true;
-		while(windowIsOpen)
+		FormController.windowIsOpen = true;
+		while ( FormController.windowIsOpen )
 		{
-			try {
-				Thread.sleep(100);
-			}
-			catch (Exception e) {
-
-			}
+			try					{ Thread.sleep(100); }
+			catch (Exception e) { }
 		}
 	}
 
-	public static void windowClosed()
+	/**
+	 * Enregistre l'intégralité des informations rentrées par l'utilisateur lors de la
+	 * fermeture de la fenêtre
+	 */
+	public static void windowClosed ()
 	{
-		intMap = new HashMap<String, Integer>();
-		doubleMap = new HashMap<String, Double>();
-		stringMap = new HashMap<String, String>();
-		charMap = new HashMap<String, Character>();
-		booleanMap = new HashMap<String, Boolean>();
+		intMap		= new HashMap<String, Integer>();
+		doubleMap	= new HashMap<String, Double>();
+		stringMap	= new HashMap<String, String>();
+		charMap		= new HashMap<String, Character>();
+		booleanMap	= new HashMap<String, Boolean>();
+
 		for (Control ctrl : frame.getControls())
 		{
 			// System.out.println(ctrl.getType() + " : " + ctrl.getValue() + " <--> " + ctrl.getId());
@@ -270,34 +279,34 @@ public class FormController
 				// System.out.println("c'est un array");
 			}
 		}
-		frame = null;
-		windowIsOpen = false;
+		frame			= null;
+		windowIsOpen	= false;
 	}
 
 	/**
-	 * retourne la valeur d'un controle numerique entier
-	 * @param  id id du controle
-	 * @return la valeur correspondante au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 * Renvoie la valeur d'un controle numerique entier
+	 * @param  id Identifiant du controle
+	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
 	 */
-	public static Integer getInt(String id)
+	public static Integer getInt (String id)
 	{
 		return intMap.get(id);
 	}
 
 	/**
-	 * retourne la valeur d'un controle numerique
-	 * @param  id id du controle
-	 * @return la valeur correspondante au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 * Renvoie la valeur d'un controle numerique
+	 * @param  id Identifiant du controle
+	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
 	 */
-	public static Double getDouble(String id)
+	public static Double getDouble (String id)
 	{
 		return doubleMap.get(id);
 	}
 
 	/**
-	 * retourne la valeur d'un controle de texte
-	 * @param  id id du controle
-	 * @return la valeur correspondante au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 * Renvoie la valeur d'un controle de texte
+	 * @param  id Identifiant du controle
+	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
 	 */
 	public static String getString(String id)
 	{
@@ -305,9 +314,9 @@ public class FormController
 	}
 
 	/**
-	 * retourne la valeur d'un controle de caractere
-	 * @param  id id du controle
-	 * @return la valeur correspondante au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 * Renvoie la valeur d'un controle de caractere
+	 * @param  id Identifiant du controle
+	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
 	 */
 	public static Character getChar(String id)
 	{
@@ -315,9 +324,9 @@ public class FormController
 	}
 
 	/**
-	 * retourne la valeur d'un controle boolean
-	 * @param  id id du controle
-	 * @return la valeur correspondante au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 * Renvoie la valeur d'un controle boolean
+	 * @param  id Identifiant du controle
+	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
 	 */
 	public static Boolean getBoolean(String id)
 	{
@@ -325,10 +334,10 @@ public class FormController
 	}
 
 	/**
-	 * Cette méthode permet de créer la dtd dans un fichier temporaire
-	 * @return File le fichier dtd créé
+	 * Crée la DTD dans un fichier temporaire du système
+	 * @return File Le fichier DTD créé
 	 */
-	private static File createDtdFile()
+	private static File createDtdFile ()
 	{
 		try {
 			File dtd = File.createTempFile("dtd", ".dtd");
@@ -338,7 +347,7 @@ public class FormController
 
 			pw.write("\t\t\t<!ELEMENT form (fenetre|window)>\n");
 
-			pw.write("\t\t\t\t<!ELEMENT fenetre (texte|menu|case|tableau|boutons|calendrier)+>\n");
+			pw.write("\t\t\t\t<!ELEMENT fenetre (label|texte|menu|case|tableau|boutons|calendrier)+>\n");
 			pw.write("\t\t\t\t\t<!ATTLIST fenetre longueur CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t                  largeur  CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t                  titre    CDATA #REQUIRED\n");
@@ -382,7 +391,7 @@ public class FormController
 			pw.write("\t\t\t\t\t\t                     x     CDATA #IMPLIED\n");
 			pw.write("\t\t\t\t\t\t                     y     CDATA #IMPLIED >\n");
 
-			pw.write("\t\t\t\t<!ELEMENT window (text|dropdown|checkbox|array|buttons|calendar)+>\n");
+			pw.write("\t\t\t\t<!ELEMENT window (label|text|dropdown|checkbox|array|buttons|calendar)+>\n");
 			pw.write("\t\t\t\t\t<!ATTLIST window length CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t                 width  CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t                 title  CDATA #REQUIRED\n");
@@ -426,6 +435,12 @@ public class FormController
 			pw.write("\t\t\t\t\t\t                   x     CDATA #IMPLIED\n");
 			pw.write("\t\t\t\t\t\t                   y     CDATA #IMPLIED >\n");
 
+			pw.write("\t\t\t\t\t<!ELEMENT label EMPTY>\n");
+			pw.write("\t\t\t\t\t\t<!ATTLIST label id    ID    #REQUIRED\n");
+			pw.write("\t\t\t\t\t\t                label CDATA #REQUIRED\n");
+			pw.write("\t\t\t\t\t\t                x     CDATA #IMPLIED\n");
+			pw.write("\t\t\t\t\t\t                y     CDATA #IMPLIED >\n");
+
 
 
 			pw.close();
@@ -433,6 +448,8 @@ public class FormController
 			return dtd;
 		}
 		catch (Exception e) {}
+
+		// Renvoie null s'il y a eu une erreur lors de la création
 		return null;
 	}
 }
