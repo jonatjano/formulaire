@@ -1,5 +1,7 @@
 <form>
 	<fenetre longueur="650" titre="test" largeur="1340" x="100" y="100">
+		<label x="36" y="0" label="Mon label seul" id="a01"/>
+
 		<case x="36" y="30" label="texte" id="p01"/>
 
 		<texte x="36" y="60" label="groupeBoutton" id="a05" type ="entier"/>
@@ -18,7 +20,7 @@
 			<bouton>25</bouton>
 		</boutons>
 
-		<calendrier x="300" y="300" id="a01" label="date"/>
+		<calendrier x="300" y="300" id="a02" label="date"/>
 
 	</fenetre>
 </form>

@@ -48,6 +48,7 @@ public class Buttons extends Control
 		/* Création des radio boutons */
 
 		this.panel.setLayout( new BoxLayout(this.panel, BoxLayout.Y_AXIS) );
+		this.panel.setBounds(x, y, width + 20, Control.DFLT_HEIGHT);
 
 		// Création des radio boutons
 		this.setValues(choices);

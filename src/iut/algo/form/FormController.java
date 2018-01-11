@@ -347,7 +347,7 @@ public class FormController
 
 			pw.write("\t\t\t<!ELEMENT form (fenetre|window)>\n");
 
-			pw.write("\t\t\t\t<!ELEMENT fenetre (texte|menu|case|tableau|boutons|calendrier)+>\n");
+			pw.write("\t\t\t\t<!ELEMENT fenetre (label|texte|menu|case|tableau|boutons|calendrier)+>\n");
 			pw.write("\t\t\t\t\t<!ATTLIST fenetre longueur CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t                  largeur  CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t                  titre    CDATA #REQUIRED\n");
@@ -391,7 +391,7 @@ public class FormController
 			pw.write("\t\t\t\t\t\t                     x     CDATA #IMPLIED\n");
 			pw.write("\t\t\t\t\t\t                     y     CDATA #IMPLIED >\n");
 
-			pw.write("\t\t\t\t<!ELEMENT window (text|dropdown|checkbox|array|buttons|calendar)+>\n");
+			pw.write("\t\t\t\t<!ELEMENT window (label|text|dropdown|checkbox|array|buttons|calendar)+>\n");
 			pw.write("\t\t\t\t\t<!ATTLIST window length CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t                 width  CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t                 title  CDATA #REQUIRED\n");
@@ -434,6 +434,12 @@ public class FormController
 			pw.write("\t\t\t\t\t\t                   id    ID    #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t                   x     CDATA #IMPLIED\n");
 			pw.write("\t\t\t\t\t\t                   y     CDATA #IMPLIED >\n");
+
+			pw.write("\t\t\t\t\t<!ELEMENT label EMPTY>\n");
+			pw.write("\t\t\t\t\t\t<!ATTLIST label id    ID    #REQUIRED\n");
+			pw.write("\t\t\t\t\t\t                label CDATA #REQUIRED\n");
+			pw.write("\t\t\t\t\t\t                x     CDATA #IMPLIED\n");
+			pw.write("\t\t\t\t\t\t                y     CDATA #IMPLIED >\n");
 
 
 
