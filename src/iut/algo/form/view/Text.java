@@ -19,7 +19,7 @@ import java.awt.event.FocusListener;
 import java.util.LinkedList;
 
 /**
- * Zone de texte s'adaptant en fonction du type de base auquel elle est attachée à placer dans le formulaire
+ * Zone de texte à placer dans le formulaire s'adaptant au type de base auquel elle est attachée
  * @author Team Infotik
  * @version 2018-01-08
  */

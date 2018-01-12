@@ -509,7 +509,7 @@ public class Array extends Control
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
 	@Override
-	public Object getValue ()
+	public Object[] getValue ()
 	{
 		return this.tabValues;
 	}

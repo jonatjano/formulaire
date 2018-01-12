@@ -123,7 +123,8 @@ public class Frame extends JFrame implements ActionListener
 
 		this.formPanel	= new JPanel();
 		this.formPanel.setLayout( null );
-		this.formPanel.setBackground( Frame.obtainFormColor() );
+		this.formPanel.setBackground( Color.white );
+		// this.formPanel.setBackground( Frame.obtainFormColor() );
 		this.formPanel.setPreferredSize( new Dimension(this.formWidth, this.formHeight) );
 		this.formPanel.setBorder( BorderFactory.createLineBorder(Color.black) );
 		
@@ -634,7 +635,7 @@ public class Frame extends JFrame implements ActionListener
 	 */
 	public static Color obtainFormColor ()
 	{
-		return Color.white; //new Color(1,1,1,0);
+		return Color.white; // new Color(1,1,1,0); 
 	}
 
 	/**
