@@ -1,10 +1,6 @@
 <!ELEMENT form (fenetre|window)>
-	<!ATTLIST form				lang CDATA #IMPLIED>
+	<!ATTLIST form				lang ( FR | EN ) FR >
 
-
-
-
-	
 	<!ELEMENT fenetre (texte|menu|case|tableau|boutons)+>
 	   <!ATTLIST fenetre 		longueur CDATA #REQUIRED
 						 		largeur  CDATA #REQUIRED
