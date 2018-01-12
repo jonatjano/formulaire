@@ -10,6 +10,7 @@ src/iut/algo/form/view/Label.java
 src/iut/algo/form/view/DateTextField.java
 src/iut/algo/form/view/Frame.java
 src/iut/algo/form/view/FormKeyListener.java
+src/iut/algo/form/view/TextKeyListener.java
 src/iut/algo/form/FormController.java
 src/iut/algo/form/job/BaseType.java
 src/iut/algo/form/job/SimpleErrorHandler.java

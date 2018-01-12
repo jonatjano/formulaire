@@ -6,12 +6,17 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
+import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SpinnerModel;
 
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Color;
+
+import java.awt.event.FocusListener;
+
+import java.util.LinkedList;
 
 /**
  * Zone de texte s'adaptant en fonction du type de base auquel elle est attachée à placer dans le formulaire
@@ -20,6 +25,8 @@ import java.awt.Color;
  */
 public class Text extends Control
 {
+	/* Historique des modifications de l'élément */
+	public LinkedList<String> history;
 	/** Label décrivant le contôle à l'utilisateur */
 	private JLabel 		labelL;
 	/** Valeur de l'élément lors de sa création */
@@ -30,7 +37,7 @@ public class Text extends Control
 	 * Crée un objet Texte, qui comprend un label et une zone de texte avec laquelle il est possible d'interargir
 	 * @param label Label à afficher à gauche de l'élément
 	 * @param id Identifiant unique de l'élément
- 	 * @param type Type associé à l'élément
+	 * @param type Type associé à l'élément
 	 * @param width Largeur de l'élément
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
@@ -42,6 +49,7 @@ public class Text extends Control
 		super(label, id, type, width, x, y);
 		this.type 		= type;
 		this.baseValue	= "";
+		this.history	= new LinkedList<String>();
 
 
 		/* Création de la zone texte */
@@ -62,23 +70,59 @@ public class Text extends Control
 		switch (type)
 		{
 			case Int:
-				spinnerModel = new SpinnerNumberModel(0, Integer.MIN_VALUE, Integer.MAX_VALUE, 1);
-				this.compo	= new JSpinner(spinnerModel);
+				spinnerModel	= new SpinnerNumberModel(0, Integer.MIN_VALUE, Integer.MAX_VALUE, 1);
+				this.compo		= new JSpinner(spinnerModel);
 				break;
 
 			case Double:
-				spinnerModel = new SpinnerNumberModel(0, Integer.MIN_VALUE, Integer.MAX_VALUE, 0.1f);
-				this.compo	= new JSpinner(spinnerModel);
+				spinnerModel	= new SpinnerNumberModel(0, Integer.MIN_VALUE, Integer.MAX_VALUE, 0.1f);
+				this.compo		= new JSpinner(spinnerModel);
 				break;
 
 			case String:
-				this.compo	= new JTextField();
+				this.compo		= new JTextField();
 				break;
 
 			case Char:
-				this.compo	= new JTextFieldLimit(1);
+				this.compo		= new JTextFieldLimit(1);
 				break;
 		}
+
+
+		/* Ajout du focus listener */
+
+		JTextField toFocus = null;
+		if (this.compo instanceof JSpinner)
+		{
+			DefaultEditor editor = (DefaultEditor) ((JSpinner) this.compo).getEditor();
+			toFocus = editor.getTextField();
+		}
+		else
+		{
+			toFocus = ((JTextField) this.compo);
+		}
+		toFocus.addKeyListener( new TextKeyListener(this) );
+		this.history.add( toFocus.getText() );
+
+		// Création du focus listener
+		toFocus.addFocusListener( new FocusListener() {
+			public void focusGained (java.awt.event.FocusEvent e) {}
+
+			public void focusLost (java.awt.event.FocusEvent e)
+			{
+				if 		(e.getSource() instanceof JTextField)
+				{
+					JTextField	src = (JTextField) e.getSource();
+					String		str	= src.getText();
+
+					if ( type != BaseType.String ) 
+						str = str.replaceAll("[^0-9\\-]","");
+					
+					addToHistory(str);
+				}
+			}
+		});
+
 
 		this.compo.setPreferredSize( new Dimension(width, (int) (this.panel.getSize().height - (Control.DFLT_HEIGHT / 5f))) );
 		this.panel.add( compo );
@@ -88,7 +132,7 @@ public class Text extends Control
 	 * Crée un objet Texte, qui comprend un label et une zone de texte avec laquelle il est possible d'interargir
 	 * @param label Label à afficher à gauche de l'élément
 	 * @param id Identifiant unique de l'élément
- 	 * @param type Type associé à l'élément
+	 * @param type Type associé à l'élément
 	 * @param width Largeur de l'élément
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
@@ -110,7 +154,29 @@ public class Text extends Control
 	 */
 	public Text (String id, BaseType type, int width, int x, int y)
 	{
-		this(null, id, type, width, x, y);
+		this( null, id, type, width, x, y );
+	}
+
+
+	/**
+	 * Ajoute à l'historique des actions
+	 */
+	public void addToHistory (String toAdd)
+	{
+		if ( this.history.size() == 0 || !toAdd.equals(this.history.getLast()) )
+			this.history.add( toAdd );
+	}
+
+	/**
+	 * Rétablit la valeur précédente du contenu de l'élément
+	 */
+	public void revert ()
+	{
+		String value;
+		if ( this.history.size() == 1 )	value = this.history.getLast();
+		else							value = this.history.pollLast();
+
+		this.setValues( this.history.getLast() );
 	}
 
 
@@ -162,9 +228,22 @@ public class Text extends Control
 	@Override
 	public void setValues (Object newValue)
 	{
+		if (newValue == null)	newValue = "";
+		
 		if (compo instanceof JSpinner)
-			((JSpinner) (compo)).setValue(newValue);
+		{
+			if (newValue == null)	newValue = "0";
+			try
+			{
+		 		newValue = new Integer( Integer.parseInt(newValue.toString()) );
+		 		((JSpinner) (compo)).setValue( newValue ); 
+			}
+			catch (Exception e) { }	
+		}
 		else
+		{
+			if (newValue == null)	newValue = "";
 			((JTextField) (compo)).setText( (String) newValue );
+		}
 	}
 }

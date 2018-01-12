@@ -164,7 +164,7 @@ public class Frame extends JFrame implements ActionListener
 
 		this.mainPanel.add( secondaryPanel );
 		this.add( BorderLayout.CENTER, mainPanel );
-		this.setVisible(true);
+		// this.setVisible(true);
 	}
 
 	/**
