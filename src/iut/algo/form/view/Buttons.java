@@ -103,7 +103,7 @@ public class Buttons extends Control
 
 		return null;
 	}
-	
+
 
 	/**
 	 * Modifie la valeur associée à l'élément
@@ -111,7 +111,7 @@ public class Buttons extends Control
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public void setValues (Object newValue)
+	public void setValue (Object newValue)
 	{
 		Object[] valuesToSet	= (Object[]) newValue;
 		this.buttonGroup		= new ButtonGroup();

@@ -98,14 +98,14 @@ public class Dropdown extends Control
 	{
 		return ((JComboBox) this.compo).getSelectedItem().toString();
 	}
-	
+
 	/**
 	 * Modifie la valeur associée à l'élément
 	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public void setValues (Object newValue)
+	public void setValue (Object newValue)
 	{
 		Object[] valuesToSet	= (Object[]) newValue;
 		this.baseValues 		= valuesToSet;

@@ -154,13 +154,13 @@ public class Text extends Control
 				return null;
 		}
 	}
-	
+
 	/**
 	 * Modifie la valeur associée à l'élément
 	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
 	 */
 	@Override
-	public void setValues (Object newValue)
+	public void setValue (Object newValue)
 	{
 		if (compo instanceof JSpinner)
 			((JSpinner) (compo)).setValue(newValue);

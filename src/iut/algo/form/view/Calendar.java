@@ -102,7 +102,7 @@ public class Calendar extends Control
 	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
 	 */
 	@Override
-	public void setValues (Object newValue)
+	public void setValue (Object newValue)
 	{
 		//TODO
 	}

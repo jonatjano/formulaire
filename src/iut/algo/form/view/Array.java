@@ -52,14 +52,14 @@ public class Array extends Control
 
 				int row = Integer.parseInt( pos[0] );
 				int col = Integer.parseInt( pos[1] );
-				
+
 				// Enregistrement dans le tableau de valeurs
 				Object value = valueControl.getValue();
 				tabValues[oriR + prevR][oriC + prevC] = value;
-				
+
 				int deltaR = 0;
 				int deltaC = 0;
-				
+
 				switch (row)
 				{
 					case 0 :
@@ -78,14 +78,14 @@ public class Array extends Control
 						deltaC = 1;
 						break;
 				}
-				
-				
-				
+
+
+
 				int oriRTemp = oriR;
 				int oriCTemp = oriC;
 				// Décale le tableau
 				shiftDisplay( deltaR, deltaC);
-				
+
 				if (oriR - oriRTemp == -1)
 					row++;
 				if (oriR - oriRTemp == 1)
@@ -94,13 +94,13 @@ public class Array extends Control
 					col++;
 				if (oriC - oriCTemp == 1)
 					col--;
-				
+
 				setTabBackground(prevR, prevC, row, col);
-				
-				
+
+
 				prevR = row;
 				prevC = col;
-				
+
 				valueControl.setValues(tabValues[oriR + row][oriC + col]);
 				valueControl.requestFocus();
 
@@ -121,7 +121,7 @@ public class Array extends Control
 
 	/** Padding sur l'axe des abscisses à placer à droite et à gauche */
 	private static final int gapX	= 10;
-	
+
 	/** Couleur de base des cellules du tableau */
 	private static final Color normalColor			= new Color(255,255,255);
 	/** Couleur prise par la ligne sélectionnée */
@@ -138,7 +138,7 @@ public class Array extends Control
 	private int				oriR;
 	/** Index de la colonne de la cellule servant d'origine à afficher du tableau */
 	private int				oriC;
-	
+
 	/** Index de la ligne de la cellule sélectionnée précédente */
 	private int 			prevR;
 	/** Index de la colonne de la cellule sélectionnée précédente */
@@ -227,7 +227,7 @@ public class Array extends Control
 		Font newFont	= baseFont.deriveFont(baseFont.getStyle() | Font.BOLD);
 
 		/* Création du tableau sur l'interface */
-		
+
 		tabButtons = new JButton[maxRow][maxCol];
 		for (int i = -1; i < clampedRow + 1; i++)
 		{
@@ -247,11 +247,11 @@ public class Array extends Control
 			this.arrayP.add( labelRow );
 
 			/* CORPS */
-			
+
 			int maxRow = Array.maxRow;
 			if (tabValues.length < Array.maxRow - 1 )
 				maxRow = tabValues.length ;
-			
+
 			int maxCol = Array.maxCol ;
 			if (tabValues[0].length < Array.maxCol - 1 )
 				maxCol = tabValues.length;
@@ -348,22 +348,22 @@ public class Array extends Control
 		int maxRow = Array.maxRow - 1;
 		if (tabValues.length < Array.maxRow - 1 )
 			maxRow = tabValues.length -1;
-		
+
 		int maxCol = Array.maxCol - 1;
 		if (tabValues[0].length < Array.maxCol - 1 )
 			maxCol = tabValues.length -1;
-		
-		
+
+
 		oriR = Math.max(0, Math.min(tabValues.length -1 - maxRow, oriR + deltaR));
 		oriC = Math.max(0, Math.min(tabValues[0].length -1 - maxCol, oriC + deltaC));
-		
+
 		for (int i = 0; i < rowLabels.size(); i++)
 			rowLabels.get(i).setText((oriR + rowLabels.size() - 1 - i) + "");
 
 		for (int i = 0; i < colLabels.size(); i++)
 			colLabels.get(i).setText((oriC + i) + "");
 	}
-	
+
 	/**
 	 * Crée ou met à jour l'affichage du tableau
 	 * @param prevR La précédente ligne sélectionnée
@@ -384,7 +384,7 @@ public class Array extends Control
 				tabButtons[prevR][i].setBackground(normalColor);
 			}
 		}
-		
+
 		for (int i = 0; i < tabButtons.length; i++)
 		{
 			tabButtons[i][col].setBackground(selectedRowColor);
@@ -393,7 +393,7 @@ public class Array extends Control
 		{
 			tabButtons[row][i].setBackground(selectedColColor);
 		}
-		
+
 		tabButtons[row][col].setBackground(selectedCellColor);
 	}
 
@@ -420,13 +420,13 @@ public class Array extends Control
 	{
 		return this.tabValues;
 	}
-	
+
 	/**
 	 * Modifie la valeur associée à l'élément
 	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
 	 */
 	@Override
-	public void setValues (Object newValue)
+	public void setValue (Object newValue)
 	{
 		//TODO
 	}

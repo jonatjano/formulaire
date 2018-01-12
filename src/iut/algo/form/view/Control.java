@@ -247,10 +247,10 @@ public abstract class Control
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
 	public abstract Object getValue ();
-	
+
 	/**
 	 * Modifie la valeur associée à l'élément
 	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
 	 */
-	public abstract void setValues (Object obj);
+	public abstract void setValue (Object obj);
 }
