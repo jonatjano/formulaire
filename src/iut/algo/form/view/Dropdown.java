@@ -86,7 +86,7 @@ public class Dropdown extends Control
 		}
 
 		// Enfin, la première valeur est celle mise en valeur
-		((JComboBox)this.compo).setSelectedIndex(0);
+		((JComboBox) this.compo).setSelectedIndex(0);
 	}
 
 	/**

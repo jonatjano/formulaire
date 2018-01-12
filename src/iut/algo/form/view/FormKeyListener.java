@@ -3,6 +3,8 @@ package iut.algo.form.view;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JTextField;
+
 /**
  * KeyListener utilisé pour afficher et cacher les identifiants et types des éléments du
  * formulaire
@@ -35,14 +37,14 @@ public class FormKeyListener implements KeyListener
 	 * 		Ctrl+t : affiche ou cache les types des controles
 	 * @param event L'évenement appellant la méthode
 	 */
-	public void keyPressed (KeyEvent event)
+	public void keyPressed (KeyEvent e)
 	{
-		switch ( event.getKeyCode() )
+		switch ( e.getKeyCode() )
 		{
 			/* TOUCHE I */
 			case KeyEvent.VK_I :
 				// avec le modifier Ctrl
-				if (KeyEvent.getKeyModifiersText(event.getModifiers()).equals("Ctrl"))
+				if (KeyEvent.getKeyModifiersText(e.getModifiers()).equals("Ctrl"))
 				{
 					frame.toggleIds();
 				}
@@ -51,7 +53,7 @@ public class FormKeyListener implements KeyListener
 			/* TOUCHE T */
 			case KeyEvent.VK_T :
 				// avec le modifier Ctrl
-				if (KeyEvent.getKeyModifiersText(event.getModifiers()).equals("Ctrl"))
+				if (KeyEvent.getKeyModifiersText(e.getModifiers()).equals("Ctrl"))
 				{
 					frame.toggleTypes();
 				}
