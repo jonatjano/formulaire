@@ -12,11 +12,11 @@ public class Demo
 		/* CREATION ET AFFICHAGE DU FORMULAIRE */
 
 		FormController.createForm("../exemple.xml");
-		FormController.setValue("a05", 10);
+		FormController.setValue("a05", "test");
 		FormController.showForm();
 
 
-		int i = FormController.getInt("a05");
-		System.out.println(i);
+		String s = FormController.getString("a05");
+		System.out.println(s);
 	}
-} // - Lang en adéquation avec nom du fils de root. (window / fenetre)
+}
