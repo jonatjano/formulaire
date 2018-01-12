@@ -242,7 +242,7 @@ public class Text extends Control
 	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
 	 */
 	@Override
-	public void setValue (Object newValue)
+	public boolean setValue (Object newValue)
 	{
 		if (this.type != BaseType.String && this.type != BaseType.Char)
 		{
@@ -259,5 +259,6 @@ public class Text extends Control
 			if (newValue == null)	newValue = "";
 			((JTextField) (this.compo)).setText( (String) newValue );
 		}
+		return false;
 	}
 }
