@@ -10,9 +10,13 @@ public class Demo
 {
 	public static void main (String[] args)
 	{
+		/* CREATION ET AFFICHAGE DU FORMULAIRE */
+
 		FormController.createForm("../exemple.xml");
 		FormController.setValue("a05", 10);
 		FormController.showForm();
+
+		
 		int i = FormController.getInt("a05");
 		System.out.println(i);
 	}
