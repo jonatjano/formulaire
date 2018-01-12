@@ -343,7 +343,7 @@ public class Array extends Control
 		this(label, id, type, Control.DFLT_WIDTH, x, y, nbR, nbC);
 	}
 	
-	private void moveTo(int row, int col)
+	private void moveTo (int row, int col)
 	{
 		Object value = valueControl.getValue();
 				
