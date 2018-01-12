@@ -12,12 +12,12 @@ public class Demo
 		/* CREATION ET AFFICHAGE DU FORMULAIRE */
 
 		FormController.createForm("../exemple.xml");
-		FormController.setValue("a05", "test");
+		FormController.setValue("05", "test");
 		FormController.showForm();
 
 		if( FormController.isValid() )
 		{
-			String s = FormController.getString("a05");
+			String s = FormController.getString("05");
 			System.out.println(s);
 		}
 		else
