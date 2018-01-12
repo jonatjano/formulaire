@@ -8,9 +8,9 @@ import iut.algo.form.job.BaseType;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Scanner;
 
 import javax.swing.JOptionPane;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -19,12 +19,17 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
+
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.xml.sax.SAXParseException;
 
 /**
@@ -67,6 +72,10 @@ public class FormController
 	 * {@link Map} contenant les valeurs des différent champs de type {@link Character}
 	 */
 	private static Map<String, Character> charMap;
+	/**
+	 * {@link Map} contenant les valeurs des différent champs contenant des tableaux
+	 */
+	private static Map<String, List> arrayMap;
 
 	private static List<String[]> listTypeErr;
 
@@ -319,10 +328,19 @@ public class FormController
 	}
 
 	/**
+	 * cache la fenetre pour pouvoir la réutiliser
+	 */
+	public static void windowClosed ()
+	{
+		frame.setVisible(false);
+		windowIsOpen = false;
+	}
+
+	/**
 	 * Enregistre l'intégralité des informations rentrées par l'utilisateur lors de la
 	 * fermeture de la fenêtre
 	 */
-	public static void windowClosed ()
+	public static void windowValidated ()
 	{
 		intMap		= new HashMap<String, Integer>();
 		doubleMap	= new HashMap<String, Double>();
@@ -362,11 +380,20 @@ public class FormController
 			}
 			else
 			{
-				// System.out.println("c'est un array");
+				this.arrayMap.put( ctrl.getId(), Arrays.asList(ctrl.getValue) );
 			}
 		}
 		frame			= null;
 		windowIsOpen	= false;
+	}
+
+	/**
+	 * permet de savoir si le dernier formulaire à été validé
+	 * @return true si le dernier formulaire à été validé
+	 */
+	public static boolean isValid()
+	{
+		return frame == null;
 	}
 
 	/**
@@ -426,8 +453,7 @@ public class FormController
 	 */
 	public static Object[] getArray (String id)
 	{
-		// TODO
-		return null;
+		return arrayMap.get(id);
 	}
 
 	/**
@@ -465,101 +491,101 @@ public class FormController
 
 			PrintWriter pw = new PrintWriter(dtd, "UTF-8");
 
-			pw.write("\t\t\t<!ELEMENT form (fenetre|window)>\n");
+			pw.write("<!ELEMENT form (fenetre|window)>\n");
 
-			pw.write("\t\t\t\t<!ELEMENT fenetre (label|texte|menu|case|tableau|boutons|calendrier)+>\n");
-			pw.write("\t\t\t\t\t<!ATTLIST fenetre longueur CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t                  largeur  CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t                  titre    CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t                  x        CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t                  y        CDATA #REQUIRED>\n");
-			pw.write("\t\t\t\t\t<!ELEMENT texte EMPTY>\n");
-			pw.write("\t\t\t\t\t\t<!ATTLIST texte type  ( chaine | entier | double | booleen | caractere )  #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                label CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                id    ID    #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                x     CDATA #IMPLIED\n");
-			pw.write("\t\t\t\t\t\t                y     CDATA #IMPLIED >\n");
-			pw.write("\t\t\t\t\t<!ELEMENT menu (choix*)>\n");
-			pw.write("\t\t\t\t\t\t<!ATTLIST menu id    ID    #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t               label CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t               x     CDATA #IMPLIED\n");
-			pw.write("\t\t\t\t\t\t               y     CDATA #IMPLIED >\n");
-			pw.write("\t\t\t\t\t\t<!ELEMENT choix EMPTY>\n");
-			pw.write("\t\t\t\t\t\t\t<!ATTLIST choix label CDATA #REQUIRED >\n");
-			pw.write("\t\t\t\t\t<!ELEMENT case EMPTY>\n");
-			pw.write("\t\t\t\t\t\t<!ATTLIST case label CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t               id    ID    #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t               x     CDATA #IMPLIED\n");
-			pw.write("\t\t\t\t\t\t               y     CDATA #IMPLIED >\n");
-			pw.write("\t\t\t\t\t<!ELEMENT tableau EMPTY>\n");
-			pw.write("\t\t\t\t\t\t<!ATTLIST tableau label  CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                  id     ID    #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                  type   ( chaine | entier | double | booleen | caractere ) #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                  nb_lig CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                  nb_col CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                  x      CDATA #IMPLIED\n");
-			pw.write("\t\t\t\t\t\t                  y      CDATA #IMPLIED >\n");
-			pw.write("\t\t\t\t\t<!ELEMENT boutons (bouton+)>\n");
-			pw.write("\t\t\t\t\t\t<!ATTLIST boutons label  CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                  id     CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                  x      CDATA #IMPLIED\n");
-			pw.write("\t\t\t\t\t\t                  y      CDATA #IMPLIED >\n");
-			pw.write("\t\t\t\t\t\t<!ELEMENT bouton (#PCDATA)>\n");
-			pw.write("\t\t\t\t\t<!ELEMENT calendrier EMPTY>\n");
-			pw.write("\t\t\t\t\t\t<!ATTLIST calendrier label CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                     id    ID    #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                     x     CDATA #IMPLIED\n");
-			pw.write("\t\t\t\t\t\t                     y     CDATA #IMPLIED >\n");
+			pw.write("\t<!ELEMENT fenetre (label|texte|menu|case|tableau|boutons|calendrier)+>\n");
+			pw.write("\t\t<!ATTLIST fenetre longueur CDATA #REQUIRED\n");
+			pw.write("\t\t                  largeur  CDATA #REQUIRED\n");
+			pw.write("\t\t                  titre    CDATA #REQUIRED\n");
+			pw.write("\t\t                  x        CDATA #REQUIRED\n");
+			pw.write("\t\t                  y        CDATA #REQUIRED>\n");
+			pw.write("\t\t<!ELEMENT texte EMPTY>\n");
+			pw.write("\t\t\t<!ATTLIST texte type  ( chaine | entier | double | booleen | caractere )  #REQUIRED\n");
+			pw.write("\t\t\t                label CDATA #REQUIRED\n");
+			pw.write("\t\t\t                id    ID    #REQUIRED\n");
+			pw.write("\t\t\t                x     CDATA #IMPLIED\n");
+			pw.write("\t\t\t                y     CDATA #IMPLIED >\n");
+			pw.write("\t\t<!ELEMENT menu (choix*)>\n");
+			pw.write("\t\t\t<!ATTLIST menu id    ID    #REQUIRED\n");
+			pw.write("\t\t\t               label CDATA #REQUIRED\n");
+			pw.write("\t\t\t               x     CDATA #IMPLIED\n");
+			pw.write("\t\t\t               y     CDATA #IMPLIED >\n");
+			pw.write("\t\t\t<!ELEMENT choix EMPTY>\n");
+			pw.write("\t\t\t\t<!ATTLIST choix label CDATA #REQUIRED >\n");
+			pw.write("\t\t<!ELEMENT case EMPTY>\n");
+			pw.write("\t\t\t<!ATTLIST case label CDATA #REQUIRED\n");
+			pw.write("\t\t\t               id    ID    #REQUIRED\n");
+			pw.write("\t\t\t               x     CDATA #IMPLIED\n");
+			pw.write("\t\t\t               y     CDATA #IMPLIED >\n");
+			pw.write("\t\t<!ELEMENT tableau EMPTY>\n");
+			pw.write("\t\t\t<!ATTLIST tableau label  CDATA #REQUIRED\n");
+			pw.write("\t\t\t                  id     ID    #REQUIRED\n");
+			pw.write("\t\t\t                  type   ( chaine | entier | double | booleen | caractere ) #REQUIRED\n");
+			pw.write("\t\t\t                  nb_lig CDATA #REQUIRED\n");
+			pw.write("\t\t\t                  nb_col CDATA #REQUIRED\n");
+			pw.write("\t\t\t                  x      CDATA #IMPLIED\n");
+			pw.write("\t\t\t                  y      CDATA #IMPLIED >\n");
+			pw.write("\t\t<!ELEMENT boutons (bouton+)>\n");
+			pw.write("\t\t\t<!ATTLIST boutons label  CDATA #REQUIRED\n");
+			pw.write("\t\t\t                  id     CDATA #REQUIRED\n");
+			pw.write("\t\t\t                  x      CDATA #IMPLIED\n");
+			pw.write("\t\t\t                  y      CDATA #IMPLIED >\n");
+			pw.write("\t\t\t<!ELEMENT bouton (#PCDATA)>\n");
+			pw.write("\t\t<!ELEMENT calendrier EMPTY>\n");
+			pw.write("\t\t\t<!ATTLIST calendrier label CDATA #REQUIRED\n");
+			pw.write("\t\t\t                     id    ID    #REQUIRED\n");
+			pw.write("\t\t\t                     x     CDATA #IMPLIED\n");
+			pw.write("\t\t\t                     y     CDATA #IMPLIED >\n");
 
-			pw.write("\t\t\t\t<!ELEMENT window (label|text|dropdown|checkbox|array|buttons|calendar)+>\n");
-			pw.write("\t\t\t\t\t<!ATTLIST window length CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t                 width  CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t                 title  CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t                 x      CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t                 y      CDATA #REQUIRED>\n");
-			pw.write("\t\t\t\t\t\t<!ELEMENT text (#PCDATA)>\n");
-			pw.write("\t\t\t\t\t\t\t<!ATTLIST text type  ( string | int | double | boolean | char ) #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t\t               label CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t\t               id    ID    #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t\t               x     CDATA #IMPLIED\n");
-			pw.write("\t\t\t\t\t\t\t               y     CDATA #IMPLIED >\n");
-			pw.write("\t\t\t\t\t<!ELEMENT dropdown (choice*)>\n");
-			pw.write("\t\t\t\t\t\t<!ATTLIST dropdown id    ID\t  #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                   label CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                   x     CDATA #IMPLIED\n");
-			pw.write("\t\t\t\t\t\t                   y     CDATA #IMPLIED >\n");
-			pw.write("\t\t\t\t\t\t<!ELEMENT choice EMPTY>\n");
-			pw.write("\t\t\t\t\t\t\t<!ATTLIST choice label CDATA #REQUIRED >\n");
-			pw.write("\t\t\t\t\t<!ELEMENT checkbox EMPTY>\n");
-			pw.write("\t\t\t\t\t\t<!ATTLIST checkbox label CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                   id    ID    #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                   x     CDATA #IMPLIED\n");
-			pw.write("\t\t\t\t\t\t                   y     CDATA #IMPLIED >\n");
-			pw.write("\t\t\t\t\t<!ELEMENT array EMPTY>\n");
-			pw.write("\t\t\t\t\t\t<!ATTLIST array label CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                id    ID    #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                type ( string | int | double | boolean | char ) #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                nb_lig CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                nb_col CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                x      CDATA #IMPLIED\n");
-			pw.write("\t\t\t\t\t\t                y      CDATA #IMPLIED >\n");
-			pw.write("\t\t\t\t\t<!ELEMENT buttons (button+)>\n");
-			pw.write("\t\t\t\t\t\t<!ATTLIST buttons label  CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                  id     CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                  x      CDATA #IMPLIED\n");
-			pw.write("\t\t\t\t\t\t                  y      CDATA #IMPLIED >\n");
-			pw.write("\t\t\t\t\t\t<!ELEMENT button (#PCDATA)>\n");
-			pw.write("\t\t\t\t\t<!ELEMENT calendar EMPTY>\n");
-			pw.write("\t\t\t\t\t\t<!ATTLIST calendar label CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                   id    ID    #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                   x     CDATA #IMPLIED\n");
-			pw.write("\t\t\t\t\t\t                   y     CDATA #IMPLIED >\n");
+			pw.write("\t<!ELEMENT window (label|text|dropdown|checkbox|array|buttons|calendar)+>\n");
+			pw.write("\t\t<!ATTLIST window length CDATA #REQUIRED\n");
+			pw.write("\t\t                 width  CDATA #REQUIRED\n");
+			pw.write("\t\t                 title  CDATA #REQUIRED\n");
+			pw.write("\t\t                 x      CDATA #REQUIRED\n");
+			pw.write("\t\t                 y      CDATA #REQUIRED>\n");
+			pw.write("\t\t\t<!ELEMENT text (#PCDATA)>\n");
+			pw.write("\t\t\t\t<!ATTLIST text type  ( string | int | double | boolean | char ) #REQUIRED\n");
+			pw.write("\t\t\t\t               label CDATA #REQUIRED\n");
+			pw.write("\t\t\t\t               id    ID    #REQUIRED\n");
+			pw.write("\t\t\t\t               x     CDATA #IMPLIED\n");
+			pw.write("\t\t\t\t               y     CDATA #IMPLIED >\n");
+			pw.write("\t\t<!ELEMENT dropdown (choice*)>\n");
+			pw.write("\t\t\t<!ATTLIST dropdown id    ID\t  #REQUIRED\n");
+			pw.write("\t\t\t                   label CDATA #REQUIRED\n");
+			pw.write("\t\t\t                   x     CDATA #IMPLIED\n");
+			pw.write("\t\t\t                   y     CDATA #IMPLIED >\n");
+			pw.write("\t\t\t<!ELEMENT choice EMPTY>\n");
+			pw.write("\t\t\t\t<!ATTLIST choice label CDATA #REQUIRED >\n");
+			pw.write("\t\t<!ELEMENT checkbox EMPTY>\n");
+			pw.write("\t\t\t<!ATTLIST checkbox label CDATA #REQUIRED\n");
+			pw.write("\t\t\t                   id    ID    #REQUIRED\n");
+			pw.write("\t\t\t                   x     CDATA #IMPLIED\n");
+			pw.write("\t\t\t                   y     CDATA #IMPLIED >\n");
+			pw.write("\t\t<!ELEMENT array EMPTY>\n");
+			pw.write("\t\t\t<!ATTLIST array label CDATA #REQUIRED\n");
+			pw.write("\t\t\t                id    ID    #REQUIRED\n");
+			pw.write("\t\t\t                type ( string | int | double | boolean | char ) #REQUIRED\n");
+			pw.write("\t\t\t                nb_lig CDATA #REQUIRED\n");
+			pw.write("\t\t\t                nb_col CDATA #REQUIRED\n");
+			pw.write("\t\t\t                x      CDATA #IMPLIED\n");
+			pw.write("\t\t\t                y      CDATA #IMPLIED >\n");
+			pw.write("\t\t<!ELEMENT buttons (button+)>\n");
+			pw.write("\t\t\t<!ATTLIST buttons label  CDATA #REQUIRED\n");
+			pw.write("\t\t\t                  id     CDATA #REQUIRED\n");
+			pw.write("\t\t\t                  x      CDATA #IMPLIED\n");
+			pw.write("\t\t\t                  y      CDATA #IMPLIED >\n");
+			pw.write("\t\t\t<!ELEMENT button (#PCDATA)>\n");
+			pw.write("\t\t<!ELEMENT calendar EMPTY>\n");
+			pw.write("\t\t\t<!ATTLIST calendar label CDATA #REQUIRED\n");
+			pw.write("\t\t\t                   id    ID    #REQUIRED\n");
+			pw.write("\t\t\t                   x     CDATA #IMPLIED\n");
+			pw.write("\t\t\t                   y     CDATA #IMPLIED >\n");
 
-			pw.write("\t\t\t\t\t<!ELEMENT label EMPTY>\n");
-			pw.write("\t\t\t\t\t\t<!ATTLIST label id    ID    #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                label CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t\t\t                x     CDATA #IMPLIED\n");
-			pw.write("\t\t\t\t\t\t                y     CDATA #IMPLIED >\n");
+			pw.write("\t\t<!ELEMENT label EMPTY>\n");
+			pw.write("\t\t\t<!ATTLIST label id    ID    #REQUIRED\n");
+			pw.write("\t\t\t                label CDATA #REQUIRED\n");
+			pw.write("\t\t\t                x     CDATA #IMPLIED\n");
+			pw.write("\t\t\t                y     CDATA #IMPLIED >\n");
 
 
 
