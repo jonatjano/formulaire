@@ -546,15 +546,30 @@ public class FormController
 	}
 
 	/**
-	 * Crée la DTD dans un fichier temporaire du système
-	 * @return File Le fichier DTD créé
+	 * permet d'obtenir un fichier contenant la dtd
+	 * c'est un fichier temporaire supprimé à la fin de l'execution
+	 * @return le fichier contenant la dtd
 	 */
-	private static File createDtdFile ()
+	private static File createDtdFile()
 	{
-		try {
+		try
+		{
 			File dtd = File.createTempFile("dtd", ".dtd");
 			dtd.deleteOnExit();
+			return createDtdFile(dtd);
+		}
+		catch(Exception e) {}
+		return null;
+	}
 
+	/**
+	 * Crée la DTD dans un fichier temporaire du système
+	 * @param dtd fichier dans lequel est écrit la dtd
+	 * @return File Le fichier DTD créé
+	 */
+	private static File createDtdFile(File dtd)
+	{
+		try {
 			PrintWriter pw = new PrintWriter(dtd, "UTF-8");
 
 			pw.write("<!ELEMENT form (fenetre|window)>\n");
@@ -663,5 +678,32 @@ public class FormController
 
 		// Renvoie null s'il y a eu une erreur lors de la création
 		return null;
+	}
+
+	/**
+	 * enregistre le fichier dtd sous fileNameNoExt.dtd
+	 * @param fileNameNoExt nom sans extension du fichier destination
+	 */
+	public static void saveDtdAs(String fileNameNoExt)
+	{
+		File dtdFile = new File(fileNameNoExt + ".dtd");
+		createDtdFile(dtdFile);
+	}
+
+	/**
+	 * méthode utilisée pour obtenir la dtd
+	 * @param args doit contenir une valeur étant le nom du fichier dtd à créer sans extension
+	 */
+	public static void main(String[] args)
+	{
+		if (args.length == 0)
+		{
+			System.out.println("Ce main permet de créer un fichier dtd où l'on veux");
+			System.out.println("Usage : java iut.algo.form.FormController <nom du fichier sans extension>");
+		}
+		else
+		{
+			saveDtdAs(args[0]);
+		}
 	}
 }
