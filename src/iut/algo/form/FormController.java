@@ -408,7 +408,7 @@ public class FormController
 	 * @param  id Identifiant du controle
 	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
 	 */
-	public static String getString(String id)
+	public static String getString (String id)
 	{
 		return stringMap.get(id);
 	}
@@ -418,7 +418,7 @@ public class FormController
 	 * @param  id Identifiant du controle
 	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
 	 */
-	public static Character getChar(String id)
+	public static Character getChar (String id)
 	{
 		return charMap.get(id);
 	}
@@ -428,9 +428,20 @@ public class FormController
 	 * @param  id Identifiant du controle
 	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
 	 */
-	public static Boolean getBoolean(String id)
+	public static Boolean getBoolean (String id)
 	{
 		return booleanMap.get(id);
+	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param  id Identifiant du controle
+	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 */
+	public static Object[] getArray (String id)
+	{
+		// TODO
+		return null;
 	}
 
 	/**

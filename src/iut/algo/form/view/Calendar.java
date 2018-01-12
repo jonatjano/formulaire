@@ -18,6 +18,10 @@ import java.awt.GridLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import java.time.format.DateTimeParseException;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -30,6 +34,7 @@ public class Calendar extends Control
 {
 	/** Label décrivant le contôle à l'utilisateur */
 	private JLabel			labelL;
+	/** Zone de texte personnalisée créée pour contenir une date au format dd/MM/yyyy */
 	private DateTextField	date;
 
 	/**
@@ -60,7 +65,7 @@ public class Calendar extends Control
 
 		this.date = new DateTextField();
 		this.date.setPreferredSize( new Dimension(width, (int) (this.panel.getSize().height - (Control.DFLT_HEIGHT / 5f))) );
-
+		
 		this.panel.add( date );
 	}
 
@@ -104,7 +109,14 @@ public class Calendar extends Control
 	@Override
 	public boolean setValue (Object newValue)
 	{
-		// TODO
+		try
+		{
+			LocalDate.parse( newValue.toString(), DateTimeFormatter.ofPattern("dd/MM/yyyy") );
+			this.date.setText( newValue.toString() );
+			return true;
+		}
+		catch (DateTimeParseException e) { }
+
 		return false;
 	}
 }

@@ -123,7 +123,8 @@ public class Frame extends JFrame implements ActionListener
 
 		this.formPanel	= new JPanel();
 		this.formPanel.setLayout( null );
-		this.formPanel.setBackground( Frame.obtainFormColor() );
+		this.formPanel.setBackground( Color.white );
+		// this.formPanel.setBackground( Frame.obtainFormColor() );
 		this.formPanel.setPreferredSize( new Dimension(this.formWidth, this.formHeight) );
 		this.formPanel.setBorder( BorderFactory.createLineBorder(Color.black) );
 		
@@ -207,11 +208,13 @@ public class Frame extends JFrame implements ActionListener
 		boolean		isPlacedAutomatically	= false;
 		NodeList	listElements 			= root.getChildNodes();
 
-		if ( root.getNodeName().equals("fenetre") )	Frame.language = Language.FR;
-		else										Frame.language = Language.EN;
+		String		langStr					= root.getAttribute("lang");
+		if ( langStr.equals("FR") )		Frame.language = Language.FR;
+		else							Frame.language = Language.EN;
 
 
 		// Création de la fenêtre
+		Element	window	= (Element) root.getFirstChild();
 		String	title	= null;
 		int 	width	= 0;
 		int 	length	= 0;
@@ -634,7 +637,7 @@ public class Frame extends JFrame implements ActionListener
 	 */
 	public static Color obtainFormColor ()
 	{
-		return Color.white; //new Color(1,1,1,0);
+		return Color.white; // new Color(1,1,1,0); 
 	}
 
 	/**
