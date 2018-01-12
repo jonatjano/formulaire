@@ -78,7 +78,7 @@ public class Frame extends JFrame implements ActionListener
 	 * @param width	Largeur de la fenêtre
 	 * @param height Hauteur de la fenêtre
 	 * @param x Coordonnée sur l'axe des abscisses de la fenêtre sur l'écran
-	 * @param y	Coordonnée sur l'axe des ordonnées de la fenêtre sur l'écran		
+	 * @param y	Coordonnée sur l'axe des ordonnées de la fenêtre sur l'écran
 	 */
 	public Frame (String title, int width, int height, int x, int y)
 	{
@@ -127,7 +127,7 @@ public class Frame extends JFrame implements ActionListener
 		// this.formPanel.setBackground( Frame.obtainFormColor() );
 		this.formPanel.setPreferredSize( new Dimension(this.formWidth, this.formHeight) );
 		this.formPanel.setBorder( BorderFactory.createLineBorder(Color.black) );
-		
+
 		JScrollPane scrollPane = new JScrollPane( this.formPanel );
 		scrollPane.setPreferredSize( new Dimension(this.formWidth, this.formHeight) );
 
@@ -174,7 +174,7 @@ public class Frame extends JFrame implements ActionListener
 	 * @param width	Largeur de la fenêtre
 	 * @param height Hauteur de la fenêtre
 	 * @param x Coordonnée sur l'axe des abscisses de la fenêtre sur l'écran
-	 * @param y	Coordonnée sur l'axe des ordonnées de la fenêtre sur l'écran		
+	 * @param y	Coordonnée sur l'axe des ordonnées de la fenêtre sur l'écran
 	 */
 	public Frame (int width, int height, int x, int y)
 	{
@@ -592,7 +592,7 @@ public class Frame extends JFrame implements ActionListener
 		}
 		else if (e.getSource() == validateB)
 		{
-			FormController.windowClosed();
+			FormController.windowValidated();
 			dispose();
 		}
 	}
@@ -635,7 +635,7 @@ public class Frame extends JFrame implements ActionListener
 	 */
 	public static Color obtainFormColor ()
 	{
-		return Color.white; // new Color(1,1,1,0); 
+		return Color.white; // new Color(1,1,1,0);
 	}
 
 	/**
