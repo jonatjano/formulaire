@@ -121,7 +121,11 @@ public class FormController
 
 			pw.close();
 
-			frame = Frame.createFrame( (Element) (validXml(xmlFile).getFirstChild()) );
+			Element frameRoot = validXml(xmlFile);
+			if (frameRoot != null)
+			{
+				frame = Frame.createFrame( (Element) (frameRoot.getFirstChild()) );
+			}
 		}
 		catch (Exception e)
 		{
@@ -178,8 +182,10 @@ public class FormController
 			{
 				Document xml = builder.parse(fileXML);
 				Element root = xml.getDocumentElement();
-				if (!validate || verifType(root))
+				if (verifType(root))
+				{
 					return root;
+				}
 				else
 				{
 					String[] err = listTypeErr.get(0);
@@ -434,11 +440,14 @@ public class FormController
 	 */
 	public static boolean setValue(String id, Object value)
 	{
-		for (Control control : frame.getControls())
+		if (frame != null)
 		{
-			if (control.getId().equals(id))
+			for (Control control : frame.getControls())
 			{
-				return control.setValue(value);
+				if (control.getId().equals(id))
+				{
+					return control.setValue(value);
+				}
 			}
 		}
 		return false;
