@@ -23,7 +23,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +37,57 @@ import java.util.List;
  */
 public class Array extends Control
 {
-	/**
-	 * Listener permettant de gérer l'interaction avec le tableau pour s'y déplacer
-	 * avec le clic de la souris ou le clavier
-	 */
-	class ArrayListener implements ActionListener
+	class ArrayListener implements ActionListener, KeyListener
 	{
+		public void keyPressed(KeyEvent e)
+		{
+			int deltaR = 0; 
+			int deltaC = 0;
+			
+			switch (e.getKeyCode())
+			{
+				case KeyEvent.VK_KP_DOWN:
+				case KeyEvent.VK_DOWN:
+					deltaR--;
+					break;
+				case KeyEvent.VK_KP_UP:
+				case KeyEvent.VK_UP:
+					deltaR++;
+					break;
+				case KeyEvent.VK_KP_LEFT:
+				case KeyEvent.VK_LEFT:
+					deltaC--;
+					break;
+				case KeyEvent.VK_KP_RIGHT:
+				case KeyEvent.VK_RIGHT:
+					deltaC++;
+					break;
+			}
+			
+			if (KeyEvent.getKeyModifiersText(e.getModifiers()).equals("Ctrl"))
+			{
+				deltaR *= 5;
+				deltaC *= 5;
+			}
+			if (KeyEvent.getKeyModifiersText(e.getModifiers()).contains("Maj"))
+			{
+				if (deltaR != 0)
+					deltaR *= tabValues.length;
+				if (deltaC != 0)
+					deltaC *= tabValues[0].length;
+			}
+			
+			int goToR = Math.max( 0, Math.min(tabValues.length -1, deltaR + prevR + oriR) ); //6
+			int goToC = Math.max( 0, Math.min(tabValues[0].length -1, deltaC + prevC + oriC) ); //6
+			moveTo(goToR, goToC);
+		}
+		
+		public void keyReleased(KeyEvent e)
+		{}
+		
+		public void keyTyped(KeyEvent e)
+		{}
+
 		public void actionPerformed (ActionEvent e)
 		{
 			if (e.getSource() instanceof JButton)
@@ -54,57 +101,8 @@ public class Array extends Control
 				int col = Integer.parseInt( pos[1] );
 				
 				// Enregistrement dans le tableau de valeurs
-				Object value = valueControl.getValue();
-				tabValues[oriR + prevR][oriC + prevC] = value;
 				
-				int deltaR = 0;
-				int deltaC = 0;
-				
-				switch (row)
-				{
-					case 0 :
-						deltaR = -1;
-						break;
-					case 4 :
-						deltaR = 1;
-						break;
-				}
-				switch (col)
-				{
-					case 0 :
-						deltaC = -1;
-						break;
-					case 4 :
-						deltaC = 1;
-						break;
-				}
-				
-				
-				
-				int oriRTemp = oriR;
-				int oriCTemp = oriC;
-				// Décale le tableau
-				shiftDisplay( deltaR, deltaC);
-				
-				if (oriR - oriRTemp == -1)
-					row++;
-				if (oriR - oriRTemp == 1)
-					row--;
-				if (oriC - oriCTemp == -1)
-					col++;
-				if (oriC - oriCTemp == 1)
-					col--;
-				
-				setTabBackground(prevR, prevC, row, col);
-				
-				
-				prevR = row;
-				prevC = col;
-				
-				valueControl.setValues(tabValues[oriR + row][oriC + col]);
-				valueControl.requestFocus();
-
-				// Change le focus pour le mettre sur l'élément à modifier
+				moveTo(row + oriR,col + oriC);
 			}
 		}
 	}
@@ -313,7 +311,11 @@ public class Array extends Control
 		else								this.valueControl	= new Text("dzdz", type, width - 11, 0, 0);
 
 		this.valuePanel.add( valueControl.getPanel() );
-
+		
+		for (Component c : Frame.getAllComponents(valuePanel))
+			c.addKeyListener(new ArrayListener());
+		for (Component c : Frame.getAllComponents(arrayP))
+			c.addKeyListener(new ArrayListener());
 
 		this.panel.add( this.valuePanel );
 	}
@@ -334,13 +336,87 @@ public class Array extends Control
 	{
 		this(label, id, type, Control.DFLT_WIDTH, x, y, nbR, nbC);
 	}
+	
+	private void moveTo(int row, int col)
+	{
+		Object value = valueControl.getValue();
+				
+		tabValues[oriR + prevR][oriC + prevC] = value;
+		
+		//
+		
+		
+		
+		int deltaR = row - prevR - oriR;
+		int deltaC = col - prevC - oriC;
+		int numbutR = prevR;
+		int numbutC = prevC;
+		int deplacement = 0;
+		int eq = 0;
+		
+		if (deltaR > 0)
+			eq = Array.maxRow - numbutR - 2;
+		else
+			eq = numbutR -1;
+		
+		if (eq == -1)
+			deltaR = 0;
+		else
+		{
+			if ( Math.abs(deltaR) > eq)
+				deplacement = eq * deltaR / Math.abs(deltaR);
+			else
+				deplacement = deltaR;
+			
+			numbutR += deplacement;
+			deltaR -= deplacement;
+		}
+		
+		if (deltaC > 0)
+			eq = Array.maxCol - numbutC - 2;
+		else
+			eq = numbutC -1;
+		
+		if (eq == -1)
+			deltaC = 0;
+		else
+		{
+			if ( Math.abs(deltaC) > eq)
+				deplacement = eq * deltaC / Math.abs(deltaC);
+			else
+				deplacement = deltaC;
+			
+			numbutC += deplacement;
+			deltaC -= deplacement;
+		}
+		
+			int[] tabDep = shiftDisplay(deltaR,deltaC);
+			if (tabDep[0] != deltaR)
+				numbutR += deltaR / Math.abs(deltaR);
+			if (tabDep[1] != deltaC)
+				numbutC += deltaC / Math.abs(deltaC);
+			
+		
+		setTabBackground(prevR, prevC, numbutR, numbutC);
+		
+		
+		prevR = numbutR;
+		prevC = numbutC;
+		
+		valueControl.setValues(tabValues[numbutR + oriR][numbutC + oriC]);
+		valueControl.requestFocus();
+
+		// Change le focus pour le mettre sur l'élément à modifier
+	}
+	
+	
 
 	/**
 	 * Décale l'affichage du tableau
 	 * @param deltaR Décalage de "deltaR" ligne(s)
 	 * @param deltaC Décalage de "deltaC" colonne(s)
 	 */
-	private void shiftDisplay (int deltaR, int deltaC)
+	private int[] shiftDisplay (int deltaR, int deltaC)
 	{
 		int oriRTemp = oriR;
 		int oriCTemp = oriC;
@@ -353,7 +429,6 @@ public class Array extends Control
 		if (tabValues[0].length < Array.maxCol - 1 )
 			maxCol = tabValues.length -1;
 		
-		
 		oriR = Math.max(0, Math.min(tabValues.length -1 - maxRow, oriR + deltaR));
 		oriC = Math.max(0, Math.min(tabValues[0].length -1 - maxCol, oriC + deltaC));
 		
@@ -362,6 +437,8 @@ public class Array extends Control
 
 		for (int i = 0; i < colLabels.size(); i++)
 			colLabels.get(i).setText((oriC + i) + "");
+		
+		return new int[] {oriR - oriRTemp, oriC - oriCTemp};
 	}
 	
 	/**

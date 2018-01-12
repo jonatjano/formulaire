@@ -105,6 +105,6 @@ public class Checkbox extends Control
 	@Override
 	public void setValues (Object newValue)
 	{
-		//TODO
+			((JCheckBox)this.compo).setSelected(newValue == null ? false : (Boolean)newValue);
 	}
 }

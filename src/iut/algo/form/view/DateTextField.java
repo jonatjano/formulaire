@@ -1,7 +1,5 @@
 package iut.algo.form.view;
 
-import iut.algo.form.job.Language;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;

@@ -28,7 +28,7 @@ Les différents Contrôles devront posséder :
 - [x] **La zone de texte**
 - [x] **Une case à cocher**
 
-#### [ ] Un  bouton  valider,  permettra  de  rendre  la main  au  programme  appelant.  Cela  provoquera  la fermeture de la fenêtre liée au formulaire
+#### [x] Un  bouton  valider,  permettra  de  rendre  la main  au  programme  appelant.  Cela  provoquera  la fermeture de la fenêtre liée au formulaire
 #### [x] Chargement du formulaire
 - [x] **Chargement d'un Objet Formulaire à partir du nom d'un fichier**
 - [x] **Ouverture du Formulaire à l'aide d'une primitive simple. Tant  que  le  formulaire  n'aura  pas  été  définitivement  fermé,  l'ouverture affichera le formulaire dans son état précédent.**
@@ -39,9 +39,9 @@ Les différents Contrôles devront posséder :
 - [ ] Documentation Programmeur Avec une Cartographie du programme, une table des matières par fonctionnalité
 - [ ] Documentation Utilisateur
 
-### [ ] Rajout
-- [ ] Gérer toutes les erreurs XML :
-	- [ ] Type incorrect
+### [x] Rajout
+- [x] **Gérer toutes les erreurs XML** :
+	- [x] **Type incorrect**
 	- [x] **Oubli Chevron**
 	- [x] **Erreur DTD**
 
@@ -81,12 +81,12 @@ Les différents Contrôles devront posséder :
 - [x] <u>**En cas de non chargement l'utilisateur pourra récupérer un message d'erreur du type
 Fichier inexistant**</u>
 
-#### [ ] Documentation
-- [ ] Aide en ligne
+#### [x] Documentation
+- [x] **Aide en ligne**
 
 ## Ajouté par nous
 ### Controles
-- [ ] label seul
+- [x] **label seul**
 - [x] **ajout d'une marge de 20-30 sur la gauche des controles**
 - [x] **Changement de langue**
 
@@ -96,4 +96,4 @@ Fichier inexistant**</u>
 ### Avenant n°2
 - [ ] Définir une feuille de style xsl, permettant de prévisualiser un formulaire dans un navigateur.
 ### Avenant n°3
-- [ ] Gérer une historisation des saisies sur les controles zone de texte (référencé par l'étiquette associé au Controle)
+- [x] **Gérer une historisation des saisies sur les controles zone de texte (référencé par l'étiquette associé au Controle)**

@@ -686,7 +686,7 @@ public class Frame extends JFrame implements ActionListener
 	 * @param c Elément racine à partir duquel sont obtenus les enfants à renvoyer
 	 * @return Ensemble des composants
 	 */
-	private static List<Component> getAllComponents (Container c)
+	static List<Component> getAllComponents (Container c)
 	{
 		Component[] 	comps 		= c.getComponents();
 		List<Component> compList	= new ArrayList<Component>();
