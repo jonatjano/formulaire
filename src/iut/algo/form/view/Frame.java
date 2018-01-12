@@ -208,30 +208,28 @@ public class Frame extends JFrame implements ActionListener
 		boolean		isPlacedAutomatically	= false;
 		NodeList	listElements 			= root.getChildNodes();
 
-		String		langStr					= root.getAttribute("lang");
-		if ( langStr.equals("FR") )		Frame.language = Language.FR;
-		else							Frame.language = Language.EN;
+		if ( root.getNodeName().equals("fenetre") )	Frame.language = Language.FR;
+		else										Frame.language = Language.EN;
 
 
 		// Création de la fenêtre
-		Element	window	= (Element) root.getFirstChild();
 		String	title	= null;
 		int 	width	= 0;
 		int 	length	= 0;
-		int 	frameX	= Integer.parseInt( window.getAttribute("x") );
-		int 	frameY	= Integer.parseInt( window.getAttribute("y") );
+		int 	frameX	= Integer.parseInt( root.getAttribute("x") );
+		int 	frameY	= Integer.parseInt( root.getAttribute("y") );
 
 		switch (Frame.language)
 		{
 			case FR:
-				title	= window.getAttribute("titre");
-				width	= Integer.parseInt( window.getAttribute("largeur") );
-				length	= Integer.parseInt( window.getAttribute("longueur") );
+				title	= root.getAttribute("titre");
+				width	= Integer.parseInt( root.getAttribute("largeur") );
+				length	= Integer.parseInt( root.getAttribute("longueur") );
 				break;
 			case EN:
-				title	= window.getAttribute("title");
-				width	= Integer.parseInt( window.getAttribute("width") );
-				length	= Integer.parseInt( window.getAttribute("length") );
+				title	= root.getAttribute("title");
+				width	= Integer.parseInt( root.getAttribute("width") );
+				length	= Integer.parseInt( root.getAttribute("length") );
 				break;
 		}
 		Frame frame = new Frame(title, width, length, frameX, frameY);
