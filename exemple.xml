@@ -14,7 +14,7 @@
 			<choix label="uh"/>
 		</menu>
 
-		<tableau x="500" y="120" label="box" id="p04" type="booleen" nb_lig="7" nb_col="8"/>
+		<tableau x="500" y="120" label="box" id="p04" type="double" nb_lig="7" nb_col="8"/>
 
 		<boutons x="36" y="150" id="m002" label="bouton">
 			<bouton>25</bouton>

@@ -178,7 +178,8 @@ public class FormController
 				Element root = xml.getDocumentElement();
 				return root;
 			}
-			catch (SAXParseException e) {}
+			catch (SAXParseException e)
+			{}
 		}
 		catch (ParserConfigurationException e)
 		{
@@ -202,9 +203,9 @@ public class FormController
 	 * Cette méthode permet d'afficher une erreur à l'écran avec le titre "Erreur"
 	 * @param message Message à afficher dans l'erreur
 	 */
-	private static void showError (String message)
+	public static void showError (String message)
 	{
-		showError("Erreur", message);
+		showMessage("Erreur", message);
 	}
 
 	/**
@@ -212,7 +213,7 @@ public class FormController
 	 * @param titre Titre du message d'erreur
 	 * @param message Message à afficher dans l'erreur
 	 */
-	private static void showError( String titre , String message )
+	public static void showMessage( String titre , String message )
 	{
 		JOptionPane.showMessageDialog( null, message, titre, JOptionPane.ERROR_MESSAGE );
 	}

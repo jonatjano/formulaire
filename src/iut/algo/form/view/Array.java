@@ -41,6 +41,7 @@ public class Array extends Control
 	{
 		public void keyPressed(KeyEvent e)
 		{
+			
 			int deltaR = 0; 
 			int deltaC = 0;
 			
@@ -50,18 +51,24 @@ public class Array extends Control
 				case KeyEvent.VK_DOWN:
 					deltaR--;
 					break;
+					
 				case KeyEvent.VK_KP_UP:
 				case KeyEvent.VK_UP:
 					deltaR++;
 					break;
+					
 				case KeyEvent.VK_KP_LEFT:
 				case KeyEvent.VK_LEFT:
 					deltaC--;
 					break;
+					
 				case KeyEvent.VK_KP_RIGHT:
 				case KeyEvent.VK_RIGHT:
 					deltaC++;
 					break;
+				
+				default:
+					return;
 			}
 			
 			if (KeyEvent.getKeyModifiersText(e.getModifiers()).equals("Ctrl"))
@@ -80,6 +87,7 @@ public class Array extends Control
 			int goToR = Math.max( 0, Math.min(tabValues.length -1, deltaR + prevR + oriR) ); //6
 			int goToC = Math.max( 0, Math.min(tabValues[0].length -1, deltaC + prevC + oriC) ); //6
 			moveTo(goToR, goToC);
+			
 		}
 		
 		public void keyReleased(KeyEvent e)
@@ -402,7 +410,6 @@ public class Array extends Control
 		
 		prevR = numbutR;
 		prevC = numbutC;
-		
 		valueControl.setValues(tabValues[numbutR + oriR][numbutC + oriC]);
 		valueControl.requestFocus();
 
