@@ -17,10 +17,14 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 import org.xml.sax.SAXParseException;
 
 /**
@@ -64,6 +68,8 @@ public class FormController
 	 */
 	private static Map<String, Character> charMap;
 
+	private static List<String[]> listTypeErr;
+
 	/**
 	 * methode appellée par une classe externe au package permettant d'appeller tous les utilitaires nécessaire au formulaire
 	 * cette méthode n'affiche pas le formulaire, il faut pour cela appeler showForm
@@ -71,6 +77,7 @@ public class FormController
 	 */
 	public static void createForm (String filePath)
 	{
+		listTypeErr = new ArrayList<String[]>();
 		// on recupere le fichier
 		File xmlFile = new File(filePath);
 
@@ -171,7 +178,18 @@ public class FormController
 			{
 				Document xml = builder.parse(fileXML);
 				Element root = xml.getDocumentElement();
-				return root;
+				if (!validate || verifType(root))
+					return root;
+				else
+				{
+					String[] err = listTypeErr.get(0);
+					String sErr = "L'attribut \"" + err[0] + "\" de l'élement \"" + err[1] + "\" n'est pas un " + err[2] + " !  ( valeur : \"" + err[3] + "\")";
+
+					if (listTypeErr.size() > 1)
+						sErr += "\n\t\t( " + ( listTypeErr.size() - 1 ) + " autre" + ( listTypeErr.size() > 2 ? "s" : "" ) + " )";
+
+					showError(sErr);
+				}
 			}
 			catch (SAXParseException e)
 			{}
@@ -192,6 +210,72 @@ public class FormController
 			System.out.println("IO");
 		}
 		return null;
+	}
+
+	private static boolean attributeOk(Element elem, String attName, String attType)
+	{
+		if (!elem.hasAttribute(attName))
+			return true;
+
+		String value = elem.getAttribute(attName);
+
+		switch (attType)
+		{
+			case "int":
+				try
+				{
+					Integer.parseInt(value);
+				}
+				catch(Exception e)
+				{
+					listTypeErr.add(new String[]{ attName,
+												  elem.getTagName(),
+												  "entier",
+												  value
+												}
+									);
+
+					return false;
+				}
+		}
+
+		return true;
+	}
+
+	private static boolean attributeOk(Element elem)
+	{
+		return attributeOk(elem, "longeur", "int") &
+			   attributeOk(elem, "largeur", "int") &
+			   attributeOk(elem, "x", "int") &
+			   attributeOk(elem, "y", "int") &
+			   attributeOk(elem, "nb_lig", "int") &
+			   attributeOk(elem, "nb_col", "int") &
+			   attributeOk(elem, "length", "int") &
+			   attributeOk(elem, "width", "int");
+	}
+
+	private static boolean verifType(Element root)
+	{
+		boolean ok = true;
+		NodeList nodeList = root.getChildNodes();
+
+		for (int i = 0; i < nodeList.getLength(); i++)
+		{
+			Node node = nodeList.item(i);
+			if (node instanceof Element)
+			{
+				Element elem = (Element)node;
+
+				if ( verifType(elem) == false)
+					ok = false;
+
+				if (!attributeOk(elem))
+					ok = false;
+			}
+
+		}
+
+		return ok;
 	}
 
 	/**
@@ -304,7 +388,7 @@ public class FormController
 	 * @param  id Identifiant du controle
 	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
 	 */
-	public static String getString(String id)
+	public static String getString (String id)
 	{
 		return stringMap.get(id);
 	}
@@ -314,7 +398,7 @@ public class FormController
 	 * @param  id Identifiant du controle
 	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
 	 */
-	public static Character getChar(String id)
+	public static Character getChar (String id)
 	{
 		return charMap.get(id);
 	}
@@ -324,9 +408,20 @@ public class FormController
 	 * @param  id Identifiant du controle
 	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
 	 */
-	public static Boolean getBoolean(String id)
+	public static Boolean getBoolean (String id)
 	{
 		return booleanMap.get(id);
+	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param  id Identifiant du controle
+	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 */
+	public static Object[] getArray (String id)
+	{
+		// TODO
+		return null;
 	}
 
 	/**
