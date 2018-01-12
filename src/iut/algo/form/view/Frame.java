@@ -208,11 +208,13 @@ public class Frame extends JFrame implements ActionListener
 		boolean		isPlacedAutomatically	= false;
 		NodeList	listElements 			= root.getChildNodes();
 
-		if ( root.getNodeName().equals("fenetre") )	Frame.language = Language.FR;
-		else										Frame.language = Language.EN;
+		String		langStr					= root.getAttribute("lang");
+		if ( langStr.equals("FR") )		Frame.language = Language.FR;
+		else							Frame.language = Language.EN;
 
 
 		// Création de la fenêtre
+		Element	window	= (Element) root.getFirstChild();
 		String	title	= null;
 		int 	width	= 0;
 		int 	length	= 0;
