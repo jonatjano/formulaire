@@ -6,11 +6,12 @@ import iut.algo.form.view.Frame;
  * @author Team Infotik
  * @version 2018-01-08
  */
-public class Test
+public class Demo
 {
-	public static void main(String[] args)
+	public static void main (String[] args)
 	{
 		FormController.showForm("../exemple.xml");
-		//System.out.println( FormController.getInt("p05") );
+
+		// FormController.setValue("p05");
 	}
 }

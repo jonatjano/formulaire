@@ -15,4 +15,4 @@ src/iut/algo/form/FormController.java
 src/iut/algo/form/job/BaseType.java
 src/iut/algo/form/job/SimpleErrorHandler.java
 src/iut/algo/form/job/Language.java
-src/Test.java
+src/Demo.java

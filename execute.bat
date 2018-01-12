@@ -1,4 +1,4 @@
 cd bin
-java Test
+java Demo
 
 cd ../

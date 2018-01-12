@@ -159,6 +159,22 @@ public class Text extends Control
 
 
 	/**
+	 * Demande le focus sur l'élément
+	 */
+	@Override
+	public void requestFocus ()
+	{
+		Component toFocus = this.compo;
+		if (this.compo instanceof JSpinner)
+		{
+			DefaultEditor editor = (DefaultEditor) ((JSpinner) this.compo).getEditor();
+			toFocus = editor.getTextField();
+		}
+
+		this.compo.requestFocus();
+	}
+
+	/**
 	 * Ajoute à l'historique des actions
 	 */
 	public void addToHistory (String toAdd)
@@ -227,23 +243,21 @@ public class Text extends Control
 	 */
 	@Override
 	public void setValues (Object newValue)
-	{
-		if (newValue == null)	newValue = "";
-		
-		if (compo instanceof JSpinner)
+	{		
+		if (this.type != BaseType.String && this.type != BaseType.Char)
 		{
-			if (newValue == null)	newValue = "0";
+			if (newValue == null)	newValue = 0;
 			try
 			{
 		 		newValue = new Integer( Integer.parseInt(newValue.toString()) );
-		 		((JSpinner) (compo)).setValue( newValue ); 
+		 		((JSpinner) (this.compo)).setValue( newValue ); 
 			}
 			catch (Exception e) { }	
 		}
 		else
 		{
 			if (newValue == null)	newValue = "";
-			((JTextField) (compo)).setText( (String) newValue );
+			((JTextField) (this.compo)).setText( (String) newValue );
 		}
 	}
 }

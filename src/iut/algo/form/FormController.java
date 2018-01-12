@@ -360,7 +360,7 @@ public class FormController
 			pw.write("\t\t\t\t\t\t                id    ID    #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t                x     CDATA #IMPLIED\n");
 			pw.write("\t\t\t\t\t\t                y     CDATA #IMPLIED >\n");
-			pw.write("\t\t\t\t\t<!ELEMENT menu (choix+)>\n");
+			pw.write("\t\t\t\t\t<!ELEMENT menu (choix*)>\n");
 			pw.write("\t\t\t\t\t\t<!ATTLIST menu id    ID    #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t               label CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t               x     CDATA #IMPLIED\n");
@@ -404,7 +404,7 @@ public class FormController
 			pw.write("\t\t\t\t\t\t\t               id    ID    #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t\t               x     CDATA #IMPLIED\n");
 			pw.write("\t\t\t\t\t\t\t               y     CDATA #IMPLIED >\n");
-			pw.write("\t\t\t\t\t<!ELEMENT dropdown (choice+)>\n");
+			pw.write("\t\t\t\t\t<!ELEMENT dropdown (choice*)>\n");
 			pw.write("\t\t\t\t\t\t<!ATTLIST dropdown id    ID\t  #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t                   label CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t\t\t                   x     CDATA #IMPLIED\n");
