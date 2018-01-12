@@ -121,6 +121,7 @@ public class Text extends Control
 					addToHistory(str);
 				}
 			}
+		});
 
 
 		this.compo.setPreferredSize( new Dimension(width, (int) (this.panel.getSize().height - (Control.DFLT_HEIGHT / 5f))) );
@@ -243,9 +244,9 @@ public class Text extends Control
 			try
 			{
 		 		newValue = new Double( Double.parseDouble(newValue.toString()) );
-		 		((JSpinner) (this.compo)).setValue( newValue ); 
+		 		((JSpinner) (this.compo)).setValue( newValue );
 			}
-			catch (Exception e) { }	
+			catch (Exception e) { }
 		}
 		else
 		{
