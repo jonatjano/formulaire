@@ -53,29 +53,29 @@ public class FormController
 	private static Frame frame;
 
 	/**
-	 * {@link Map} contenant les valeurs des différent champs de type {@link Integer}
+	 * {@link Map} contenant les valeurs des différents champs de type {@link Integer}
 	 */
 	private static Map<String, Integer> intMap;
 	/**
-	 * {@link Map} contenant les valeurs des différent champs de type {@link String}
+	 * {@link Map} contenant les valeurs des différents champs de type {@link String}
 	 */
 	private static Map<String, String> stringMap;
 	/**
-	 * {@link Map} contenant les valeurs des différent champs de type {@link Double}
+	 * {@link Map} contenant les valeurs des différents champs de type {@link Double}
 	 */
 	private static Map<String, Double> doubleMap;
 	/**
-	 * {@link Map} contenant les valeurs des différent champs de type {@link Boolean}
+	 * {@link Map} contenant les valeurs des différents champs de type {@link Boolean}
 	 */
 	private static Map<String, Boolean> booleanMap;
 	/**
-	 * {@link Map} contenant les valeurs des différent champs de type {@link Character}
+	 * {@link Map} contenant les valeurs des différents champs de type {@link Character}
 	 */
 	private static Map<String, Character> charMap;
 	/**
-	 * {@link Map} contenant les valeurs des différent champs contenant des tableaux
+	 * {@link Map} contenant les valeurs des différents champs de type tableaux
 	 */
-	private static Map<String, List> arrayMap;
+	private static Map<String, Object[]> arrayMap;
 
 	private static List<String[]> listTypeErr;
 
@@ -91,20 +91,21 @@ public class FormController
 		File xmlFile = new File(filePath);
 
 		// on fait les verifications basique d'existence du fichier
-		// s'il existe
+		// S'il existe...
 		if (!xmlFile.exists())
 		{
-			showError("Le fichier entré n'existe pas");
+			showError("Le fichier ciblé n'existe pas");
 			return;
 		}
-		// s'il possède bien une extension XML
-		else if (!xmlFile.getName().toUpperCase().endsWith(".XML"))
+		// Et s'il possède bien une extension XML...
+		else if ( !xmlFile.getName().toUpperCase().endsWith(".XML") )
 		{
-			showError("Le fichier entré ne correspond pas à un fichier XML");
+			showError("Le fichier ciblé ne correspond pas à un fichier XML");
 			return;
 		}
 
 
+		// ... Le programme continue !
 		try
 		{
 			// creer un fichier temporaire
@@ -141,7 +142,7 @@ public class FormController
 			e.printStackTrace();
 		}
 
-		// le fichier est accepté, on l'envoi à la suite du traitement
+		// le fichier est accepté, on l'envoie à la suite du traitement
 		// parseXml(xmlFile);
 	}
 
@@ -243,10 +244,11 @@ public class FormController
 				}
 				catch(Exception e)
 				{
-					listTypeErr.add(new String[]{ attName,
-												  elem.getTagName(),
-												  "entier",
-												  value
+					listTypeErr.add( new String[] {
+													attName,
+												 	elem.getTagName(),
+													"entier",
+													value
 												}
 									);
 
@@ -287,7 +289,6 @@ public class FormController
 				if (!attributeOk(elem))
 					ok = false;
 			}
-
 		}
 
 		return ok;
@@ -347,40 +348,43 @@ public class FormController
 		stringMap	= new HashMap<String, String>();
 		charMap		= new HashMap<String, Character>();
 		booleanMap	= new HashMap<String, Boolean>();
+		arrayMap	= new HashMap<String, Object[]>();
 
 		for (Control ctrl : frame.getControls())
 		{
 			// System.out.println(ctrl.getType() + " : " + ctrl.getValue() + " <--> " + ctrl.getId());
-			if (!(ctrl instanceof iut.algo.form.view.Array)) {
+			if ( !(ctrl instanceof iut.algo.form.view.Array) )
+			{
 				switch (ctrl.getType())
 				{
 					case Int:
-						intMap.put(ctrl.getId(), (Integer)(ctrl.getValue()));
+						intMap.put(ctrl.getId(), (Integer) ctrl.getValue());
 					break;
 
 					case Double:
-						doubleMap.put(ctrl.getId(), (Double)(ctrl.getValue()));
+						doubleMap.put(ctrl.getId(), (Double) ctrl.getValue());
 					break;
 
 					case String:
-						stringMap.put(ctrl.getId(), (String)(ctrl.getValue()));
+						stringMap.put(ctrl.getId(), (String) ctrl.getValue());
 					break;
 
 					case Char:
 						if (((String)(ctrl.getValue())).length() > 0)
 						{
-							charMap.put(ctrl.getId(), ((String)(ctrl.getValue())).charAt(0));
+							charMap.put(ctrl.getId(), ((String) ctrl.getValue()).charAt(0));
 						}
 					break;
 
 					case Boolean:
-						booleanMap.put(ctrl.getId(), (Boolean)(ctrl.getValue()));
+						booleanMap.put(ctrl.getId(), (Boolean) (ctrl.getValue()));
 					break;
 				}
 			}
 			else
 			{
-				this.arrayMap.put( ctrl.getId(), Arrays.asList(ctrl.getValue) );
+				Object[][] test = (Object[][]) ctrl.getValue();
+				arrayMap.put( ctrl.getId(), (Object[]) ctrl.getValue() );
 			}
 		}
 		frame			= null;
@@ -451,9 +455,70 @@ public class FormController
 	 * @param  id Identifiant du controle
 	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
 	 */
-	public static Object[] getArray (String id)
+	@SuppressWarnings("unchecked")
+	public static void getArray (String id, String[][] res)
 	{
-		return arrayMap.get(id);
+		Object[] tmp = arrayMap.get(id);
+	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param  id Identifiant du controle
+	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 */
+	@SuppressWarnings("unchecked")
+	public static Object[] getArrayString (String id)
+	{
+		Object[] resAsArray = arrayMap.get(id);
+		return resAsArray;
+	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param  id Identifiant du controle
+	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 */
+	@SuppressWarnings("unchecked")
+	public static Object[] getArrayInt (String id)
+	{
+		Object[] resAsArray = arrayMap.get(id);
+		return resAsArray;
+	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param  id Identifiant du controle
+	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 */
+	@SuppressWarnings("unchecked")
+	public static Object[] getArrayDouble (String id)
+	{
+		Object[] resAsArray = arrayMap.get(id);
+		return resAsArray;
+	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param  id Identifiant du controle
+	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 */
+	@SuppressWarnings("unchecked")
+	public static Object[] getArrayChar (String id)
+	{
+		Object[] resAsArray = arrayMap.get(id);
+		return resAsArray;
+	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param  id Identifiant du controle
+	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 */
+	@SuppressWarnings("unchecked")
+	public static Object[] getArrayBoolean (String id)
+	{
+		Object[] resAsArray = arrayMap.get(id);
+		return resAsArray;
 	}
 
 	/**

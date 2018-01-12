@@ -24,7 +24,7 @@
 			<bouton>Second choix</bouton>
 		</boutons>
 
-		<tableau x="500" y="180" label="Tableau de bool" id="a08" type="entier" nb_lig="7" nb_col="8"/>
+		<tableau x="500" y="180" label="Tableau de bool" id="a08" type="chaine" nb_lig="7" nb_col="8"/>
 
 		<calendrier x="500" y="120" id="a09" label="Date"/>
 	</fenetre>
