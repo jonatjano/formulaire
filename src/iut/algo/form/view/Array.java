@@ -486,12 +486,15 @@ public class Array extends Control
 	@Override
 	public void reset ()
 	{
-		for (Object[] row : tabValues)
-			for (Object col : row)
-				col = null;
+		int posR = oriR + prevR;
+		int posC = oriC + prevC;
+		
+		for (int i = 0; i < tabValues.length; i++)
+			for (int j = 0; j < tabValues[i].length; j++)
+				tabValues[i][j] = null;
 
-		oriR = oriC = 0;
-		// DEPLACER DANS LE TABLEAU (RESET QUOI)
+		moveTo(0,0);
+		tabValues[posR][posC] = null;
 	}
 
 	/**
