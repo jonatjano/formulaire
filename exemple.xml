@@ -1,26 +1,28 @@
 <form>
 	<fenetre longueur="650" titre="test" largeur="1340" x="100" y="100">
-		<label x="36" y="0" label="Mon label seul" id="a01"/>
+		<label x="36" y="0" label="Un label seul" id="a01"/>
 
-		<case x="36" y="30" label="texte" id="p01"/>
+		<case x="36" y="30" label="Choix binaire" id="p01"/>
 
-		<texte x="36" y="60" label="groupeBoutton" id="a05" type ="entier"/>
+		<texte x="36" y="60" label="Un entier" id="a05" type ="entier"/>
 
-		<texte x="36" y="90" label="groupeBoutton" id="a06" type ="caractere"/>
+		<texte x="36" y="90" label="Un caractère" id="a06" type ="caractere"/>
 
-		<menu x="36" y="120" label="deroulant" id="p02">
-			<choix label="ah"/>
-			<choix label="oh"/>
-			<choix label="uh"/>
+		<texte x="36" y="120" label="Une chaîne" id="a07" type ="chaine"/>
+
+		<menu x="36" y="150" label="Menu déroulant" id="p02">
+			<choix label="Option 1"/>
+			<choix label="Option 2"/>
+			<choix label="Option 3"/>
 		</menu>
 
-		<tableau x="500" y="120" label="box" id="p04" type="booleen" nb_lig="7" nb_col="8"/>
-
-		<boutons x="36" y="150" id="m002" label="bouton">
-			<bouton>25</bouton>
+		<boutons x="500" y="30" id="a08" label="Radio boutons">
+			<bouton>Premier choix</bouton>
+			<bouton>Second choix</bouton>
 		</boutons>
 
-		<calendrier x="300" y="300" id="a02" label="date"/>
+		<tableau x="500" y="180" label="Tableau de bool" id="p04" type="entier" nb_lig="7" nb_col="8"/>
 
+		<calendrier x="500" y="120" id="a09" label="Date"/>
 	</fenetre>
 </form>

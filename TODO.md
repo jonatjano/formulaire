@@ -53,7 +53,7 @@ Les différents Contrôles devront posséder :
 
 #### [x] Les différents Contrôles à gérer sont :
 - [x] <u>**Un groupement de bouton radio, pour lesquels il faudra définir la liste des boutons radio associés, l'utilisateur devra définir un ordinal pour chacun des boutons radio.**</u>
-- [x] <u>**Une Liste déroulante éditable, les différentes valeurs de la liste déroulante seront définis par le programme utilisateur à l'aide d'un tableau.**</u>
+- [x] **Une Liste déroulante éditable, les différentes valeurs de la liste déroulante seront définis par le programme utilisateur à l'aide d'un tableau.**
 
 #### [x] Un bouton effacer, permettra d'effacer l'ensemble des champs de saisie.
 
@@ -78,8 +78,8 @@ Les différents Contrôles devront posséder :
 - [x] **Utilisation d'une barre de défilement pour les formulaires trop grand.C’est-à-dire ne tenant pas dans la zone définie en début de fichier de paramétrage.Nota : les deux boutons valider et effacer seront toujours visible à l'écran**
 
 #### [x] Chargement du formulaire
-- [x] <u>**En cas de non chargement l'utilisateur pourra récupérer un message d'erreur du type
-Fichier inexistant**</u>
+- [x] **En cas de non chargement l'utilisateur pourra récupérer un message d'erreur du type
+Fichier inexistant**
 
 #### [x] Documentation
 - [x] **Aide en ligne**

@@ -126,7 +126,7 @@ public abstract class Control
 	 */
 	public void requestFocus()
 	{
-		compo.requestFocus();
+		this.compo.requestFocus();
 	}
 
 

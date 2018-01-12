@@ -6,9 +6,9 @@ import iut.algo.form.view.Frame;
  * @author Team Infotik
  * @version 2018-01-08
  */
-public class Test
+public class Demo
 {
-	public static void main(String[] args)
+	public static void main (String[] args)
 	{
 		FormController.createForm("../exemple.xml");
 		FormController.setValue("a05", 10);

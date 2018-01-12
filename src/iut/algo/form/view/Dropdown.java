@@ -96,7 +96,10 @@ public class Dropdown extends Control
 	@Override
 	public String getValue ()
 	{
-		return ((JComboBox) this.compo).getSelectedItem().toString();
+		Object item = ((JComboBox) this.compo).getSelectedItem();
+
+		if (item == null)	return null;
+		else				return item.toString();
 	}
 
 	/**

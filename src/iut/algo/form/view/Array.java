@@ -1,6 +1,7 @@
 package iut.algo.form.view;
 
 import iut.algo.form.job.BaseType;
+import iut.algo.form.job.Language;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -50,18 +51,24 @@ public class Array extends Control
 				case KeyEvent.VK_DOWN:
 					deltaR--;
 					break;
+
 				case KeyEvent.VK_KP_UP:
 				case KeyEvent.VK_UP:
 					deltaR++;
 					break;
+
 				case KeyEvent.VK_KP_LEFT:
 				case KeyEvent.VK_LEFT:
 					deltaC--;
 					break;
+
 				case KeyEvent.VK_KP_RIGHT:
 				case KeyEvent.VK_RIGHT:
 					deltaC++;
 					break;
+
+				default:
+					return;
 			}
 
 			if (KeyEvent.getKeyModifiersText(e.getModifiers()).equals("Ctrl"))
@@ -80,6 +87,7 @@ public class Array extends Control
 			int goToR = Math.max( 0, Math.min(tabValues.length -1, deltaR + prevR + oriR) ); //6
 			int goToC = Math.max( 0, Math.min(tabValues[0].length -1, deltaC + prevC + oriC) ); //6
 			moveTo(goToR, goToC);
+
 		}
 
 		public void keyReleased(KeyEvent e)
@@ -212,7 +220,7 @@ public class Array extends Control
 		this.arrayP			= new JPanel( new GridLayout(clampedRow + 2, clampedCol + 2) );
 		this.arrayP.setBounds( Control.LABEL_WIDTH, 0, tabWidth, tabHeight );
 		this.arrayP.setBackground( Color.lightGray );
-		this.arrayP.setBorder( new CompoundBorder(BorderFactory.createLineBorder(Color.black), new EmptyBorder(0,Array.gapX,0,0)) );
+		this.arrayP.setBorder( new CompoundBorder(BorderFactory.createLoweredBevelBorder(), new EmptyBorder(0,Array.gapX,0,0)) ); // BorderFactory.createLineBorder(Color.black)
 
 		this.panel.add( this.arrayP );
 
@@ -302,7 +310,12 @@ public class Array extends Control
 		this.valuePanel.setLayout( new GridLayout(2, 1) );
 		this.valuePanel.setBounds( tabWidth + Control.LABEL_WIDTH + Array.gapX, (int) (tabHeight / 4f), width, (int) (tabHeight / 2f) );
 
-		JLabel valueL = new JLabel( "Value :", SwingConstants.LEFT );
+
+		String valueStr = "Value";
+		if (Frame.getLang() == Language.FR)
+			valueStr = "Valeur";
+
+		JLabel valueL = new JLabel( String.format("%s :", valueStr), SwingConstants.LEFT );
 		valueL.setForeground( Color.GRAY );
 
 		this.valuePanel.add( valueL );
