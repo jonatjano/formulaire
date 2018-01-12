@@ -124,14 +124,15 @@ public class FormController
 			}
 			scan.close();
 
-			String finalFile = "<?xml version=\"1.0\" ?>\n";
-			finalFile += "<!DOCTYPE form SYSTEM \"" + dtdFile.getAbsolutePath() + "\">\n";
-			finalFile += file.substring( file.indexOf("<form") ).replaceAll("[\t]", "");
+			String finalFile = "<?xml version=\"1.0\" ?>";
+			finalFile += "<!DOCTYPE form SYSTEM \"" + dtdFile.getAbsolutePath() + "\">";
+			finalFile += file.substring( 0, file.indexOf("<form") ).replaceAll("[^\n]", "").replaceFirst("[\n]", "");
+			finalFile += file.substring( file.indexOf("<form") );
 			pw.write( finalFile );
 
 			pw.close();
 
-			Element frameRoot = validXml(xmlFile);
+			Element frameRoot = validXml(xmlFileWithDTD);
 			if (frameRoot != null)
 			{
 				frame = Frame.createFrame( (Element) (frameRoot.getFirstChild()) );
