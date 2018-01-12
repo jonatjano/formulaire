@@ -84,7 +84,7 @@ public class Calendar extends Control
 	@Override
 	public void reset ()
 	{
-		date.setDate(new Date());
+		date.setDate( new Date() );
 	}
 
 	/**
@@ -104,6 +104,6 @@ public class Calendar extends Control
 	@Override
 	public void setValues (Object newValue)
 	{
-		//TODO
+		
 	}
 }

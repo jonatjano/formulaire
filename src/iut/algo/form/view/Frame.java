@@ -634,7 +634,7 @@ public class Frame extends JFrame implements ActionListener
 	 */
 	public static Color obtainFormColor ()
 	{
-		return Color.white;
+		return Color.white; //new Color(1,1,1,0);
 	}
 
 	/**
