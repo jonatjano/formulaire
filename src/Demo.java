@@ -15,8 +15,14 @@ public class Demo
 		FormController.setValue("a05", "test");
 		FormController.showForm();
 
-
-		String s = FormController.getString("a05");
-		System.out.println(s);
+		if( FormController.isValid() )
+		{
+			String s = FormController.getString("a05");
+			System.out.println(s);
+		}
+		else
+		{
+			System.out.println("Erreur, vous avez quitter sans valider");
+		}
 	}
 }
