@@ -121,7 +121,6 @@ public class Text extends Control
 					addToHistory(str);
 				}
 			}
-		});
 
 
 		this.compo.setPreferredSize( new Dimension(width, (int) (this.panel.getSize().height - (Control.DFLT_HEIGHT / 5f))) );
@@ -157,22 +156,6 @@ public class Text extends Control
 		this( null, id, type, width, x, y );
 	}
 
-
-	/**
-	 * Demande le focus sur l'élément
-	 */
-	@Override
-	public void requestFocus ()
-	{
-		Component toFocus = this.compo;
-		if (this.compo instanceof JSpinner)
-		{
-			DefaultEditor editor = (DefaultEditor) ((JSpinner) this.compo).getEditor();
-			toFocus = editor.getTextField();
-		}
-
-		this.compo.requestFocus();
-	}
 
 	/**
 	 * Ajoute à l'historique des actions
@@ -244,7 +227,7 @@ public class Text extends Control
 	@Override
 	public void setValues (Object newValue)
 	{		
-		if (this.type != BaseType.String && this.type != BaseType.Char)
+		if		(this.type == BaseType.Int)
 		{
 			if (newValue == null)	newValue = 0;
 			try
@@ -254,10 +237,24 @@ public class Text extends Control
 			}
 			catch (Exception e) { }	
 		}
+		else if (this.type == BaseType.Double)
+		{
+			if (newValue == null)	newValue = 0;
+			try
+			{
+		 		newValue = new Double( Double.parseDouble(newValue.toString()) );
+		 		((JSpinner) (this.compo)).setValue( newValue ); 
+			}
+			catch (Exception e) { }	
+		}
 		else
 		{
-			if (newValue == null)	newValue = "";
-			((JTextField) (this.compo)).setText( (String) newValue );
+			if (newValue == null)
+			{
+				if (this.type == BaseType.String)	newValue = "";
+				else								newValue = Character.MIN_VALUE;
+			}
+			((JTextField) (this.compo)).setText( newValue.toString() );
 		}
 	}
 }
