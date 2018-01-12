@@ -10,7 +10,6 @@
 
 		<texte x="36" y="120" label="Une chaîne" id="a07" type ="chaine"/>
 
-		<tableau x="500" y="120" label="box" id="p04" type="double" nb_lig="7" nb_col="8"/>
 		<menu x="36" y="150" label="Menu déroulant" id="p02">
 			<choix label="Option 1"/>
 			<choix label="Option 2"/>
