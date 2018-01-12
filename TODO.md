@@ -41,7 +41,7 @@ Les différents Contrôles devront posséder :
 
 ### [x] Rajout
 - [x] **Gérer toutes les erreurs XML** :
-	- [x] **Type incorrect**
+	- [ ] Type incorrect
 	- [x] **Oubli Chevron**
 	- [x] **Erreur DTD**
 
@@ -58,10 +58,10 @@ Les différents Contrôles devront posséder :
 #### [x] Un bouton effacer, permettra d'effacer l'ensemble des champs de saisie.
 
 #### [x] Cinématique.
-- [x] **Naviguez entre les différents Controle**
+- [ ] Naviguez entre les différents Controle
 
 #### [x] Chargement du formulaire
-- [x] **Récupération des différentes valeurs à l'aide d'une primitive spécifique pour chaque type de bases. Chaque primitives prendra en argument le nom de l'étiquette ou l'identifiant associé au Contrôle que l'on souhaite récupérer.**
+- [ ] Récupération des différentes valeurs à l'aide d'une primitive spécifique pour chaque type de bases. Chaque primitives prendra en argument le nom de l'étiquette ou l'identifiant associé au Contrôle que l'on souhaite récupérer.
 
 #### [ ] Documentation
 - [ ] Accompagné d'exemples : formulaire + code java
@@ -74,7 +74,7 @@ Les différents Contrôles devront posséder :
 #### [x] Cinématique.
 - [x] **Pouvoir visualiser l'identifiant des différents Controles.(cf illustration 2)**
 - [x] **Pouvoir visualiser les types associés aux différents Controles(cf Illustration 3)**
-- [x] **Controle des valeurs pour les champs numériques**
+- [x] **Controle des valeurs pour les champs numériques** // verif zone entier
 - [x] **Utilisation d'une barre de défilement pour les formulaires trop grand.C’est-à-dire ne tenant pas dans la zone définie en début de fichier de paramétrage.Nota : les deux boutons valider et effacer seront toujours visible à l'écran**
 
 #### [x] Chargement du formulaire
