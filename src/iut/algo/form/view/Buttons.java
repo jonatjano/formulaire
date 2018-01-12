@@ -51,7 +51,7 @@ public class Buttons extends Control
 		this.panel.setBounds(x, y, width + 20, Control.DFLT_HEIGHT);
 
 		// Création des radio boutons
-		this.setValues(choices);
+		this.setValue(choices);
 
 		// Si la liste de bouton en contient au moins un, le contrôle est créé
 		// Sinon, le panel est vide
@@ -111,33 +111,39 @@ public class Buttons extends Control
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public void setValue (Object newValue)
+	public boolean setValue (Object newValue)
 	{
-		Object[] valuesToSet	= (Object[]) newValue;
-		this.buttonGroup		= new ButtonGroup();
-
-		if (this.buttonList != null)
+		// on s'assure que newValue est un tableau à une dimension
+		if (newValue != null && newValue.getClass().isArray() && !((Object[])(newValue))[0].getClass().isArray())
 		{
-			for (JRadioButton button : buttonList)
-				this.panel.remove( button );
-		}
+			Object[] valuesToSet	= (Object[]) newValue;
+			this.buttonGroup		= new ButtonGroup();
 
-		this.buttonList	= new ArrayList<JRadioButton>();
-		this.panel.setBounds(x, y, this.panel.getSize().width, valuesToSet.length * 18 + 45);
-
-
-		for (Object valueToSet : valuesToSet)
-		{
-			if (valueToSet != null)
+			if (this.buttonList != null)
 			{
-				String 			valueStr	= valueToSet.toString();
-				JRadioButton	button		= new JRadioButton( valueStr );
-
-				this.buttonGroup.add( button );
-				this.buttonList.add( button );
-
-				this.panel.add( button );
+				for (JRadioButton button : buttonList)
+				this.panel.remove( button );
 			}
+
+			this.buttonList	= new ArrayList<JRadioButton>();
+			this.panel.setBounds(x, y, this.panel.getSize().width, valuesToSet.length * 18 + 45);
+
+
+			for (Object valueToSet : valuesToSet)
+			{
+				if (valueToSet != null)
+				{
+					String 			valueStr	= valueToSet.toString();
+					JRadioButton	button		= new JRadioButton( valueStr );
+
+					this.buttonGroup.add( button );
+					this.buttonList.add( button );
+
+					this.panel.add( button );
+				}
+			}
+			return true;
 		}
+		return false;
 	}
 }

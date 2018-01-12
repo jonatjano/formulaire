@@ -362,8 +362,7 @@ public class FormController
 		{
 			if (control.getId().equals(id))
 			{
-				control.setValue(value);
-				return true;
+				return control.setValue(value);
 			}
 		}
 		return false;

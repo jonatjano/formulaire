@@ -105,11 +105,17 @@ public class Dropdown extends Control
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public void setValue (Object newValue)
+	public boolean setValue (Object newValue)
 	{
-		Object[] valuesToSet	= (Object[]) newValue;
-		this.baseValues 		= valuesToSet;
+		// on s'assure que newValue est un tableau à une dimension
+		if (newValue != null && newValue.getClass().isArray() && !((Object[])(newValue))[0].getClass().isArray())
+		{
+			Object[] valuesToSet	= (Object[]) newValue;
+			this.baseValues 		= valuesToSet;
 
-		((JComboBox) this.compo).setModel( new DefaultComboBoxModel(valuesToSet) );
+			((JComboBox) this.compo).setModel( new DefaultComboBoxModel(valuesToSet) );
+			return true;
+		}
+		return false;
 	}
 }

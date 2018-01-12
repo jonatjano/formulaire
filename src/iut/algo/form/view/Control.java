@@ -252,5 +252,5 @@ public abstract class Control
 	 * Modifie la valeur associée à l'élément
 	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
 	 */
-	public abstract void setValue (Object obj);
+	public abstract boolean setValue (Object obj);
 }

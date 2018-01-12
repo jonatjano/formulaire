@@ -115,9 +115,9 @@ public class Text extends Control
 					JTextField	src = (JTextField) e.getSource();
 					String		str	= src.getText();
 
-					if ( type != BaseType.String ) 
+					if ( type != BaseType.String )
 						str = str.replaceAll("[^0-9\\-]","");
-					
+
 					addToHistory(str);
 				}
 			}
@@ -176,7 +176,7 @@ public class Text extends Control
 		if ( this.history.size() == 1 )	value = this.history.getLast();
 		else							value = this.history.pollLast();
 
-		this.setValues( this.history.getLast() );
+		this.setValue( this.history.getLast() );
 	}
 
 
@@ -229,16 +229,16 @@ public class Text extends Control
 	public void setValue (Object newValue)
 	{
 		if (newValue == null)	newValue = "";
-		
+
 		if (compo instanceof JSpinner)
 		{
 			if (newValue == null)	newValue = "0";
 			try
 			{
 		 		newValue = new Integer( Integer.parseInt(newValue.toString()) );
-		 		((JSpinner) (compo)).setValue( newValue ); 
+		 		((JSpinner) (compo)).setValue( newValue );
 			}
-			catch (Exception e) { }	
+			catch (Exception e) { }
 		}
 		else
 		{

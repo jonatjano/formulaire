@@ -403,7 +403,7 @@ public class Array extends Control
 		prevR = numbutR;
 		prevC = numbutC;
 
-		valueControl.setValues(tabValues[numbutR + oriR][numbutC + oriC]);
+		valueControl.setValue(tabValues[numbutR + oriR][numbutC + oriC]);
 		valueControl.requestFocus();
 
 		// Change le focus pour le mettre sur l'élément à modifier
@@ -506,8 +506,9 @@ public class Array extends Control
 	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
 	 */
 	@Override
-	public void setValue (Object newValue)
+	public boolean setValue (Object newValue)
 	{
 		//TODO
+		return false;
 	}
 }
