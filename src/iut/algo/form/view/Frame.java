@@ -218,20 +218,20 @@ public class Frame extends JFrame implements ActionListener
 		String	title	= null;
 		int 	width	= 0;
 		int 	length	= 0;
-		int 	frameX	= Integer.parseInt( root.getAttribute("x") );
-		int 	frameY	= Integer.parseInt( root.getAttribute("y") );
+		int 	frameX	= Integer.parseInt( window.getAttribute("x") );
+		int 	frameY	= Integer.parseInt( window.getAttribute("y") );
 
 		switch (Frame.language)
 		{
 			case FR:
-				title	= root.getAttribute("titre");
-				width	= Integer.parseInt( root.getAttribute("largeur") );
-				length	= Integer.parseInt( root.getAttribute("longueur") );
+				title	= window.getAttribute("titre");
+				width	= Integer.parseInt( window.getAttribute("largeur") );
+				length	= Integer.parseInt( window.getAttribute("longueur") );
 				break;
 			case EN:
-				title	= root.getAttribute("title");
-				width	= Integer.parseInt( root.getAttribute("width") );
-				length	= Integer.parseInt( root.getAttribute("length") );
+				title	= window.getAttribute("title");
+				width	= Integer.parseInt( window.getAttribute("width") );
+				length	= Integer.parseInt( window.getAttribute("length") );
 				break;
 		}
 		Frame frame = new Frame(title, width, length, frameX, frameY);
