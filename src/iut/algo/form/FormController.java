@@ -114,16 +114,7 @@ public class FormController
 
 			pw.close();
 
-			if(validXml(xmlFileWithDTD, true) != null)
-			{
-				File xmlFileWithDTDUniline = File.createTempFile("tmpFile", ".xml");
-				xmlFileWithDTDUniline.deleteOnExit();
-				PrintWriter pw2 = new PrintWriter(xmlFileWithDTDUniline, "UTF-8");
-				pw2.write( finalFile.replaceAll("[\n]", "") );
-				pw2.close();
-
-				frame = Frame.createFrame( (Element) (validXml(xmlFileWithDTDUniline).getFirstChild()) );
-			}
+			frame = Frame.createFrame( (Element) (validXml(xmlFile).getFirstChild()) );
 		}
 		catch (Exception e)
 		{
@@ -153,23 +144,13 @@ public class FormController
 	 * Vérifie le fichier XML passé en paramètre, en écrivant les éventuels erreurs sur un un popup d'erreur visible par
 	 * l'utilisateur
 	 * @param fileXML le fichier XML a vérifié
+	 * @param validate Valeur indiquant si le fichier doit être valide pour continuer
 	 * @return L'élément si le fichier valide, sinon null
 	 */
 	private static Element validXml (File fileXML)
 	{
-		return validXml(fileXML, false);
-	}
-
-	/**
-	 * Vérifie le fichier XML passé en paramètre, en écrivant les éventuels erreurs sur un un popup d'erreur visible par
-	 * l'utilisateur
-	 * @param fileXML le fichier XML a vérifié
-	 * @param validate Valeur indiquant si le fichier doit être valide pour continuer
-	 * @return L'élément si le fichier valide, sinon null
-	 */
-	private static Element validXml (File fileXML, boolean validate)
-	{
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		factory.setIgnoringElementContentWhitespace(true);
 
 		try
 		{
@@ -181,8 +162,7 @@ public class FormController
 			// Création de l'objet gérant les erreurs
 			ErrorHandler errHandler = new SimpleErrorHandler();
 			//Affectation de notre objet au document pour interception des erreurs éventuelles
-			if (validate)	builder.setErrorHandler(errHandler);
-			else			builder.setErrorHandler(null);
+			builder.setErrorHandler(errHandler);
 
 			//On rajoute un bloc de capture
 			//pour intercepter les erreurs au cas où il y en a

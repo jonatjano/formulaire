@@ -3,8 +3,8 @@ package iut.algo.form.job;
 /**
  * Enumération des types de base gérés par le formulaire, accompagnés
  * de leur nom dans les langues gérées par le programme
-  * @author Team Infotik
-  * @version 2018-01-08
+ * @author Team Infotik
+ * @version 2018-01-08
  */
 public enum BaseType
 {

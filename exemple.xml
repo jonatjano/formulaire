@@ -1,3 +1,6 @@
+<?xml version="1.0" ?>
+<!DOCTYPE form SYSTEM "Forme.dtd">
+
 <form>
 	<fenetre longueur="650" titre="test" largeur="1340" x="100" y="100">
 		<label x="36" y="0" label="Un label seul" id="a01"/>
