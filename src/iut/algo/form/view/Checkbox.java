@@ -97,14 +97,20 @@ public class Checkbox extends Control
 	{
 		return ((JCheckBox)this.compo).isSelected();
 	}
-	
+
 	/**
 	 * Modifie la valeur associée à l'élément
 	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
 	 */
 	@Override
-	public void setValues (Object newValue)
+	public boolean setValue (Object newValue)
 	{
-		((JCheckBox)this.compo).setSelected(newValue == null ? false : (Boolean)newValue);
+		// on s'assure que newValue peut permettre de recuperer un boolean
+		if (newValue != null && !newValue.getClass().isArray() && (newValue.toString().equals("true") || newValue.toString().equals("false")))
+		{
+			((JCheckBox)this.compo).setSelected(Boolean.parseBoolean(newValue.toString()));
+			return true;
+		}
+		return false;
 	}
 }

@@ -66,9 +66,10 @@ public class FormController
 
 	/**
 	 * methode appellée par une classe externe au package permettant d'appeller tous les utilitaires nécessaire au formulaire
+	 * cette méthode n'affiche pas le formulaire, il faut pour cela appeler showForm
 	 * @param filePath  Le chemin du fichier XML permettant de générer le formlaire
 	 */
-	public static void showForm (String filePath)
+	public static void createForm (String filePath)
 	{
 		// on recupere le fichier
 		File xmlFile = new File(filePath);
@@ -122,7 +123,6 @@ public class FormController
 				pw2.close();
 
 				frame = Frame.createFrame( (Element) (validXml(xmlFileWithDTDUniline).getFirstChild()) );
-				pauseUntilWindowClosed();
 			}
 		}
 		catch (Exception e)
@@ -132,6 +132,21 @@ public class FormController
 
 		// le fichier est accepté, on l'envoi à la suite du traitement
 		// parseXml(xmlFile);
+	}
+
+	/**
+	 * methode utilisée pour afficher le dernier formulaire créé
+	 */
+	public static void showForm()
+	{
+		if (frame != null)
+		{
+			pauseUntilWindowClosed();
+		}
+		else
+		{
+			showError("Il n'existe aucun formulaire pour le moment");
+		}
 	}
 
 	/**
@@ -332,6 +347,26 @@ public class FormController
 	public static Boolean getBoolean(String id)
 	{
 		return booleanMap.get(id);
+	}
+
+	/**
+	 * méthode utilisée pour changer les valeurs des différents composants
+	 * doit être utilisée entre createForm et showForm
+	 * un message est affiché en cas d'erreur et le changement n'est pas fait
+	 * @param id    l'id du controle à modifier
+	 * @param value la valeur à donner au controle
+	 * @return vrai si le changement à réussi sinon faux
+	 */
+	public static boolean setValue(String id, Object value)
+	{
+		for (Control control : frame.getControls())
+		{
+			if (control.getId().equals(id))
+			{
+				return control.setValue(value);
+			}
+		}
+		return false;
 	}
 
 	/**

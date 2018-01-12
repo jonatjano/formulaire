@@ -76,16 +76,22 @@ public class Label extends Control
 	{
 		return this.label;
 	}
-	
+
 	/**
 	 * Modifie la valeur associée à l'élément
 	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void setValues (Object newValue)
+	public boolean setValue (Object newValue)
 	{
-		String valueToSet = newValue.toString();
-		((JLabel) this.compo).setText(valueToSet);
+		// newValue n'est pas null est n'est pas un tableau
+		if (newValue != null && !newValue.getClass().isArray())
+		{
+			String valueToSet = newValue.toString();
+			((JLabel) this.compo).setText(valueToSet);
+			return true;
+		}
+		return false;
 	}
 }

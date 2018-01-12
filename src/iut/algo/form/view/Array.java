@@ -42,36 +42,35 @@ public class Array extends Control
 	{
 		public void keyPressed(KeyEvent e)
 		{
-			
-			int deltaR = 0; 
+			int deltaR = 0;
 			int deltaC = 0;
-			
+
 			switch (e.getKeyCode())
 			{
 				case KeyEvent.VK_KP_DOWN:
 				case KeyEvent.VK_DOWN:
 					deltaR--;
 					break;
-					
+
 				case KeyEvent.VK_KP_UP:
 				case KeyEvent.VK_UP:
 					deltaR++;
 					break;
-					
+
 				case KeyEvent.VK_KP_LEFT:
 				case KeyEvent.VK_LEFT:
 					deltaC--;
 					break;
-					
+
 				case KeyEvent.VK_KP_RIGHT:
 				case KeyEvent.VK_RIGHT:
 					deltaC++;
 					break;
-				
+
 				default:
 					return;
 			}
-			
+
 			if (KeyEvent.getKeyModifiersText(e.getModifiers()).equals("Ctrl"))
 			{
 				deltaR *= 5;
@@ -84,16 +83,16 @@ public class Array extends Control
 				if (deltaC != 0)
 					deltaC *= tabValues[0].length;
 			}
-			
+
 			int goToR = Math.max( 0, Math.min(tabValues.length -1, deltaR + prevR + oriR) ); //6
 			int goToC = Math.max( 0, Math.min(tabValues[0].length -1, deltaC + prevC + oriC) ); //6
 			moveTo(goToR, goToC);
-			
+
 		}
-		
+
 		public void keyReleased(KeyEvent e)
 		{}
-		
+
 		public void keyTyped(KeyEvent e)
 		{}
 
@@ -108,9 +107,9 @@ public class Array extends Control
 
 				int row = Integer.parseInt( pos[0] );
 				int col = Integer.parseInt( pos[1] );
-				
+
 				// Enregistrement dans le tableau de valeurs
-				
+
 				moveTo(row + oriR,col + oriC);
 			}
 		}
@@ -128,7 +127,7 @@ public class Array extends Control
 
 	/** Padding sur l'axe des abscisses à placer à droite et à gauche */
 	private static final int gapX	= 10;
-	
+
 	/** Couleur de base des cellules du tableau */
 	private static final Color normalColor			= new Color(255,255,255);
 	/** Couleur prise par la ligne sélectionnée */
@@ -145,7 +144,7 @@ public class Array extends Control
 	private int				oriR;
 	/** Index de la colonne de la cellule servant d'origine à afficher du tableau */
 	private int				oriC;
-	
+
 	/** Index de la ligne de la cellule sélectionnée précédente */
 	private int 			prevR;
 	/** Index de la colonne de la cellule sélectionnée précédente */
@@ -234,7 +233,7 @@ public class Array extends Control
 		Font newFont	= baseFont.deriveFont(baseFont.getStyle() | Font.BOLD);
 
 		/* Création du tableau sur l'interface */
-		
+
 		tabButtons = new JButton[maxRow][maxCol];
 		for (int i = -1; i < clampedRow + 1; i++)
 		{
@@ -254,11 +253,11 @@ public class Array extends Control
 			this.arrayP.add( labelRow );
 
 			/* CORPS */
-			
+
 			int maxRow = Array.maxRow;
 			if (tabValues.length < Array.maxRow - 1 )
 				maxRow = tabValues.length ;
-			
+
 			int maxCol = Array.maxCol ;
 			if (tabValues[0].length < Array.maxCol - 1 )
 				maxCol = tabValues.length;
@@ -325,7 +324,7 @@ public class Array extends Control
 		else								this.valueControl	= new Text("dzdz", type, width - 11, 0, 0);
 
 		this.valuePanel.add( valueControl.getPanel() );
-		
+
 		for (Component c : Frame.getAllComponents(valuePanel))
 			c.addKeyListener(new ArrayListener());
 		for (Component c : Frame.getAllComponents(arrayP))
@@ -350,29 +349,29 @@ public class Array extends Control
 	{
 		this(label, id, type, Control.DFLT_WIDTH, x, y, nbR, nbC);
 	}
-	
-	private void moveTo (int row, int col)
+
+	private void moveTo(int row, int col)
 	{
 		Object value = valueControl.getValue();
-				
+
 		tabValues[oriR + prevR][oriC + prevC] = value;
-		
+
 		//
-		
-		
-		
+
+
+
 		int deltaR = row - prevR - oriR;
 		int deltaC = col - prevC - oriC;
 		int numbutR = prevR;
 		int numbutC = prevC;
 		int deplacement = 0;
 		int eq = 0;
-		
+
 		if (deltaR > 0)
 			eq = Array.maxRow - numbutR - 2;
 		else
 			eq = numbutR -1;
-		
+
 		if (eq == -1)
 			deltaR = 0;
 		else
@@ -381,16 +380,16 @@ public class Array extends Control
 				deplacement = eq * deltaR / Math.abs(deltaR);
 			else
 				deplacement = deltaR;
-			
+
 			numbutR += deplacement;
 			deltaR -= deplacement;
 		}
-		
+
 		if (deltaC > 0)
 			eq = Array.maxCol - numbutC - 2;
 		else
 			eq = numbutC -1;
-		
+
 		if (eq == -1)
 			deltaC = 0;
 		else
@@ -399,30 +398,31 @@ public class Array extends Control
 				deplacement = eq * deltaC / Math.abs(deltaC);
 			else
 				deplacement = deltaC;
-			
+
 			numbutC += deplacement;
 			deltaC -= deplacement;
 		}
-		
+
 			int[] tabDep = shiftDisplay(deltaR,deltaC);
 			if (tabDep[0] != deltaR)
 				numbutR += deltaR / Math.abs(deltaR);
 			if (tabDep[1] != deltaC)
 				numbutC += deltaC / Math.abs(deltaC);
-			
-		
+
+
 		setTabBackground(prevR, prevC, numbutR, numbutC);
-		
-		
+
+
 		prevR = numbutR;
 		prevC = numbutC;
-		valueControl.setValues(tabValues[numbutR + oriR][numbutC + oriC]);
+
+		valueControl.setValue(tabValues[numbutR + oriR][numbutC + oriC]);
 		valueControl.requestFocus();
 
 		// Change le focus pour le mettre sur l'élément à modifier
 	}
-	
-	
+
+
 
 	/**
 	 * Décale l'affichage du tableau
@@ -437,23 +437,23 @@ public class Array extends Control
 		int maxRow = Array.maxRow - 1;
 		if (tabValues.length < Array.maxRow - 1 )
 			maxRow = tabValues.length -1;
-		
+
 		int maxCol = Array.maxCol - 1;
 		if (tabValues[0].length < Array.maxCol - 1 )
 			maxCol = tabValues.length -1;
-		
+
 		oriR = Math.max(0, Math.min(tabValues.length -1 - maxRow, oriR + deltaR));
 		oriC = Math.max(0, Math.min(tabValues[0].length -1 - maxCol, oriC + deltaC));
-		
+
 		for (int i = 0; i < rowLabels.size(); i++)
 			rowLabels.get(i).setText((oriR + rowLabels.size() - 1 - i) + "");
 
 		for (int i = 0; i < colLabels.size(); i++)
 			colLabels.get(i).setText((oriC + i) + "");
-		
+
 		return new int[] {oriR - oriRTemp, oriC - oriCTemp};
 	}
-	
+
 	/**
 	 * Crée ou met à jour l'affichage du tableau
 	 * @param prevR La précédente ligne sélectionnée
@@ -474,7 +474,7 @@ public class Array extends Control
 				tabButtons[prevR][i].setBackground(normalColor);
 			}
 		}
-		
+
 		for (int i = 0; i < tabButtons.length; i++)
 		{
 			tabButtons[i][col].setBackground(selectedRowColor);
@@ -483,7 +483,7 @@ public class Array extends Control
 		{
 			tabButtons[row][i].setBackground(selectedColColor);
 		}
-		
+
 		tabButtons[row][col].setBackground(selectedCellColor);
 	}
 
@@ -495,7 +495,7 @@ public class Array extends Control
 	{
 		int posR = oriR + prevR;
 		int posC = oriC + prevC;
-		
+
 		for (int i = 0; i < tabValues.length; i++)
 			for (int j = 0; j < tabValues[i].length; j++)
 				tabValues[i][j] = null;
@@ -513,14 +513,15 @@ public class Array extends Control
 	{
 		return this.tabValues;
 	}
-	
+
 	/**
 	 * Modifie la valeur associée à l'élément
 	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
 	 */
 	@Override
-	public void setValues (Object newValue)
+	public boolean setValue (Object newValue)
 	{
 		//TODO
+		return false;
 	}
 }

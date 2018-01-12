@@ -10,8 +10,10 @@ public class Demo
 {
 	public static void main (String[] args)
 	{
-		FormController.showForm("../exemple.xml");
-
-		// FormController.setValue("p05");
+		FormController.createForm("../exemple.xml");
+		FormController.setValue("a05", 10);
+		FormController.showForm();
+		int i = FormController.getInt("a05");
+		System.out.println(i);
 	}
 }
