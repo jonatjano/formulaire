@@ -1,5 +1,4 @@
 import iut.algo.form.FormController;
-import iut.algo.form.view.Frame;
 
 /**
  * classe qui permet d'afficher un formulaire de test
@@ -16,8 +15,8 @@ public class Demo
 		FormController.setValue("a05", 10);
 		FormController.showForm();
 
-		
+
 		int i = FormController.getInt("a05");
 		System.out.println(i);
 	}
-}
+} // - Lang en adéquation avec nom du fils de root. (window / fenetre)
