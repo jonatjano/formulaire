@@ -20,20 +20,27 @@ public class Demo
 			String s = FormController.getString("05");
 			System.out.println(s);
 
-			int[][] tab = new int[4][1];
+			// int[] tab = new int[4][1];
+			// System.out.println( FormController.getArrayInt("a10", tab) );
+			// for (int[] truc : tab)
+			// {
+			// 	for (int str : truc)
+			// 	{
+			// 		System.out.print( str + ", " );
+			// 	}
+			// 	System.out.println();
+			// }
+
+			int[] tab = new int[4];
 			System.out.println( FormController.getArrayInt("a10", tab) );
-			for (int[] truc : tab)
+			for (int truc : tab)
 			{
-				for (int str : truc)
-				{
-					System.out.print( str + ", " );
-				}
-				System.out.println();
+				System.out.print( truc + ", " );
 			}
 		}
 		else
 		{
-			System.out.println("Erreur, vous avez quitter sans valider");
+			System.out.println("ERREUR : Vous avez quitté sans valider.");
 		}
 	}
 }

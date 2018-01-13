@@ -561,6 +561,36 @@ public class FormController
 	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
+	public static boolean getArrayString (String id, String[] res)
+	{
+		try
+		{
+			// String[][] values = (String[][]) arrayMap.get(id);
+			// if ( values.length == 0 )
+			// {
+			String[][] tmp = (String[][]) arrayMap.get(id);
+
+			for (int j = 0; j < res.length && j < tmp[0].length; j++)
+			{
+				if (tmp[0][j] == null)	res[j] = "";
+				else					res[j] = tmp[0][j];
+			}
+			// }
+
+			return true;
+		}
+		catch (Exception e) { e.printStackTrace(); }
+
+		return false;
+	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param id Identifiant du controle
+	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @return Vrai si la copie est un succès, sinon faux
+	 */
+	@SuppressWarnings("unchecked")
 	public static boolean getArrayInt (String id, int[][] res)
 	{
 		try
@@ -573,6 +603,32 @@ public class FormController
 					if (tmp[i][j] == null)	res[i][j] = 0;
 					else					res[i][j] = tmp[i][j];
 				}
+
+			return true;
+		}
+		catch (Exception e) { e.printStackTrace(); }
+
+		return false;
+	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param id Identifiant du controle
+	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @return Vrai si la copie est un succès, sinon faux
+	 */
+	@SuppressWarnings("unchecked")
+	public static boolean getArrayInt (String id, int[] res)
+	{
+		try
+		{
+			Integer[][] tmp = (Integer[][]) arrayMap.get(id);
+
+			for (int j = 0; j < res.length && j < tmp[0].length; j++)
+			{
+				if (tmp[0][j] == null)	res[j] = 0;
+				else					res[j] = tmp[0][j];
+			}
 
 			return true;
 		}

@@ -28,7 +28,7 @@
 
 		<tableau x="500" y="350" label="Tableau de bool" id="a08" type="entier" nb_lig="7" nb_col="8"/>
 
-		<tableau x="500" y="180" label="Tableau de bool" id="a10" type="entier" nb_lig="1" nb_col="1"/>
+		<tableau x="500" y="180" label="Tableau de bool" id="a10" type="entier" nb_lig="2" nb_col="4"/>
 
 		<calendrier x="500" y="120" id="a09" label="Date"/>
 	</fenetre>
