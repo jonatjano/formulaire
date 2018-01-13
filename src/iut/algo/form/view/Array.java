@@ -264,13 +264,6 @@ public class Array extends Control
 
 			/* CORPS */
 
-			int maxRow = Array.MAX_ROW;
-			if ( tabValues.length < Array.MAX_ROW - 1 )
-				maxRow = tabValues.length;
-
-			int maxCol = Array.MAX_COL ;
-			if ( tabValues[0].length < Array.MAX_COL - 1 )
-				maxCol = tabValues.length;
 			for (int j = 0; j < clampedCol; j++)
 			{
 				boolean inColBounds = j >= 0 && j < clampedCol;
