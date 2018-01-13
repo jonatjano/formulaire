@@ -328,6 +328,7 @@ public class FormController
 			   attributeOk(elem, "x", "int") &
 			   attributeOk(elem, "y", "int") &
 			   attributeOk(elem, "nb_lig", "int") &
+			   attributeOk(elem, "nb_row", "int") &
 			   attributeOk(elem, "nb_col", "int") &
 			   attributeOk(elem, "length", "int") &
 			   attributeOk(elem, "width", "int") &
@@ -903,8 +904,7 @@ public class FormController
 			pw.write("\t\t\t                   x     CDATA #IMPLIED\n");
 			pw.write("\t\t\t                   y     CDATA #IMPLIED >\n");
 			pw.write("\t\t\t<!ELEMENT choice EMPTY>\n");
-			pw.write("\t\t\t\t<!ATTLIST choice label    CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t                 ordinal CDATA #REQUIRED >\n");
+			pw.write("\t\t\t\t<!ATTLIST choice label    CDATA #REQUIRED >\n");
 			pw.write("\t\t<!ELEMENT checkbox EMPTY>\n");
 			pw.write("\t\t\t<!ATTLIST checkbox label CDATA #REQUIRED\n");
 			pw.write("\t\t\t                   id    ID    #REQUIRED\n");
@@ -914,7 +914,7 @@ public class FormController
 			pw.write("\t\t\t<!ATTLIST array label CDATA #REQUIRED\n");
 			pw.write("\t\t\t                id    ID    #REQUIRED\n");
 			pw.write("\t\t\t                type ( string | int | double | boolean | char ) #REQUIRED\n");
-			pw.write("\t\t\t                nb_lig CDATA #REQUIRED\n");
+			pw.write("\t\t\t                nb_row CDATA #REQUIRED\n");
 			pw.write("\t\t\t                nb_col CDATA #REQUIRED\n");
 			pw.write("\t\t\t                x      CDATA #IMPLIED\n");
 			pw.write("\t\t\t                y      CDATA #IMPLIED >\n");
