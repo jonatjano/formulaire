@@ -80,6 +80,8 @@ public class FormController
 	private static List<String[]> listTypeErr;
 	
 	private static List<Integer> listOrdinalBut;
+	
+	private static List<Integer> listId;
 
 	/**
 	 * methode appellée par une classe externe au package permettant d'appeller tous les utilitaires nécessaire au formulaire
@@ -90,6 +92,7 @@ public class FormController
 	{
 		listTypeErr = new ArrayList<String[]>();
 		listOrdinalBut = new ArrayList<Integer>();
+		listId = new ArrayList<Integer>();
 		// on recupere le fichier
 		File xmlFile = new File(filePath);
 
@@ -255,6 +258,41 @@ public class FormController
 					return false;
 				}
 				break;
+			
+			case "id":
+				String valueTest = value.replaceAll("[^0-9]","");
+				if (valueTest.equals(""))
+				{
+					listTypeErr.add(new String[]{ "ID_NO_DIGIT",
+												  elem.getTagName(),
+												  value
+												}
+									);
+					return false;
+				}
+				try
+				{
+					Integer i = Integer.parseInt(valueTest);
+					if ( listId.contains(i) )
+					{
+						listTypeErr.add(new String[]{ "ID_DUPLICATED",
+												  elem.getTagName(),
+												  i.toString()
+												}
+									);
+						return false;
+					}
+					else
+					{
+						listId.add(i);
+						elem.setAttribute("id",i.toString());
+					}
+				}
+				catch(Exception e)
+				{
+					return false; // pas atteignable
+				}
+				break;
 				
 			case "ordinal":
 				try
@@ -293,6 +331,7 @@ public class FormController
 			   attributeOk(elem, "nb_col", "int") &
 			   attributeOk(elem, "length", "int") &
 			   attributeOk(elem, "width", "int") &
+			   attributeOk(elem, "id", "id") &
 			   attributeOk(elem, "ordinal", "int") &&
 			   attributeOk(elem, "ordinal", "ordinal");
 	}
@@ -338,6 +377,13 @@ public class FormController
 			
 			case "CORD_DOUBLE_ERR":
 				sErr = "doublon sur l'ordinal \"" + err[2] + "\" de la liste des bouton radio de l'element avec id=\"" + err[1] + "\" !";
+				break;
+			case "ID_NO_DIGIT":
+				sErr = "l'élément \"" + err[1] + "\" n'a pas de chiffre dans son id ! ( valeur : \"" + err[2] + "\")" ;
+				break;
+			case "ID_DUPLICATED":
+				sErr = "l'id \"" + err[2] + "\" de l'élément \"" + err[1] + "\" à déjà été rencontrer !" ;
+				break;
 		}
 		showError(sErr);
 	}
