@@ -9,6 +9,9 @@ import javax.swing.JSpinner;
 import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SpinnerModel;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
+import javax.swing.InputMap;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -67,16 +70,23 @@ public class Text extends Control
 		SpinnerModel spinnerModel;
 
 		// Vérification du type de la zone de texte
+		InputMap im;
 		switch (type)
 		{
 			case Int:
 				spinnerModel	= new SpinnerNumberModel(0, Integer.MIN_VALUE, Integer.MAX_VALUE, 1);
 				this.compo		= new JSpinner(spinnerModel);
+				im = ((JSpinner)(this.compo)).getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+				im.put(KeyStroke.getKeyStroke("DOWN"), "none");
+				im.put(KeyStroke.getKeyStroke("UP"), "none");
 				break;
 
 			case Double:
 				spinnerModel	= new SpinnerNumberModel(0, Integer.MIN_VALUE, Integer.MAX_VALUE, 0.1f);
 				this.compo		= new JSpinner(spinnerModel);
+				im = ((JSpinner)(this.compo)).getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+				im.put(KeyStroke.getKeyStroke("DOWN"), "none");
+				im.put(KeyStroke.getKeyStroke("UP"), "none");
 				break;
 
 			case String:

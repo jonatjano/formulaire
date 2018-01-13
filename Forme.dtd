@@ -37,6 +37,8 @@
 			                  x      CDATA #IMPLIED
 			                  y      CDATA #IMPLIED >
 			<!ELEMENT bouton (#PCDATA)>
+				<!ATTLIST bouton ordinal  CDATA #REQUIRED >
+				
 		<!ELEMENT calendrier EMPTY>
 			<!ATTLIST calendrier label CDATA #REQUIRED
 			                     id    ID    #REQUIRED
@@ -80,6 +82,7 @@
 			                  x      CDATA #IMPLIED
 			                  y      CDATA #IMPLIED >
 			<!ELEMENT button (#PCDATA)>
+				<!ATTLIST button ordinal  CDATA #REQUIRED >
 		<!ELEMENT calendar EMPTY>
 			<!ATTLIST calendar label CDATA #REQUIRED
 			                   id    ID    #REQUIRED
