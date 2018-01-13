@@ -78,7 +78,7 @@ public class FormController
 
 	private static List<String[]> listTypeErr;
 	
-	private static List<Integer> listCordinalBut;
+	private static List<Integer> listOrdinalBut;
 
 	/**
 	 * methode appellée par une classe externe au package permettant d'appeller tous les utilitaires nécessaire au formulaire
@@ -88,7 +88,7 @@ public class FormController
 	public static void createForm (String filePath)
 	{
 		listTypeErr = new ArrayList<String[]>();
-		listCordinalBut = new ArrayList<Integer>();
+		listOrdinalBut = new ArrayList<Integer>();
 		// on recupere le fichier
 		File xmlFile = new File(filePath);
 
@@ -252,12 +252,13 @@ public class FormController
 
 					return false;
 				}
+				break;
 				
-			case "cordinal":
+			case "ordinal":
 				try
 				{
 					int num = Integer.parseInt(value);
-					if (listCordinalBut.contains(num))
+					if (listOrdinalBut.contains(num))
 					{
 						Element parent = (Element)elem.getParentNode();
 						listTypeErr.add(new String[] { "CORD_DOUBLE_ERR",
@@ -268,11 +269,13 @@ public class FormController
 						return false;
 					}
 					
+					listOrdinalBut.add(num);
 				}
 				catch (Exception ex)
 				{
 					return false; // Pas accessible normalement
 				}
+				break;
 		}
 
 		return true;
@@ -288,8 +291,8 @@ public class FormController
 			   attributeOk(elem, "nb_col", "int") &
 			   attributeOk(elem, "length", "int") &
 			   attributeOk(elem, "width", "int") &
-			   attributeOk(elem, "cordinal", "int") &&
-			   attributeOk(elem, "cordinal", "cordinal");
+			   attributeOk(elem, "ordinal", "int") &&
+			   attributeOk(elem, "ordinal", "ordinal");
 	}
 
 	private static boolean verifType(Element root)
@@ -304,6 +307,9 @@ public class FormController
 			{
 				Element elem = (Element)node;
 
+				if (elem.getTagName().matches(".*((boutons)|(buttons)).*"))
+					listOrdinalBut.clear();
+				
 				if ( verifType(elem) == false)
 					ok = false;
 
@@ -321,7 +327,7 @@ public class FormController
 		switch (err[0])
 		{
 			case "TYPE_ERR":
-				sErr = "L'attribut \"" + err[0] + "\" de l'élement \"" + err[1] + "\" n'est pas un " + err[2] + " !  ( valeur : \"" + err[3] + "\")";
+				sErr = "L'attribut \"" + err[1] + "\" de l'élement \"" + err[2] + "\" n'est pas un " + err[3] + " !  ( valeur : \"" + err[4] + "\")";
 
 				if (listTypeErr.size() > 1)
 					sErr += "\n\t\t( " + ( listTypeErr.size() - 1 ) + " autre" + ( listTypeErr.size() > 2 ? "s" : "" ) + " )";
@@ -636,7 +642,7 @@ public class FormController
 			pw.write("\t\t\t                  x      CDATA #IMPLIED\n");
 			pw.write("\t\t\t                  y      CDATA #IMPLIED >\n");
 			pw.write("\t\t\t<!ELEMENT bouton (#PCDATA)>\n");
-			pw.write("\t\t\t\t<!ATTLIST bouton cordinal    CDATA #REQUIRED >\n");
+			pw.write("\t\t\t\t<!ATTLIST bouton ordinal    CDATA #REQUIRED >\n");
 			pw.write("\t\t<!ELEMENT calendrier EMPTY>\n");
 			pw.write("\t\t\t<!ATTLIST calendrier label CDATA #REQUIRED\n");
 			pw.write("\t\t\t                     id    ID    #REQUIRED\n");
@@ -662,7 +668,7 @@ public class FormController
 			pw.write("\t\t\t                   y     CDATA #IMPLIED >\n");
 			pw.write("\t\t\t<!ELEMENT choice EMPTY>\n");
 			pw.write("\t\t\t\t<!ATTLIST choice label    CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t                 cordinal CDATA #REQUIRED >\n");
+			pw.write("\t\t\t\t                 ordinal CDATA #REQUIRED >\n");
 			pw.write("\t\t<!ELEMENT checkbox EMPTY>\n");
 			pw.write("\t\t\t<!ATTLIST checkbox label CDATA #REQUIRED\n");
 			pw.write("\t\t\t                   id    ID    #REQUIRED\n");
@@ -682,7 +688,7 @@ public class FormController
 			pw.write("\t\t\t                  x      CDATA #IMPLIED\n");
 			pw.write("\t\t\t                  y      CDATA #IMPLIED >\n");
 			pw.write("\t\t\t<!ELEMENT button (#PCDATA)>\n");
-			pw.write("\t\t\t\t<!ATTLIST button cordinal    CDATA #REQUIRED >\n");
+			pw.write("\t\t\t\t<!ATTLIST button ordinal    CDATA #REQUIRED >\n");
 			pw.write("\t\t<!ELEMENT calendar EMPTY>\n");
 			pw.write("\t\t\t<!ATTLIST calendar label CDATA #REQUIRED\n");
 			pw.write("\t\t\t                   id    ID    #REQUIRED\n");
