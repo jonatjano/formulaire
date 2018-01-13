@@ -14,6 +14,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Radio boutons à placer dans le formulaire
@@ -22,8 +23,8 @@ import java.util.ArrayList;
  */
 public class Buttons extends Control
 {
-	/** List des radio boutons affichés contenant les valeurs choisies par l'utilisateur */
-	private ArrayList<JRadioButton> buttonList;
+	/** List des radio boutons affichés contenant les valeurs choisies par l'utilisateur */ //TODO
+	private HashMap<Integer, JRadioButton> mapButton;
 	/** Groupe de bouton regroupant l'ensemble des radio boutons de l'élément du formulaire */
 	private ButtonGroup				buttonGroup;
 
@@ -36,10 +37,10 @@ public class Buttons extends Control
  	 * @param width Largeur de l'élément
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
-	 * @param choices Valeurs d'origine associées à l'élément lors de sa création
+	 * @param mapOrdObj Valeurs d'origine associées à l'élément lors de sa création 
 	 * @return L'élément créé
-	 */
-	public Buttons (String label, String id, int width, int x, int y, Object[] choices)
+	 */ //TODO
+	public Buttons (String label, String id, int width, int x, int y, HashMap<Integer, Object> mapOrdObj)
 	{
 		super(label, id, BaseType.String, width, x, y);
 		this.type = type;
@@ -51,17 +52,17 @@ public class Buttons extends Control
 		this.panel.setBounds(x, y, width + 20, Control.DFLT_HEIGHT);
 
 		// Création des radio boutons
-		this.setValue(choices);
+		this.setValue(mapOrdObj);
 
 		// Si la liste de bouton en contient au moins un, le contrôle est créé
 		// Sinon, le panel est vide
-		if ( buttonList.size() != 0)
+		if ( mapButton.size() != 0)
 		{
 			// Crée et ajoute une bordure à titre
 			TitledBorder titled = new TitledBorder(this.label);
 	    	this.panel.setBorder(titled);
 
-			this.buttonList.get(0).setSelected(true);
+			//this.buttonList.get(0).setSelected(true);
 		}
 	}
 
@@ -72,12 +73,12 @@ public class Buttons extends Control
 	 * @param id Identifiant unique de l'élément
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
-	 * @param choices Valeurs d'origine associées à l'élément lors de sa création
+	 * @param mapOrdObj Valeurs d'origine associées à l'élément lors de sa création
 	 * @return L'élément créé
-	 */
-	public Buttons (String label, String id, int x, int y, Object[] choices)
+	 */ //TODO
+	public Buttons (String label, String id, int x, int y, HashMap<Integer, Object> mapOrdObj)
 	{
-		this( label, id, Control.DFLT_WIDTH, x, y, choices );
+		this( label, id, Control.DFLT_WIDTH, x, y, mapOrdObj );
 	}
 
 
@@ -87,7 +88,7 @@ public class Buttons extends Control
 	@Override
 	public void reset ()
 	{
-		this.buttonList.get(0).setSelected(true);
+		//this.buttonList.get(0).setSelected(true); //TODO
 	}
 
 	/**
@@ -95,11 +96,11 @@ public class Buttons extends Control
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
 	@Override
-	public String getValue ()
+	public Integer getValue ()
 	{
-		for (JRadioButton button : this.buttonList)
-			if ( button.isSelected() )
-				return button.getText();
+		for (Integer i : this.mapButton.keySet())
+			if ( this.mapButton.get(i).isSelected() )
+				return i;
 
 		return null;
 	}
@@ -114,30 +115,30 @@ public class Buttons extends Control
 	public boolean setValue (Object newValue)
 	{
 		// on s'assure que newValue est un tableau à une dimension
-		if (newValue != null && newValue.getClass().isArray() && !((Object[])(newValue))[0].getClass().isArray())
+		if (newValue != null && newValue instanceof HashMap)
 		{
-			Object[] valuesToSet	= (Object[]) newValue;
+			HashMap<Integer, Object> mapOrdObj	= (HashMap<Integer, Object>) newValue;
 			this.buttonGroup		= new ButtonGroup();
 
-			if (this.buttonList != null)
+			if (this.mapButton != null)
 			{
-				for (JRadioButton button : buttonList)
-				this.panel.remove( button );
+				for (JRadioButton button : mapButton.values())
+					this.panel.remove( button );
 			}
 
-			this.buttonList	= new ArrayList<JRadioButton>();
-			this.panel.setBounds(x, y, this.panel.getSize().width, valuesToSet.length * 18 + 45);
+			this.mapButton	= new HashMap<Integer, JRadioButton>();
+			this.panel.setBounds(x, y, this.panel.getSize().width, mapOrdObj.size() * 18 + 45);
 
 
-			for (Object valueToSet : valuesToSet)
+			for (Integer i : mapOrdObj.keySet())
 			{
-				if (valueToSet != null)
+				if (mapOrdObj.get(i) != null)
 				{
-					String 			valueStr	= valueToSet.toString();
+					String 			valueStr	= mapOrdObj.get(i).toString();
 					JRadioButton	button		= new JRadioButton( valueStr );
-
+					
 					this.buttonGroup.add( button );
-					this.buttonList.add( button );
+					this.mapButton.put( i, button );
 
 					this.panel.add( button );
 				}

@@ -20,6 +20,7 @@
 		</menu>
 
 		<boutons x="500" y="30" id="a07" label="Radio boutons">
+			<bouton ordinal="4">Quatrieme choix</bouton>
 			<bouton ordinal="1">Premier choix</bouton>
 			<bouton ordinal="3">Troisieme choix</bouton>
 			<bouton ordinal="2">Deuxieme choix</bouton>
