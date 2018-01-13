@@ -18,7 +18,7 @@
 #### [x] Les différents Contrôles à gérer.
 Les différents Contrôles devront posséder :
 - [x] **une étiquette associée**
-- [x] <u>**un  identifiant numérique, indépendant de l'ordre dans lequel les contrôles sont définis**</u>
+- [x] **un  identifiant numérique, indépendant de l'ordre dans lequel les contrôles sont définis**
 - [x] **un positionnement Sans valeur x y les différents Controles seront placées les uns en dessous des autres dans l'ordre de leur identifiant**
 - [x] **la définition de la largeur (qui par défaut sera de 150)**
 - [x] **la hauteur sera fixe, et correspondra à une hauteur standard**
@@ -41,7 +41,7 @@ Les différents Contrôles devront posséder :
 
 ### [x] Rajout
 - [x] **Gérer toutes les erreurs XML** :
-	- [ ] Type incorrect
+	- [x] **Type incorrect**
 	- [x] **Oubli Chevron**
 	- [x] **Erreur DTD**
 
@@ -52,7 +52,7 @@ Les différents Contrôles devront posséder :
 - [x] **Les éléments du langage et option ne devront pas donner lieu à un long apprentissage, 15 min doivent suffire pour appréhender le langage**
 
 #### [x] Les différents Contrôles à gérer sont :
-- [x] <u>**Un groupement de bouton radio, pour lesquels il faudra définir la liste des boutons radio associés, l'utilisateur devra définir un ordinal pour chacun des boutons radio.**</u>
+- [x] **Un groupement de bouton radio, pour lesquels il faudra définir la liste des boutons radio associés, l'utilisateur devra définir un ordinal pour chacun des boutons radio.**
 - [x] **Une Liste déroulante éditable, les différentes valeurs de la liste déroulante seront définis par le programme utilisateur à l'aide d'un tableau.**
 
 #### [x] Un bouton effacer, permettra d'effacer l'ensemble des champs de saisie.
@@ -74,7 +74,7 @@ Les différents Contrôles devront posséder :
 #### [x] Cinématique.
 - [x] **Pouvoir visualiser l'identifiant des différents Controles.(cf illustration 2)**
 - [x] **Pouvoir visualiser les types associés aux différents Controles(cf Illustration 3)**
-- [x] **Controle des valeurs pour les champs numériques** // verif zone entier
+- [x] **Controle des valeurs pour les champs numériques**
 - [x] **Utilisation d'une barre de défilement pour les formulaires trop grand.C’est-à-dire ne tenant pas dans la zone définie en début de fichier de paramétrage.Nota : les deux boutons valider et effacer seront toujours visible à l'écran**
 
 #### [x] Chargement du formulaire

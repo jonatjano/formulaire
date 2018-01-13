@@ -328,7 +328,17 @@ public class Frame extends JFrame implements ActionListener
 					case "array":
 						NamedNodeMap	attrChoice	= nodeElement.getAttributes();
 						String	typeTemp	= attrChoice.getNamedItem("type").getNodeValue();
-						int		nbR			= Integer.parseInt( attrChoice.getNamedItem("nb_lig").getNodeValue() );
+						int		nbR;
+						
+						try
+						{
+							nbR	= Integer.parseInt( attrChoice.getNamedItem("nb_lig").getNodeValue() );
+						}
+						catch (Exception ex)
+						{
+							nbR	= Integer.parseInt( attrChoice.getNamedItem("nb_row").getNodeValue() );
+						}
+						
 						int		nbC			= Integer.parseInt( attrChoice.getNamedItem("nb_col").getNodeValue() );
 
 						control = new Array(label, id, BaseType.getBaseType(typeTemp), x, y, nbR, nbC);
