@@ -477,39 +477,6 @@ public class FormController
 			}
 			else
 			{
-				/*Object[]	newTab			= null;
-				Object[]	values			= ((Array) ctrl).getValue();
-
-				boolean		hasOneDimension = ((Array) ctrl).hasOneDimension();
-
-				// Crée un tableau dépendant du type de base
-				BaseType ctrlType	= ctrl.getType();
-				if		( ctrlType == BaseType.String )
-				{
-					if ( hasOneDimension )	newTab	= (String[]) values;
-					else					newTab	= (String[][]) values;
-				}
-				else if ( ctrlType == BaseType.Int )
-				{
-					if ( hasOneDimension )	newTab	= (Integer[]) values;
-					else					newTab	= (Integer[][]) values;
-				}
-				else if ( ctrlType == BaseType.Double )
-				{
-					if ( hasOneDimension )	newTab	= (Double[]) values;
-					else					newTab	= (Double[][]) values;
-				}
-				else if ( ctrlType == BaseType.Char )
-				{
-					if ( hasOneDimension )	newTab	= (Character[]) values;
-					else					newTab	= (Character[][]) values;
-				}
-				else if ( ctrlType == BaseType.Boolean )
-				{
-					if ( hasOneDimension )	newTab	= (Boolean[]) values;
-					else					newTab	= (Boolean[][]) values;
-				}*/
-
 				arrayMap.put( ctrl.getId(), ((Array) ctrl).getValue() );
 			}
 		}
@@ -579,19 +546,25 @@ public class FormController
 
 	/**
 	 * Renvoie la valeur d'un controle Array
-	 * @param  id Identifiant du controle
-	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 * @param id Identifiant du controle
+	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
-	public static boolean getArrayString (String id, String[][] res)
+	public static <T> boolean getArray (String id, T[][] res)
 	{
 		try
 		{
-			String[][] tmp = (String[][]) arrayMap.get(id);
+			T[][] tmp = (T[][]) arrayMap.get(id);
 
 			for (int i = 0; i < res.length && i < tmp.length; i++)
-				for (int j = 0; j < res[i].length && i < tmp[i].length; j++)
+				for (int j = 0; j < res[i].length && j < tmp[i].length; j++)
+				{
+					// BaseType type = ctrl.getType();
+					// if (type == BaseType.Int && tmp[i][j] == null)		res[i][j] = new Integer(0);
+					// else												res[i][j] = tmp[i][j];
 					res[i][j] = tmp[i][j];
+				}
 
 			return true;
 		}
@@ -602,51 +575,162 @@ public class FormController
 
 	/**
 	 * Renvoie la valeur d'un controle Array
-	 * @param  id Identifiant du controle
-	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 * @param id Identifiant du controle
+	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
-	public static Object[] getArrayInt (String id)
+	public static boolean getArrayString (String id, String[][] res)
 	{
-		Object[] resAsArray = arrayMap.get(id);
-		return resAsArray;
+		try
+		{
+			String[][] tmp = (String[][]) arrayMap.get(id);
+
+			for (int i = 0; i < res.length && i < tmp.length; i++)
+				for (int j = 0; j < res[i].length && j < tmp[i].length; j++)
+				{
+					if (tmp[i][j] == null)	res[i][j] = "";
+					else					res[i][j] = tmp[i][j];
+				}
+
+			return true;
+		}
+		catch (Exception e) { e.printStackTrace(); }
+
+		return false;
 	}
 
 	/**
 	 * Renvoie la valeur d'un controle Array
-	 * @param  id Identifiant du controle
-	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 * @param id Identifiant du controle
+	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
-	public static Object[] getArrayDouble (String id)
+	public static boolean getArrayInt (String id, int[][] res)
 	{
-		Object[] resAsArray = arrayMap.get(id);
-		return resAsArray;
+		try
+		{
+			Integer[][] tmp = (Integer[][]) arrayMap.get(id);
+
+			for (int i = 0; i < res.length && i < tmp.length; i++)
+				for (int j = 0; j < res[i].length && j < tmp[i].length; j++)
+				{
+					if (tmp[i][j] == null)	res[i][j] = 0;
+					else					res[i][j] = tmp[i][j];
+				}
+
+			return true;
+		}
+		catch (Exception e) { e.printStackTrace(); }
+
+		return false;
 	}
 
 	/**
 	 * Renvoie la valeur d'un controle Array
-	 * @param  id Identifiant du controle
-	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 * @param id Identifiant du controle
+	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
-	public static Object[] getArrayChar (String id)
+	public static boolean getArrayDouble (String id, double[][] res)
 	{
-		Object[] resAsArray = arrayMap.get(id);
-		return resAsArray;
+		try
+		{
+			Double[][] tmp = (Double[][]) arrayMap.get(id);
+
+			for (int i = 0; i < res.length && i < tmp.length; i++)
+				for (int j = 0; j < res[i].length && j < tmp[i].length; j++)
+				{
+					if (tmp[i][j] == null)	res[i][j] = 0.0;
+					else					res[i][j] = tmp[i][j];
+				}
+
+			return true;
+		}
+		catch (Exception e) { e.printStackTrace(); }
+
+		return false;
 	}
 
 	/**
 	 * Renvoie la valeur d'un controle Array
-	 * @param  id Identifiant du controle
-	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 * @param id Identifiant du controle
+	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
-	public static Object[] getArrayBoolean (String id)
+	public static boolean getArrayChar (String id, char[][] res)
 	{
-		Object[] resAsArray = arrayMap.get(id);
-		return resAsArray;
+		try
+		{
+			Character[][] tmp = (Character[][]) arrayMap.get(id);
+
+			for (int i = 0; i < res.length && i < tmp.length; i++)
+				for (int j = 0; j < res[i].length && j < tmp[i].length; j++)
+				{
+					if (tmp[i][j] == null)	res[i][j] = Character.MIN_VALUE;
+					else					res[i][j] = tmp[i][j];
+				}
+
+			return true;
+		}
+		catch (Exception e) { e.printStackTrace(); }
+
+		return false;
 	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param id Identifiant du controle
+	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @return Vrai si la copie est un succès, sinon faux
+	 */
+	@SuppressWarnings("unchecked")
+	public static boolean getArrayBoolean (String id, boolean[][] res)
+	{
+		try
+		{
+			Boolean[][] tmp = (Boolean[][]) arrayMap.get(id);
+
+			for (int i = 0; i < res.length && i < tmp.length; i++)
+				for (int j = 0; j < res[i].length && j < tmp[i].length; j++)
+				{
+					if (tmp[i][j] == null)	res[i][j] = false;
+					else					res[i][j] = tmp[i][j];
+				}
+
+			return true;
+		}
+		catch (Exception e) { e.printStackTrace(); }
+
+		return false;
+	}
+
+
+	// /**
+	//  * Renvoie la valeur d'un controle Array
+	//  * @param id Identifiant du controle
+	//  * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	//  * @return Vrai si la copie est un succès, sinon faux
+	//  */
+	// public static boolean getArrayString (String id, String[] res)
+	// {
+	// 	try
+	// 	{
+	// 		String[] tmp = (String[]) arrayMap.get(id);
+
+	// 		for (int i = 0; i < res.length && i < tmp.length; i++)
+	// 			for (int j = 0; j < res[i].length && i < tmp[i].length; j++)
+	// 				res[i][j] = tmp[i][j];
+
+	// 		return true;
+	// 	}
+	// 	catch (Exception e) { e.printStackTrace(); }
+
+	// 	return false;
+	// }
 
 	/**
 	 * méthode utilisée pour changer les valeurs des différents composants

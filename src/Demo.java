@@ -20,11 +20,16 @@ public class Demo
 			String s = FormController.getString("05");
 			System.out.println(s);
 
-			String[][] tab = new String[7][8];
-			FormController.getArrayString("a08", tab);
-			for (String[] truc : tab)
-				for (String str : truc)
-					System.out.println( (str == null) ? " / " : str.toString());
+			int[][] tab = new int[4][1];
+			System.out.println( FormController.getArrayInt("a10", tab) );
+			for (int[] truc : tab)
+			{
+				for (int str : truc)
+				{
+					System.out.print( str + ", " );
+				}
+				System.out.println();
+			}
 		}
 		else
 		{
