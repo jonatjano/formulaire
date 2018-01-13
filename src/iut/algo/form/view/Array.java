@@ -234,7 +234,7 @@ public class Array extends Control
 
 		/* Création du tableau sur l'interface */
 
-		tabButtons = new JButton[maxRow][maxCol];
+		tabButtons = new JButton[clampedRow][clampedCol];
 		for (int i = -1; i < clampedRow + 1; i++)
 		{
 			boolean inRowBounds = i >= 0 && i < clampedRow;

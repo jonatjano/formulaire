@@ -20,11 +20,12 @@
 		</menu>
 
 		<boutons x="500" y="30" id="a07" label="Radio boutons">
-			<bouton>Premier choix</bouton>
-			<bouton>Second choix</bouton>
+			<bouton ordinal="1">Premier choix</bouton>
+			<bouton ordinal="3">Troisieme choix</bouton>
+			<bouton ordinal="2">Deuxieme choix</bouton>
 		</boutons>
 
-		<tableau x="500" y="180" label="Tableau de bool" id="a08" type="chaine" nb_lig="7" nb_col="8"/>
+		<tableau x="500" y="180" label="Tableau de bool" id="a08" type="chaine" nb_lig="3" nb_col="7"/>
 
 		<calendrier x="500" y="120" id="a09" label="Date"/>
 	</fenetre>

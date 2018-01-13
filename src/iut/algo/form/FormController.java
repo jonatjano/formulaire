@@ -51,7 +51,6 @@ public class FormController
 	 * La fenêtre du dernier formulaire
 	 */
 	private static Frame frame;
-
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type {@link Integer}
 	 */
@@ -78,6 +77,8 @@ public class FormController
 	private static Map<String, Object[]> arrayMap;
 
 	private static List<String[]> listTypeErr;
+	
+	private static List<Integer> listOrdinalBut;
 
 	/**
 	 * methode appellée par une classe externe au package permettant d'appeller tous les utilitaires nécessaire au formulaire
@@ -87,6 +88,7 @@ public class FormController
 	public static void createForm (String filePath)
 	{
 		listTypeErr = new ArrayList<String[]>();
+		listOrdinalBut = new ArrayList<Integer>();
 		// on recupere le fichier
 		File xmlFile = new File(filePath);
 
@@ -200,12 +202,8 @@ public class FormController
 				else
 				{
 					String[] err = listTypeErr.get(0);
-					String sErr = "L'attribut \"" + err[0] + "\" de l'élement \"" + err[1] + "\" n'est pas un " + err[2] + " !  ( valeur : \"" + err[3] + "\")";
-
-					if (listTypeErr.size() > 1)
-						sErr += "\n\t\t( " + ( listTypeErr.size() - 1 ) + " autre" + ( listTypeErr.size() > 2 ? "s" : "" ) + " )";
-
-					showError(sErr);
+					
+					showError(err);
 				}
 			}
 			catch (SAXParseException e)
@@ -245,16 +243,40 @@ public class FormController
 				}
 				catch(Exception e)
 				{
-					listTypeErr.add( new String[] {
-													attName,
-												 	elem.getTagName(),
-													"entier",
-													value
+					listTypeErr.add(new String[]{ "TYPE_ERR",
+												  attName,
+												  elem.getTagName(),
+												  "entier",
+												  value
 												}
 									);
 
 					return false;
 				}
+				break;
+				
+			case "ordinal":
+				try
+				{
+					int num = Integer.parseInt(value);
+					if (listOrdinalBut.contains(num))
+					{
+						Element parent = (Element)elem.getParentNode();
+						listTypeErr.add(new String[] { "CORD_DOUBLE_ERR",
+													   parent.getAttribute("id"),
+													   num + ""
+													 }
+									   );
+						return false;
+					}
+					
+					listOrdinalBut.add(num);
+				}
+				catch (Exception ex)
+				{
+					return false; // Pas accessible normalement
+				}
+				break;
 		}
 
 		return true;
@@ -269,7 +291,9 @@ public class FormController
 			   attributeOk(elem, "nb_lig", "int") &
 			   attributeOk(elem, "nb_col", "int") &
 			   attributeOk(elem, "length", "int") &
-			   attributeOk(elem, "width", "int");
+			   attributeOk(elem, "width", "int") &
+			   attributeOk(elem, "ordinal", "int") &&
+			   attributeOk(elem, "ordinal", "ordinal");
 	}
 
 	private static boolean verifType(Element root)
@@ -284,6 +308,9 @@ public class FormController
 			{
 				Element elem = (Element)node;
 
+				if (elem.getTagName().matches(".*((boutons)|(buttons)).*"))
+					listOrdinalBut.clear();
+				
 				if ( verifType(elem) == false)
 					ok = false;
 
@@ -293,6 +320,25 @@ public class FormController
 		}
 
 		return ok;
+	}
+	
+	public static void showError (String[] err)
+	{
+		String sErr = "";
+		switch (err[0])
+		{
+			case "TYPE_ERR":
+				sErr = "L'attribut \"" + err[1] + "\" de l'élement \"" + err[2] + "\" n'est pas un " + err[3] + " !  ( valeur : \"" + err[4] + "\")";
+
+				if (listTypeErr.size() > 1)
+					sErr += "\n\t\t( " + ( listTypeErr.size() - 1 ) + " autre" + ( listTypeErr.size() > 2 ? "s" : "" ) + " )";
+				
+				break;
+			
+			case "CORD_DOUBLE_ERR":
+				sErr = "doublon sur l'ordinal \"" + err[2] + "\" de la liste des bouton radio de l'element avec id=\"" + err[1] + "\" !";
+		}
+		showError(sErr);
 	}
 
 	/**
@@ -592,7 +638,7 @@ public class FormController
 			pw.write("\t\t\t               x     CDATA #IMPLIED\n");
 			pw.write("\t\t\t               y     CDATA #IMPLIED >\n");
 			pw.write("\t\t\t<!ELEMENT choix EMPTY>\n");
-			pw.write("\t\t\t\t<!ATTLIST choix label CDATA #REQUIRED >\n");
+			pw.write("\t\t\t\t<!ATTLIST choix label    CDATA #REQUIRED >\n");
 			pw.write("\t\t<!ELEMENT case EMPTY>\n");
 			pw.write("\t\t\t<!ATTLIST case label CDATA #REQUIRED\n");
 			pw.write("\t\t\t               id    ID    #REQUIRED\n");
@@ -612,6 +658,7 @@ public class FormController
 			pw.write("\t\t\t                  x      CDATA #IMPLIED\n");
 			pw.write("\t\t\t                  y      CDATA #IMPLIED >\n");
 			pw.write("\t\t\t<!ELEMENT bouton (#PCDATA)>\n");
+			pw.write("\t\t\t\t<!ATTLIST bouton ordinal    CDATA #REQUIRED >\n");
 			pw.write("\t\t<!ELEMENT calendrier EMPTY>\n");
 			pw.write("\t\t\t<!ATTLIST calendrier label CDATA #REQUIRED\n");
 			pw.write("\t\t\t                     id    ID    #REQUIRED\n");
@@ -636,7 +683,8 @@ public class FormController
 			pw.write("\t\t\t                   x     CDATA #IMPLIED\n");
 			pw.write("\t\t\t                   y     CDATA #IMPLIED >\n");
 			pw.write("\t\t\t<!ELEMENT choice EMPTY>\n");
-			pw.write("\t\t\t\t<!ATTLIST choice label CDATA #REQUIRED >\n");
+			pw.write("\t\t\t\t<!ATTLIST choice label    CDATA #REQUIRED\n");
+			pw.write("\t\t\t\t                 ordinal CDATA #REQUIRED >\n");
 			pw.write("\t\t<!ELEMENT checkbox EMPTY>\n");
 			pw.write("\t\t\t<!ATTLIST checkbox label CDATA #REQUIRED\n");
 			pw.write("\t\t\t                   id    ID    #REQUIRED\n");
@@ -656,6 +704,7 @@ public class FormController
 			pw.write("\t\t\t                  x      CDATA #IMPLIED\n");
 			pw.write("\t\t\t                  y      CDATA #IMPLIED >\n");
 			pw.write("\t\t\t<!ELEMENT button (#PCDATA)>\n");
+			pw.write("\t\t\t\t<!ATTLIST button ordinal    CDATA #REQUIRED >\n");
 			pw.write("\t\t<!ELEMENT calendar EMPTY>\n");
 			pw.write("\t\t\t<!ATTLIST calendar label CDATA #REQUIRED\n");
 			pw.write("\t\t\t                   id    ID    #REQUIRED\n");
