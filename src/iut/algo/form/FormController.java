@@ -51,33 +51,34 @@ public class FormController
 	 * La fenêtre du dernier formulaire
 	 */
 	private static Frame frame;
-
 	/**
-	 * {@link Map} contenant les valeurs des différent champs de type {@link Integer}
+	 * {@link Map} contenant les valeurs des différents champs de type {@link Integer}
 	 */
 	private static Map<String, Integer> intMap;
 	/**
-	 * {@link Map} contenant les valeurs des différent champs de type {@link String}
+	 * {@link Map} contenant les valeurs des différents champs de type {@link String}
 	 */
 	private static Map<String, String> stringMap;
 	/**
-	 * {@link Map} contenant les valeurs des différent champs de type {@link Double}
+	 * {@link Map} contenant les valeurs des différents champs de type {@link Double}
 	 */
 	private static Map<String, Double> doubleMap;
 	/**
-	 * {@link Map} contenant les valeurs des différent champs de type {@link Boolean}
+	 * {@link Map} contenant les valeurs des différents champs de type {@link Boolean}
 	 */
 	private static Map<String, Boolean> booleanMap;
 	/**
-	 * {@link Map} contenant les valeurs des différent champs de type {@link Character}
+	 * {@link Map} contenant les valeurs des différents champs de type {@link Character}
 	 */
 	private static Map<String, Character> charMap;
 	/**
-	 * {@link Map} contenant les valeurs des différent champs contenant des tableaux
+	 * {@link Map} contenant les valeurs des différents champs de type tableaux
 	 */
-	private static Map<String, List> arrayMap;
+	private static Map<String, Object[]> arrayMap;
 
 	private static List<String[]> listTypeErr;
+	
+	private static List<Integer> listOrdinalBut;
 
 	/**
 	 * methode appellée par une classe externe au package permettant d'appeller tous les utilitaires nécessaire au formulaire
@@ -87,24 +88,26 @@ public class FormController
 	public static void createForm (String filePath)
 	{
 		listTypeErr = new ArrayList<String[]>();
+		listOrdinalBut = new ArrayList<Integer>();
 		// on recupere le fichier
 		File xmlFile = new File(filePath);
 
 		// on fait les verifications basique d'existence du fichier
-		// s'il existe
+		// S'il existe...
 		if (!xmlFile.exists())
 		{
-			showError("Le fichier entré n'existe pas");
+			showError("Le fichier ciblé n'existe pas");
 			return;
 		}
-		// s'il possède bien une extension XML
-		else if (!xmlFile.getName().toUpperCase().endsWith(".XML"))
+		// Et s'il possède bien une extension XML...
+		else if ( !xmlFile.getName().toUpperCase().endsWith(".XML") )
 		{
-			showError("Le fichier entré ne correspond pas à un fichier XML");
+			showError("Le fichier ciblé ne correspond pas à un fichier XML");
 			return;
 		}
 
 
+		// ... Le programme continue !
 		try
 		{
 			// creer un fichier temporaire
@@ -123,14 +126,15 @@ public class FormController
 			}
 			scan.close();
 
-			String finalFile = "<?xml version=\"1.0\" ?>\n";
-			finalFile += "<!DOCTYPE form SYSTEM \"" + dtdFile.getAbsolutePath() + "\">\n";
-			finalFile += file.substring( file.indexOf("<form") ).replaceAll("[\t]", "");
+			String finalFile = "<?xml version=\"1.0\" ?>";
+			finalFile += "<!DOCTYPE form SYSTEM \"" + dtdFile.getAbsolutePath() + "\">";
+			finalFile += file.substring( 0, file.indexOf("<form") ).replaceAll("[^\n]", "").replaceFirst("[\n]", "");
+			finalFile += file.substring( file.indexOf("<form") );
 			pw.write( finalFile );
 
 			pw.close();
 
-			Element frameRoot = validXml(xmlFile);
+			Element frameRoot = validXml(xmlFileWithDTD);
 			if (frameRoot != null)
 			{
 				frame = Frame.createFrame( (Element) (frameRoot.getFirstChild()) );
@@ -141,7 +145,7 @@ public class FormController
 			e.printStackTrace();
 		}
 
-		// le fichier est accepté, on l'envoi à la suite du traitement
+		// le fichier est accepté, on l'envoie à la suite du traitement
 		// parseXml(xmlFile);
 	}
 
@@ -198,12 +202,8 @@ public class FormController
 				else
 				{
 					String[] err = listTypeErr.get(0);
-					String sErr = "L'attribut \"" + err[0] + "\" de l'élement \"" + err[1] + "\" n'est pas un " + err[2] + " !  ( valeur : \"" + err[3] + "\")";
-
-					if (listTypeErr.size() > 1)
-						sErr += "\n\t\t( " + ( listTypeErr.size() - 1 ) + " autre" + ( listTypeErr.size() > 2 ? "s" : "" ) + " )";
-
-					showError(sErr);
+					
+					showError(err);
 				}
 			}
 			catch (SAXParseException e)
@@ -243,7 +243,8 @@ public class FormController
 				}
 				catch(Exception e)
 				{
-					listTypeErr.add(new String[]{ attName,
+					listTypeErr.add(new String[]{ "TYPE_ERR",
+												  attName,
 												  elem.getTagName(),
 												  "entier",
 												  value
@@ -252,6 +253,30 @@ public class FormController
 
 					return false;
 				}
+				break;
+				
+			case "ordinal":
+				try
+				{
+					int num = Integer.parseInt(value);
+					if (listOrdinalBut.contains(num))
+					{
+						Element parent = (Element)elem.getParentNode();
+						listTypeErr.add(new String[] { "CORD_DOUBLE_ERR",
+													   parent.getAttribute("id"),
+													   num + ""
+													 }
+									   );
+						return false;
+					}
+					
+					listOrdinalBut.add(num);
+				}
+				catch (Exception ex)
+				{
+					return false; // Pas accessible normalement
+				}
+				break;
 		}
 
 		return true;
@@ -266,7 +291,9 @@ public class FormController
 			   attributeOk(elem, "nb_lig", "int") &
 			   attributeOk(elem, "nb_col", "int") &
 			   attributeOk(elem, "length", "int") &
-			   attributeOk(elem, "width", "int");
+			   attributeOk(elem, "width", "int") &
+			   attributeOk(elem, "ordinal", "int") &&
+			   attributeOk(elem, "ordinal", "ordinal");
 	}
 
 	private static boolean verifType(Element root)
@@ -281,16 +308,37 @@ public class FormController
 			{
 				Element elem = (Element)node;
 
+				if (elem.getTagName().matches(".*((boutons)|(buttons)).*"))
+					listOrdinalBut.clear();
+				
 				if ( verifType(elem) == false)
 					ok = false;
 
 				if (!attributeOk(elem))
 					ok = false;
 			}
-
 		}
 
 		return ok;
+	}
+	
+	public static void showError (String[] err)
+	{
+		String sErr = "";
+		switch (err[0])
+		{
+			case "TYPE_ERR":
+				sErr = "L'attribut \"" + err[1] + "\" de l'élement \"" + err[2] + "\" n'est pas un " + err[3] + " !  ( valeur : \"" + err[4] + "\")";
+
+				if (listTypeErr.size() > 1)
+					sErr += "\n\t\t( " + ( listTypeErr.size() - 1 ) + " autre" + ( listTypeErr.size() > 2 ? "s" : "" ) + " )";
+				
+				break;
+			
+			case "CORD_DOUBLE_ERR":
+				sErr = "doublon sur l'ordinal \"" + err[2] + "\" de la liste des bouton radio de l'element avec id=\"" + err[1] + "\" !";
+		}
+		showError(sErr);
 	}
 
 	/**
@@ -347,40 +395,43 @@ public class FormController
 		stringMap	= new HashMap<String, String>();
 		charMap		= new HashMap<String, Character>();
 		booleanMap	= new HashMap<String, Boolean>();
+		arrayMap	= new HashMap<String, Object[]>();
 
 		for (Control ctrl : frame.getControls())
 		{
 			// System.out.println(ctrl.getType() + " : " + ctrl.getValue() + " <--> " + ctrl.getId());
-			if (!(ctrl instanceof iut.algo.form.view.Array)) {
+			if ( !(ctrl instanceof iut.algo.form.view.Array) )
+			{
 				switch (ctrl.getType())
 				{
 					case Int:
-						intMap.put(ctrl.getId(), (Integer)(ctrl.getValue()));
+						intMap.put(ctrl.getId(), (Integer) ctrl.getValue());
 					break;
 
 					case Double:
-						doubleMap.put(ctrl.getId(), (Double)(ctrl.getValue()));
+						doubleMap.put(ctrl.getId(), (Double) ctrl.getValue());
 					break;
 
 					case String:
-						stringMap.put(ctrl.getId(), (String)(ctrl.getValue()));
+						stringMap.put(ctrl.getId(), (String) ctrl.getValue());
 					break;
 
 					case Char:
 						if (((String)(ctrl.getValue())).length() > 0)
 						{
-							charMap.put(ctrl.getId(), ((String)(ctrl.getValue())).charAt(0));
+							charMap.put(ctrl.getId(), ((String) ctrl.getValue()).charAt(0));
 						}
 					break;
 
 					case Boolean:
-						booleanMap.put(ctrl.getId(), (Boolean)(ctrl.getValue()));
+						booleanMap.put(ctrl.getId(), (Boolean) (ctrl.getValue()));
 					break;
 				}
 			}
 			else
 			{
-				this.arrayMap.put( ctrl.getId(), Arrays.asList(ctrl.getValue) );
+				Object[][] test = (Object[][]) ctrl.getValue();
+				arrayMap.put( ctrl.getId(), (Object[]) ctrl.getValue() );
 			}
 		}
 		frame			= null;
@@ -451,9 +502,70 @@ public class FormController
 	 * @param  id Identifiant du controle
 	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
 	 */
-	public static Object[] getArray (String id)
+	@SuppressWarnings("unchecked")
+	public static void getArray (String id, String[][] res)
 	{
-		return arrayMap.get(id);
+		Object[] tmp = arrayMap.get(id);
+	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param  id Identifiant du controle
+	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 */
+	@SuppressWarnings("unchecked")
+	public static Object[] getArrayString (String id)
+	{
+		Object[] resAsArray = arrayMap.get(id);
+		return resAsArray;
+	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param  id Identifiant du controle
+	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 */
+	@SuppressWarnings("unchecked")
+	public static Object[] getArrayInt (String id)
+	{
+		Object[] resAsArray = arrayMap.get(id);
+		return resAsArray;
+	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param  id Identifiant du controle
+	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 */
+	@SuppressWarnings("unchecked")
+	public static Object[] getArrayDouble (String id)
+	{
+		Object[] resAsArray = arrayMap.get(id);
+		return resAsArray;
+	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param  id Identifiant du controle
+	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 */
+	@SuppressWarnings("unchecked")
+	public static Object[] getArrayChar (String id)
+	{
+		Object[] resAsArray = arrayMap.get(id);
+		return resAsArray;
+	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param  id Identifiant du controle
+	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 */
+	@SuppressWarnings("unchecked")
+	public static Object[] getArrayBoolean (String id)
+	{
+		Object[] resAsArray = arrayMap.get(id);
+		return resAsArray;
 	}
 
 	/**
@@ -480,15 +592,30 @@ public class FormController
 	}
 
 	/**
-	 * Crée la DTD dans un fichier temporaire du système
-	 * @return File Le fichier DTD créé
+	 * permet d'obtenir un fichier contenant la dtd
+	 * c'est un fichier temporaire supprimé à la fin de l'execution
+	 * @return le fichier contenant la dtd
 	 */
-	private static File createDtdFile ()
+	private static File createDtdFile()
 	{
-		try {
+		try
+		{
 			File dtd = File.createTempFile("dtd", ".dtd");
 			dtd.deleteOnExit();
+			return createDtdFile(dtd);
+		}
+		catch(Exception e) {}
+		return null;
+	}
 
+	/**
+	 * Crée la DTD dans un fichier temporaire du système
+	 * @param dtd fichier dans lequel est écrit la dtd
+	 * @return File Le fichier DTD créé
+	 */
+	private static File createDtdFile(File dtd)
+	{
+		try {
 			PrintWriter pw = new PrintWriter(dtd, "UTF-8");
 
 			pw.write("<!ELEMENT form (fenetre|window)>\n");
@@ -511,7 +638,7 @@ public class FormController
 			pw.write("\t\t\t               x     CDATA #IMPLIED\n");
 			pw.write("\t\t\t               y     CDATA #IMPLIED >\n");
 			pw.write("\t\t\t<!ELEMENT choix EMPTY>\n");
-			pw.write("\t\t\t\t<!ATTLIST choix label CDATA #REQUIRED >\n");
+			pw.write("\t\t\t\t<!ATTLIST choix label    CDATA #REQUIRED >\n");
 			pw.write("\t\t<!ELEMENT case EMPTY>\n");
 			pw.write("\t\t\t<!ATTLIST case label CDATA #REQUIRED\n");
 			pw.write("\t\t\t               id    ID    #REQUIRED\n");
@@ -531,6 +658,7 @@ public class FormController
 			pw.write("\t\t\t                  x      CDATA #IMPLIED\n");
 			pw.write("\t\t\t                  y      CDATA #IMPLIED >\n");
 			pw.write("\t\t\t<!ELEMENT bouton (#PCDATA)>\n");
+			pw.write("\t\t\t\t<!ATTLIST bouton ordinal    CDATA #REQUIRED >\n");
 			pw.write("\t\t<!ELEMENT calendrier EMPTY>\n");
 			pw.write("\t\t\t<!ATTLIST calendrier label CDATA #REQUIRED\n");
 			pw.write("\t\t\t                     id    ID    #REQUIRED\n");
@@ -555,7 +683,8 @@ public class FormController
 			pw.write("\t\t\t                   x     CDATA #IMPLIED\n");
 			pw.write("\t\t\t                   y     CDATA #IMPLIED >\n");
 			pw.write("\t\t\t<!ELEMENT choice EMPTY>\n");
-			pw.write("\t\t\t\t<!ATTLIST choice label CDATA #REQUIRED >\n");
+			pw.write("\t\t\t\t<!ATTLIST choice label    CDATA #REQUIRED\n");
+			pw.write("\t\t\t\t                 ordinal CDATA #REQUIRED >\n");
 			pw.write("\t\t<!ELEMENT checkbox EMPTY>\n");
 			pw.write("\t\t\t<!ATTLIST checkbox label CDATA #REQUIRED\n");
 			pw.write("\t\t\t                   id    ID    #REQUIRED\n");
@@ -575,6 +704,7 @@ public class FormController
 			pw.write("\t\t\t                  x      CDATA #IMPLIED\n");
 			pw.write("\t\t\t                  y      CDATA #IMPLIED >\n");
 			pw.write("\t\t\t<!ELEMENT button (#PCDATA)>\n");
+			pw.write("\t\t\t\t<!ATTLIST button ordinal    CDATA #REQUIRED >\n");
 			pw.write("\t\t<!ELEMENT calendar EMPTY>\n");
 			pw.write("\t\t\t<!ATTLIST calendar label CDATA #REQUIRED\n");
 			pw.write("\t\t\t                   id    ID    #REQUIRED\n");
@@ -597,5 +727,32 @@ public class FormController
 
 		// Renvoie null s'il y a eu une erreur lors de la création
 		return null;
+	}
+
+	/**
+	 * enregistre le fichier dtd sous fileNameNoExt.dtd
+	 * @param fileNameNoExt nom sans extension du fichier destination
+	 */
+	public static void saveDtdAs(String fileNameNoExt)
+	{
+		File dtdFile = new File(fileNameNoExt + ".dtd");
+		createDtdFile(dtdFile);
+	}
+
+	/**
+	 * méthode utilisée pour obtenir la dtd
+	 * @param args doit contenir une valeur étant le nom du fichier dtd à créer sans extension
+	 */
+	public static void main(String[] args)
+	{
+		if (args.length == 0)
+		{
+			System.out.println("Ce main permet de créer un fichier dtd où l'on veux");
+			System.out.println("Usage : java iut.algo.form.FormController <nom du fichier sans extension>");
+		}
+		else
+		{
+			saveDtdAs(args[0]);
+		}
 	}
 }

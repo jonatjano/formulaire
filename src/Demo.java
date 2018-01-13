@@ -19,6 +19,12 @@ public class Demo
 		{
 			String s = FormController.getString("05");
 			System.out.println(s);
+
+			/*String[][] tab = String[7][7];
+			FormController.getArray("a08", tab);
+			for (String[] val : tab)
+				for (String subval : val)
+					System.out.println( subVal );*/
 		}
 		else
 		{
