@@ -226,7 +226,11 @@ public class Array extends Control
 
 
 		/* Création du tableau logique */
-		tabValues = new Object[nbR][nbC];
+		if		( this.type == BaseType.String)		this.tabValues = new String[nbR][nbC];
+		else if ( this.type == BaseType.Int)		this.tabValues = new Integer[nbR][nbC];
+		else if ( this.type == BaseType.Double)		this.tabValues = new Double[nbR][nbC];
+		else if ( this.type == BaseType.Char)		this.tabValues = new Character[nbR][nbC];
+		else if ( this.type == BaseType.Boolean)	this.tabValues = new Boolean[nbR][nbC];
 
 
 		Font baseFont	= this.panel.getFont();
@@ -350,7 +354,18 @@ public class Array extends Control
 		this(label, id, type, Control.DFLT_WIDTH, x, y, nbR, nbC);
 	}
 
-	private void moveTo(int row, int col)
+
+	/**
+	 * Vérifie si le tableau de valeurs n'a qu'une dimension
+	 * @return Vrai si le tableau n'a qu'une dimension, sinon faux
+	 */
+	public boolean hasOneDimension ()
+	{
+		if (this.tabValues.length == 0)		return true;
+		else								return this.tabValues.length == 1 || this.tabValues[0].length == 1;
+	}
+
+	private void moveTo (int row, int col)
 	{
 		Object value = valueControl.getValue();
 
@@ -509,7 +524,7 @@ public class Array extends Control
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
 	@Override
-	public Object[] getValue ()
+	public Object[][] getValue ()
 	{
 		return this.tabValues;
 	}

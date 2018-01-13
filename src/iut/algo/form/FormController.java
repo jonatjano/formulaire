@@ -3,6 +3,7 @@ package iut.algo.form;
 import iut.algo.form.job.SimpleErrorHandler;
 import iut.algo.form.view.Control;
 import iut.algo.form.view.Frame;
+import iut.algo.form.view.Array;
 import iut.algo.form.job.BaseType;
 
 import java.io.File;
@@ -42,40 +43,40 @@ public class FormController
 	/**
 	 * le fichier dtd utilisé pour valider le xml
 	 */
-	private static File dtdFile = createDtdFile();
+	private static File 					dtdFile = createDtdFile();
 	/**
 	 * Fait savoir au programme si un formulaire est actuellement ouvert
 	 */
-	private static boolean windowIsOpen = false;
+	private static boolean 					windowIsOpen = false;
 	/**
 	 * La fenêtre du dernier formulaire
 	 */
-	private static Frame frame;
+	private static Frame 					frame;
 
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type {@link Integer}
 	 */
-	private static Map<String, Integer> intMap;
+	private static Map<String, Integer> 	intMap;
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type {@link String}
 	 */
-	private static Map<String, String> stringMap;
+	private static Map<String, String> 		stringMap;
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type {@link Double}
 	 */
-	private static Map<String, Double> doubleMap;
+	private static Map<String, Double> 		doubleMap;
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type {@link Boolean}
 	 */
-	private static Map<String, Boolean> booleanMap;
+	private static Map<String, Boolean> 	booleanMap;
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type {@link Character}
 	 */
-	private static Map<String, Character> charMap;
+	private static Map<String, Character> 	charMap;
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type tableaux
 	 */
-	private static Map<String, Object[]> arrayMap;
+	private static Map<String, Object[][]> 	arrayMap;
 
 	private static List<String[]> listTypeErr;
 
@@ -348,12 +349,12 @@ public class FormController
 		stringMap	= new HashMap<String, String>();
 		charMap		= new HashMap<String, Character>();
 		booleanMap	= new HashMap<String, Boolean>();
-		arrayMap	= new HashMap<String, Object[]>();
+		arrayMap	= new HashMap<String, Object[][]>();
 
 		for (Control ctrl : frame.getControls())
 		{
 			// System.out.println(ctrl.getType() + " : " + ctrl.getValue() + " <--> " + ctrl.getId());
-			if ( !(ctrl instanceof iut.algo.form.view.Array) )
+			if ( !(ctrl instanceof Array) )
 			{
 				switch (ctrl.getType())
 				{
@@ -383,8 +384,40 @@ public class FormController
 			}
 			else
 			{
-				Object[][] test = (Object[][]) ctrl.getValue();
-				arrayMap.put( ctrl.getId(), (Object[]) ctrl.getValue() );
+				/*Object[]	newTab			= null;
+				Object[]	values			= ((Array) ctrl).getValue();
+
+				boolean		hasOneDimension = ((Array) ctrl).hasOneDimension();
+
+				// Crée un tableau dépendant du type de base
+				BaseType ctrlType	= ctrl.getType();
+				if		( ctrlType == BaseType.String )
+				{
+					if ( hasOneDimension )	newTab	= (String[]) values;
+					else					newTab	= (String[][]) values;
+				}
+				else if ( ctrlType == BaseType.Int )
+				{
+					if ( hasOneDimension )	newTab	= (Integer[]) values;
+					else					newTab	= (Integer[][]) values;
+				}
+				else if ( ctrlType == BaseType.Double )
+				{
+					if ( hasOneDimension )	newTab	= (Double[]) values;
+					else					newTab	= (Double[][]) values;
+				}
+				else if ( ctrlType == BaseType.Char )
+				{
+					if ( hasOneDimension )	newTab	= (Character[]) values;
+					else					newTab	= (Character[][]) values;
+				}
+				else if ( ctrlType == BaseType.Boolean )
+				{
+					if ( hasOneDimension )	newTab	= (Boolean[]) values;
+					else					newTab	= (Boolean[][]) values;
+				}*/
+
+				arrayMap.put( ctrl.getId(), ((Array) ctrl).getValue() );
 			}
 		}
 		frame			= null;
@@ -450,16 +483,6 @@ public class FormController
 		return booleanMap.get(id);
 	}
 
-	/**
-	 * Renvoie la valeur d'un controle Array
-	 * @param  id Identifiant du controle
-	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
-	 */
-	@SuppressWarnings("unchecked")
-	public static void getArray (String id, String[][] res)
-	{
-		Object[] tmp = arrayMap.get(id);
-	}
 
 	/**
 	 * Renvoie la valeur d'un controle Array
@@ -467,10 +490,21 @@ public class FormController
 	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
 	 */
 	@SuppressWarnings("unchecked")
-	public static Object[] getArrayString (String id)
+	public static boolean getArrayString (String id, String[][] res)
 	{
-		Object[] resAsArray = arrayMap.get(id);
-		return resAsArray;
+		try
+		{
+			String[][] tmp = (String[][]) arrayMap.get(id);
+
+			for (int i = 0; i < res.length && i < tmp.length; i++)
+				for (int j = 0; j < res[i].length && i < tmp[i].length; j++)
+					res[i][j] = tmp[i][j];
+
+			return true;
+		}
+		catch (Exception e) { e.printStackTrace(); }
+
+		return false;
 	}
 
 	/**
