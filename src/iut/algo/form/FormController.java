@@ -3,6 +3,7 @@ package iut.algo.form;
 import iut.algo.form.job.SimpleErrorHandler;
 import iut.algo.form.view.Control;
 import iut.algo.form.view.Frame;
+import iut.algo.form.view.Array;
 import iut.algo.form.job.BaseType;
 
 import java.io.File;
@@ -42,43 +43,45 @@ public class FormController
 	/**
 	 * le fichier dtd utilisé pour valider le xml
 	 */
-	private static File dtdFile = createDtdFile();
+	private static File 					dtdFile = createDtdFile();
 	/**
 	 * Fait savoir au programme si un formulaire est actuellement ouvert
 	 */
-	private static boolean windowIsOpen = false;
+	private static boolean 					windowIsOpen = false;
 	/**
 	 * La fenêtre du dernier formulaire
 	 */
-	private static Frame frame;
+	private static Frame 					frame;
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type {@link Integer}
 	 */
-	private static Map<String, Integer> intMap;
+	private static Map<String, Integer> 	intMap;
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type {@link String}
 	 */
-	private static Map<String, String> stringMap;
+	private static Map<String, String> 		stringMap;
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type {@link Double}
 	 */
-	private static Map<String, Double> doubleMap;
+	private static Map<String, Double> 		doubleMap;
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type {@link Boolean}
 	 */
-	private static Map<String, Boolean> booleanMap;
+	private static Map<String, Boolean> 	booleanMap;
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type {@link Character}
 	 */
-	private static Map<String, Character> charMap;
+	private static Map<String, Character> 	charMap;
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type tableaux
 	 */
-	private static Map<String, Object[]> arrayMap;
+	private static Map<String, Object[][]> 	arrayMap;
 
 	private static List<String[]> listTypeErr;
 	
 	private static List<Integer> listOrdinalBut;
+	
+	private static List<Integer> listId;
 
 	/**
 	 * methode appellée par une classe externe au package permettant d'appeller tous les utilitaires nécessaire au formulaire
@@ -89,6 +92,7 @@ public class FormController
 	{
 		listTypeErr = new ArrayList<String[]>();
 		listOrdinalBut = new ArrayList<Integer>();
+		listId = new ArrayList<Integer>();
 		// on recupere le fichier
 		File xmlFile = new File(filePath);
 
@@ -254,6 +258,41 @@ public class FormController
 					return false;
 				}
 				break;
+			
+			case "id":
+				String valueTest = value.replaceAll("[^0-9]","");
+				if (valueTest.equals(""))
+				{
+					listTypeErr.add(new String[]{ "ID_NO_DIGIT",
+												  elem.getTagName(),
+												  value
+												}
+									);
+					return false;
+				}
+				try
+				{
+					Integer i = Integer.parseInt(valueTest);
+					if ( listId.contains(i) )
+					{
+						listTypeErr.add(new String[]{ "ID_DUPLICATED",
+												  elem.getTagName(),
+												  i.toString()
+												}
+									);
+						return false;
+					}
+					else
+					{
+						listId.add(i);
+						elem.setAttribute("id",i.toString());
+					}
+				}
+				catch(Exception e)
+				{
+					return false; // pas atteignable
+				}
+				break;
 				
 			case "ordinal":
 				try
@@ -289,9 +328,11 @@ public class FormController
 			   attributeOk(elem, "x", "int") &
 			   attributeOk(elem, "y", "int") &
 			   attributeOk(elem, "nb_lig", "int") &
+			   attributeOk(elem, "nb_row", "int") &
 			   attributeOk(elem, "nb_col", "int") &
 			   attributeOk(elem, "length", "int") &
 			   attributeOk(elem, "width", "int") &
+			   attributeOk(elem, "id", "id") &
 			   attributeOk(elem, "ordinal", "int") &&
 			   attributeOk(elem, "ordinal", "ordinal");
 	}
@@ -337,6 +378,13 @@ public class FormController
 			
 			case "CORD_DOUBLE_ERR":
 				sErr = "doublon sur l'ordinal \"" + err[2] + "\" de la liste des bouton radio de l'element avec id=\"" + err[1] + "\" !";
+				break;
+			case "ID_NO_DIGIT":
+				sErr = "l'élément \"" + err[1] + "\" n'a pas de chiffre dans son id ! ( valeur : \"" + err[2] + "\")" ;
+				break;
+			case "ID_DUPLICATED":
+				sErr = "l'id \"" + err[2] + "\" de l'élément \"" + err[1] + "\" à déjà été rencontrer !" ;
+				break;
 		}
 		showError(sErr);
 	}
@@ -395,12 +443,12 @@ public class FormController
 		stringMap	= new HashMap<String, String>();
 		charMap		= new HashMap<String, Character>();
 		booleanMap	= new HashMap<String, Boolean>();
-		arrayMap	= new HashMap<String, Object[]>();
+		arrayMap	= new HashMap<String, Object[][]>();
 
 		for (Control ctrl : frame.getControls())
 		{
 			// System.out.println(ctrl.getType() + " : " + ctrl.getValue() + " <--> " + ctrl.getId());
-			if ( !(ctrl instanceof iut.algo.form.view.Array) )
+			if ( !(ctrl instanceof Array) )
 			{
 				switch (ctrl.getType())
 				{
@@ -430,8 +478,7 @@ public class FormController
 			}
 			else
 			{
-				Object[][] test = (Object[][]) ctrl.getValue();
-				arrayMap.put( ctrl.getId(), (Object[]) ctrl.getValue() );
+				arrayMap.put( ctrl.getId(), ((Array) ctrl).getValue() );
 			}
 		}
 		frame			= null;
@@ -497,76 +544,250 @@ public class FormController
 		return booleanMap.get(id);
 	}
 
+
 	/**
 	 * Renvoie la valeur d'un controle Array
-	 * @param  id Identifiant du controle
-	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 * @param id Identifiant du controle
+	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
-	public static void getArray (String id, String[][] res)
+	public static <T> boolean getArray (String id, T[][] res)
 	{
-		Object[] tmp = arrayMap.get(id);
+		try
+		{
+			T[][] tmp = (T[][]) arrayMap.get(id);
+
+			for (int i = 0; i < res.length && i < tmp.length; i++)
+				for (int j = 0; j < res[i].length && j < tmp[i].length; j++)
+				{
+					// BaseType type = ctrl.getType();
+					// if (type == BaseType.Int && tmp[i][j] == null)		res[i][j] = new Integer(0);
+					// else												res[i][j] = tmp[i][j];
+					res[i][j] = tmp[i][j];
+				}
+
+			return true;
+		}
+		catch (Exception e) { e.printStackTrace(); }
+
+		return false;
 	}
 
 	/**
 	 * Renvoie la valeur d'un controle Array
-	 * @param  id Identifiant du controle
-	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 * @param id Identifiant du controle
+	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
-	public static Object[] getArrayString (String id)
+	public static boolean getArrayString (String id, String[][] res)
 	{
-		Object[] resAsArray = arrayMap.get(id);
-		return resAsArray;
+		try
+		{
+			String[][] tmp = (String[][]) arrayMap.get(id);
+
+			for (int i = 0; i < res.length && i < tmp.length; i++)
+				for (int j = 0; j < res[i].length && j < tmp[i].length; j++)
+				{
+					if (tmp[i][j] == null)	res[i][j] = "";
+					else					res[i][j] = tmp[i][j];
+				}
+
+			return true;
+		}
+		catch (Exception e) { e.printStackTrace(); }
+
+		return false;
 	}
 
 	/**
 	 * Renvoie la valeur d'un controle Array
-	 * @param  id Identifiant du controle
-	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 * @param id Identifiant du controle
+	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
-	public static Object[] getArrayInt (String id)
+	public static boolean getArrayString (String id, String[] res)
 	{
-		Object[] resAsArray = arrayMap.get(id);
-		return resAsArray;
+		try
+		{
+			// String[][] values = (String[][]) arrayMap.get(id);
+			// if ( values.length == 0 )
+			// {
+			String[][] tmp = (String[][]) arrayMap.get(id);
+
+			for (int j = 0; j < res.length && j < tmp[0].length; j++)
+			{
+				if (tmp[0][j] == null)	res[j] = "";
+				else					res[j] = tmp[0][j];
+			}
+			// }
+
+			return true;
+		}
+		catch (Exception e) { e.printStackTrace(); }
+
+		return false;
 	}
 
 	/**
 	 * Renvoie la valeur d'un controle Array
-	 * @param  id Identifiant du controle
-	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 * @param id Identifiant du controle
+	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
-	public static Object[] getArrayDouble (String id)
+	public static boolean getArrayInt (String id, int[][] res)
 	{
-		Object[] resAsArray = arrayMap.get(id);
-		return resAsArray;
+		try
+		{
+			Integer[][] tmp = (Integer[][]) arrayMap.get(id);
+
+			for (int i = 0; i < res.length && i < tmp.length; i++)
+				for (int j = 0; j < res[i].length && j < tmp[i].length; j++)
+				{
+					if (tmp[i][j] == null)	res[i][j] = 0;
+					else					res[i][j] = tmp[i][j];
+				}
+
+			return true;
+		}
+		catch (Exception e) { e.printStackTrace(); }
+
+		return false;
 	}
 
 	/**
 	 * Renvoie la valeur d'un controle Array
-	 * @param  id Identifiant du controle
-	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 * @param id Identifiant du controle
+	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
-	public static Object[] getArrayChar (String id)
+	public static boolean getArrayInt (String id, int[] res)
 	{
-		Object[] resAsArray = arrayMap.get(id);
-		return resAsArray;
+		try
+		{
+			Integer[][] tmp = (Integer[][]) arrayMap.get(id);
+
+			for (int j = 0; j < res.length && j < tmp[0].length; j++)
+			{
+				if (tmp[0][j] == null)	res[j] = 0;
+				else					res[j] = tmp[0][j];
+			}
+
+			return true;
+		}
+		catch (Exception e) { e.printStackTrace(); }
+
+		return false;
 	}
 
 	/**
 	 * Renvoie la valeur d'un controle Array
-	 * @param  id Identifiant du controle
-	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
+	 * @param id Identifiant du controle
+	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
-	public static Object[] getArrayBoolean (String id)
+	public static boolean getArrayDouble (String id, double[][] res)
 	{
-		Object[] resAsArray = arrayMap.get(id);
-		return resAsArray;
+		try
+		{
+			Double[][] tmp = (Double[][]) arrayMap.get(id);
+
+			for (int i = 0; i < res.length && i < tmp.length; i++)
+				for (int j = 0; j < res[i].length && j < tmp[i].length; j++)
+				{
+					if (tmp[i][j] == null)	res[i][j] = 0.0;
+					else					res[i][j] = tmp[i][j];
+				}
+
+			return true;
+		}
+		catch (Exception e) { e.printStackTrace(); }
+
+		return false;
 	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param id Identifiant du controle
+	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @return Vrai si la copie est un succès, sinon faux
+	 */
+	@SuppressWarnings("unchecked")
+	public static boolean getArrayChar (String id, char[][] res)
+	{
+		try
+		{
+			Character[][] tmp = (Character[][]) arrayMap.get(id);
+
+			for (int i = 0; i < res.length && i < tmp.length; i++)
+				for (int j = 0; j < res[i].length && j < tmp[i].length; j++)
+				{
+					if (tmp[i][j] == null)	res[i][j] = Character.MIN_VALUE;
+					else					res[i][j] = tmp[i][j];
+				}
+
+			return true;
+		}
+		catch (Exception e) { e.printStackTrace(); }
+
+		return false;
+	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param id Identifiant du controle
+	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @return Vrai si la copie est un succès, sinon faux
+	 */
+	@SuppressWarnings("unchecked")
+	public static boolean getArrayBoolean (String id, boolean[][] res)
+	{
+		try
+		{
+			Boolean[][] tmp = (Boolean[][]) arrayMap.get(id);
+
+			for (int i = 0; i < res.length && i < tmp.length; i++)
+				for (int j = 0; j < res[i].length && j < tmp[i].length; j++)
+				{
+					if (tmp[i][j] == null)	res[i][j] = false;
+					else					res[i][j] = tmp[i][j];
+				}
+
+			return true;
+		}
+		catch (Exception e) { e.printStackTrace(); }
+
+		return false;
+	}
+
+
+	// /**
+	//  * Renvoie la valeur d'un controle Array
+	//  * @param id Identifiant du controle
+	//  * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	//  * @return Vrai si la copie est un succès, sinon faux
+	//  */
+	// public static boolean getArrayString (String id, String[] res)
+	// {
+	// 	try
+	// 	{
+	// 		String[] tmp = (String[]) arrayMap.get(id);
+
+	// 		for (int i = 0; i < res.length && i < tmp.length; i++)
+	// 			for (int j = 0; j < res[i].length && i < tmp[i].length; j++)
+	// 				res[i][j] = tmp[i][j];
+
+	// 		return true;
+	// 	}
+	// 	catch (Exception e) { e.printStackTrace(); }
+
+	// 	return false;
+	// }
 
 	/**
 	 * méthode utilisée pour changer les valeurs des différents composants
@@ -683,8 +904,7 @@ public class FormController
 			pw.write("\t\t\t                   x     CDATA #IMPLIED\n");
 			pw.write("\t\t\t                   y     CDATA #IMPLIED >\n");
 			pw.write("\t\t\t<!ELEMENT choice EMPTY>\n");
-			pw.write("\t\t\t\t<!ATTLIST choice label    CDATA #REQUIRED\n");
-			pw.write("\t\t\t\t                 ordinal CDATA #REQUIRED >\n");
+			pw.write("\t\t\t\t<!ATTLIST choice label    CDATA #REQUIRED >\n");
 			pw.write("\t\t<!ELEMENT checkbox EMPTY>\n");
 			pw.write("\t\t\t<!ATTLIST checkbox label CDATA #REQUIRED\n");
 			pw.write("\t\t\t                   id    ID    #REQUIRED\n");
@@ -694,7 +914,7 @@ public class FormController
 			pw.write("\t\t\t<!ATTLIST array label CDATA #REQUIRED\n");
 			pw.write("\t\t\t                id    ID    #REQUIRED\n");
 			pw.write("\t\t\t                type ( string | int | double | boolean | char ) #REQUIRED\n");
-			pw.write("\t\t\t                nb_lig CDATA #REQUIRED\n");
+			pw.write("\t\t\t                nb_row CDATA #REQUIRED\n");
 			pw.write("\t\t\t                nb_col CDATA #REQUIRED\n");
 			pw.write("\t\t\t                x      CDATA #IMPLIED\n");
 			pw.write("\t\t\t                y      CDATA #IMPLIED >\n");

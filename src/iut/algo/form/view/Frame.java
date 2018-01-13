@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.HashMap;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -327,7 +328,17 @@ public class Frame extends JFrame implements ActionListener
 					case "array":
 						NamedNodeMap	attrChoice	= nodeElement.getAttributes();
 						String	typeTemp	= attrChoice.getNamedItem("type").getNodeValue();
-						int		nbR			= Integer.parseInt( attrChoice.getNamedItem("nb_lig").getNodeValue() );
+						int		nbR;
+						
+						try
+						{
+							nbR	= Integer.parseInt( attrChoice.getNamedItem("nb_lig").getNodeValue() );
+						}
+						catch (Exception ex)
+						{
+							nbR	= Integer.parseInt( attrChoice.getNamedItem("nb_row").getNodeValue() );
+						}
+						
 						int		nbC			= Integer.parseInt( attrChoice.getNamedItem("nb_col").getNodeValue() );
 
 						control = new Array(label, id, BaseType.getBaseType(typeTemp), x, y, nbR, nbC);
@@ -336,7 +347,7 @@ public class Frame extends JFrame implements ActionListener
 					case "boutons":
 					case "buttons":
 						listChoices	= nodeElement.getChildNodes();
-						choices		= new Object[listChoices.getLength()];
+						HashMap<Integer, Object> mapOrdButt = new HashMap<Integer, Object>();
 
 						/* Recherche des différents choix */
 						for (int j = 0; j < listChoices.getLength(); j++)
@@ -345,10 +356,12 @@ public class Frame extends JFrame implements ActionListener
 
 							// Si le noeud est un bouton ajoute la valeur du noud au choix possible
 							if ( nodeChoice.getNodeName().equals("bouton") || nodeChoice.getNodeName().equals("button") )
-								choices[j] = nodeChoice.getTextContent();
+							{
+								mapOrdButt.put( Integer.parseInt( ((Element)nodeChoice).getAttribute("ordinal") ), nodeChoice.getTextContent());
+							}
 						}
 
-						control = new Buttons( label, id, x, y, choices );
+						control = new Buttons( label, id, x, y, mapOrdButt );
 						break;
 
 					case "calendar":

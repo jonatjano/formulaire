@@ -117,16 +117,18 @@ public class Array extends Control
 
 
 	/** Nombre de colonne minimum à afficher */
-	private static final int minCol = 1;
+	private static final int MIN_COL = 1;
 	/** Nombre de ligne minimum à afficher */
-	private static final int minRow = 1;
+	private static final int MIN_ROW = 1;
 	/** Nombre de colonne maximum à afficher */
-	private static final int maxCol = 5;
+	private static final int MAX_COL = 5;
 	/** Nombre de ligne maximum à afficher */
-	private static final int maxRow = 5;
+	private static final int MAX_ROW = 5;
 
 	/** Padding sur l'axe des abscisses à placer à droite et à gauche */
-	private static final int gapX	= 10;
+	private static final int GAP_X		= 10;
+	/** Dimension d'une cellule du tbaleau */
+	private static final int CELL_SIZE	= 25;
 
 	/** Couleur de base des cellules du tableau */
 	private static final Color normalColor			= new Color(255,255,255);
@@ -189,20 +191,17 @@ public class Array extends Control
 		this.oriR	= 0;
 
 		// Les dimensions du tableau
-		int tabWidth	= (Math.min(5, nbC) + 2) * 25;
-		int tabHeight	= (Math.min(5, nbR) + 2) * 25;
+		int tabWidth	= (Math.min(5, nbC) + 2) * Array.CELL_SIZE;
+		int tabHeight	= (Math.min(5, nbR) + 2) * Array.CELL_SIZE;
 
 		this.panel.setLayout( null );
-		this.panel.setBounds( x, y, tabWidth + width + Control.LABEL_WIDTH + Array.gapX, tabHeight );
+		this.panel.setBounds( x, y, tabWidth + width + Control.LABEL_WIDTH + Array.GAP_X, tabHeight );
 
-		this.typePanel.setBounds( x + width + Control.LABEL_WIDTH + tabWidth + Array.gapX, y, 100, Control.DFLT_HEIGHT );
+		this.typePanel.setBounds( x + width + Control.LABEL_WIDTH + tabWidth + Array.GAP_X, y, 100, Control.DFLT_HEIGHT );
 
-
-		/*~~~~~~~~~~~~~~~~~~~~~*/
-		/* Création du tableau */
-		/*~~~~~~~~~~~~~~~~~~~~~*/
 
 		/*  Label */
+		
 		this.labelL	= new JLabel( String.format("%s : ", this.label), SwingConstants.RIGHT );
 		this.labelL.setBounds( 0, 0, Control.LABEL_WIDTH, Control.DFLT_HEIGHT );
 		this.labelL.setForeground(Color.GRAY);
@@ -210,27 +209,37 @@ public class Array extends Control
 		this.panel.add( this.labelL );
 
 
-		/* Tableau */
+		/*~~~~~~~~~~~~~~~~~~~~~*/
+		/* Création du tableau */
+		/*~~~~~~~~~~~~~~~~~~~~~*/
+
 		this.colLabels		= new ArrayList<JLabel>();
 		this.rowLabels		= new ArrayList<JLabel>();
 
-		int clampedCol 		= Math.max( 0, Math.min(Array.maxCol, nbC) );
-		int clampedRow 		= Math.max( 0, Math.min(Array.maxRow, nbR) );
+		int clampedCol 		= Math.max( 0, Math.min(Array.MAX_COL, nbC) );
+		int clampedRow 		= Math.max( 0, Math.min(Array.MAX_ROW, nbR) );
+
 
 		this.arrayP			= new JPanel( new GridLayout(clampedRow + 2, clampedCol + 2) );
 		this.arrayP.setBounds( Control.LABEL_WIDTH, 0, tabWidth, tabHeight );
 		this.arrayP.setBackground( Color.lightGray );
-		this.arrayP.setBorder( new CompoundBorder(BorderFactory.createLoweredBevelBorder(), new EmptyBorder(0,Array.gapX,0,0)) ); // BorderFactory.createLineBorder(Color.black)
+		this.arrayP.setBorder( new CompoundBorder(BorderFactory.createLoweredBevelBorder(), new EmptyBorder(0,Array.GAP_X,0,0)) ); // BorderFactory.createLineBorder(Color.black)
 
 		this.panel.add( this.arrayP );
 
 
 		/* Création du tableau logique */
-		tabValues = new Object[nbR][nbC];
+
+		if		( this.type == BaseType.String)		this.tabValues = new String[nbR][nbC];
+		else if ( this.type == BaseType.Int)		this.tabValues = new Integer[nbR][nbC];
+		else if ( this.type == BaseType.Double)		this.tabValues = new Double[nbR][nbC];
+		else if ( this.type == BaseType.Char)		this.tabValues = new Character[nbR][nbC];
+		else if ( this.type == BaseType.Boolean)	this.tabValues = new Boolean[nbR][nbC];
 
 
 		Font baseFont	= this.panel.getFont();
 		Font newFont	= baseFont.deriveFont(baseFont.getStyle() | Font.BOLD);
+
 
 		/* Création du tableau sur l'interface */
 
@@ -252,15 +261,9 @@ public class Array extends Control
 			}
 			this.arrayP.add( labelRow );
 
+
 			/* CORPS */
 
-			int maxRow = Array.maxRow;
-			if (tabValues.length < Array.maxRow - 1 )
-				maxRow = tabValues.length ;
-
-			int maxCol = Array.maxCol ;
-			if (tabValues[0].length < Array.maxCol - 1 )
-				maxCol = tabValues.length;
 			for (int j = 0; j < clampedCol; j++)
 			{
 				boolean inColBounds = j >= 0 && j < clampedCol;
@@ -301,6 +304,7 @@ public class Array extends Control
 		}
 		setTabBackground(-1, -1, 0, 0);
 
+
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~*/
 		/*  Panel de modification  */
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -308,7 +312,9 @@ public class Array extends Control
 		this.valuePanel = new JPanel();
 		this.valuePanel.setBackground( Frame.obtainFormColor() );
 		this.valuePanel.setLayout( new GridLayout(2, 1) );
-		this.valuePanel.setBounds( tabWidth + Control.LABEL_WIDTH + Array.gapX, (int) (tabHeight / 4f), width, (int) (tabHeight / 2f) );
+
+
+		this.valuePanel.setBounds( tabWidth + Control.LABEL_WIDTH + Array.GAP_X, 0, width, (int) (Array.CELL_SIZE*5 / 2) );
 
 
 		String valueStr = "Value";
@@ -350,7 +356,18 @@ public class Array extends Control
 		this(label, id, type, Control.DFLT_WIDTH, x, y, nbR, nbC);
 	}
 
-	private void moveTo(int row, int col)
+
+	/**
+	 * Vérifie si le tableau de valeurs n'a qu'une dimension
+	 * @return Vrai si le tableau n'a qu'une dimension, sinon faux
+	 */
+	public boolean hasOneDimension ()
+	{
+		if (this.tabValues.length == 0)		return true;
+		else								return this.tabValues.length == 1 || this.tabValues[0].length == 1;
+	}
+
+	private void moveTo (int row, int col)
 	{
 		Object value = valueControl.getValue();
 
@@ -368,7 +385,7 @@ public class Array extends Control
 		int eq = 0;
 
 		if (deltaR > 0)
-			eq = Array.maxRow - numbutR - 2;
+			eq = Array.MAX_ROW - numbutR - 2;
 		else
 			eq = numbutR -1;
 
@@ -386,7 +403,7 @@ public class Array extends Control
 		}
 
 		if (deltaC > 0)
-			eq = Array.maxCol - numbutC - 2;
+			eq = Array.MAX_COL - numbutC - 2;
 		else
 			eq = numbutC -1;
 
@@ -434,16 +451,17 @@ public class Array extends Control
 		int oriRTemp = oriR;
 		int oriCTemp = oriC;
 
-		int maxRow = Array.maxRow - 1;
-		if (tabValues.length < Array.maxRow - 1 )
+		int maxRow = Array.MAX_ROW - 1;
+		if (tabValues.length < Array.MAX_ROW - 1 )
 			maxRow = tabValues.length -1;
 
-		int maxCol = Array.maxCol - 1;
-		if (tabValues[0].length < Array.maxCol - 1 )
+		int maxCol = Array.MAX_COL - 1;
+		if (tabValues[0].length < Array.MAX_COL - 1 )
 			maxCol = tabValues.length -1;
 
-		oriR = Math.max(0, Math.min(tabValues.length -1 - maxRow, oriR + deltaR));
-		oriC = Math.max(0, Math.min(tabValues[0].length -1 - maxCol, oriC + deltaC));
+		oriR = Math.max(0, Math.min(tabValues.length - 1 - maxRow, oriR + deltaR));
+		oriC = Math.max(0, Math.min(tabValues[0].length - 1 - maxCol, oriC + deltaC));
+
 
 		for (int i = 0; i < rowLabels.size(); i++)
 			rowLabels.get(i).setText((oriR + rowLabels.size() - 1 - i) + "");
@@ -509,7 +527,7 @@ public class Array extends Control
 	 * @return La valeur rentrée par l'utilisateur dans cet élément
 	 */
 	@Override
-	public Object[] getValue ()
+	public Object[][] getValue ()
 	{
 		return this.tabValues;
 	}
