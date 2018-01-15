@@ -521,6 +521,14 @@ public class Array extends Control
 		moveTo(0,0);
 		tabValues[posR][posC] = null;
 	}
+	
+	/**
+	 * Finalise l'enregistrement du tableau en gardant en mémoire la case sélectionnée
+	 */
+	public void validated ()
+	{
+		tabValues[oriR + prevR][oriC + prevC] = valueControl.getValue();
+	}
 
 	/**
 	 * Retourne la valeur contenue dans l'élément du formulaire

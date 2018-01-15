@@ -478,6 +478,7 @@ public class FormController
 			}
 			else
 			{
+				((Array) ctrl).validated();
 				arrayMap.put( ctrl.getId(), ((Array) ctrl).getValue() );
 			}
 		}

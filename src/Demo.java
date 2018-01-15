@@ -31,11 +31,14 @@ public class Demo
 			// 	System.out.println();
 			// }
 
-			int[] tab = new int[4];
-			System.out.println( FormController.getArrayInt("a10", tab) );
-			for (int truc : tab)
+			int[][] tab = new int[2][4];
+			System.out.println( FormController.getArrayInt("10", tab) );
+			for (int[] truc : tab)
 			{
-				System.out.print( truc + ", " );
+				for (int machin : truc)
+				{
+					System.out.print( machin + ", " );
+				}
 			}
 		}
 		else
