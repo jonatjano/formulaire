@@ -4,3 +4,11 @@
 	border : 1px solid black;
 	overflow: auto;
 }
+
+#RADIO
+{
+	border: 1px solid grey;
+    padding: 5px;
+    border-radius: 10px;
+	box-shadow: 1px 1px 12px #555;
+}
