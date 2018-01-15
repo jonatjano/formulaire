@@ -122,7 +122,7 @@ public class FormController
 
 	public static FormController createAndGetForm (String filePath)
 	{
-		int id = formList.get(createForm(filePath));
+		int id = createForm(filePath);
 		if (id != -1) { return formList.get(id); }
 		return null;
 	}
@@ -186,7 +186,7 @@ public class FormController
 			if (frameRoot != null)
 			{
 				formList.add( new FormController( Frame.createFrame( (Element) (frameRoot.getFirstChild()) ) ) );
-				return formList.size();
+				return formList.size() - 1;
 			}
 		}
 		catch (Exception e)
