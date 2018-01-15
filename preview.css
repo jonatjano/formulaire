@@ -1,3 +1,9 @@
+.label
+{
+	width: 111px;
+	text-align: right;
+}
+
 #mainDiv
 {
 	position : absolute;
