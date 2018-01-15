@@ -9,6 +9,8 @@ import javax.swing.BorderFactory;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Color;
+import iut.algo.form.job.Language;
+
 
 /**
  * Label seul à afficher dans le formulaire
@@ -26,9 +28,9 @@ public class Label extends Control
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @return L'élément créé
 	 */
-	public Label (String label, String id, int width, int x, int y)
+	public Label (String label, String id, int width, int x, int y, Language language)
 	{
-		super(label, id, BaseType.String, width, x, y);
+		super(label, id, BaseType.String, width, x, y, language);
 		this.type 	= BaseType.String;
 		this.label	= label;
 
@@ -52,9 +54,9 @@ public class Label extends Control
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @return L'élément créé
 	 */
-	public Label (String label, String id, int x, int y)
+	public Label (String label, String id, int x, int y, Language language)
 	{
-		this(label, id, Control.DFLT_WIDTH, x, y);
+		this(label, id, Control.DFLT_WIDTH, x, y, language);
 	}
 
 

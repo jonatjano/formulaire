@@ -71,21 +71,26 @@ public class DateTextField extends JTextField
 	 * le calendrier graphic permettant de choisir la date
 	 */
 	private JDialog dateDialog = null;
+	/**
+	 * le calendrier graphic permettant de choisir la date
+	 */
+	private Language language;
 
 	/**
 	 * Constructeur de base, date par défaut(d'aujourd'hui)
 	 */
-	public DateTextField()
+	public DateTextField(Language language)
 	{
-		this(new Date());
+		this(new Date(), language);
 	}
 
 	/**
 	 * Constructeur permetant d'initialiser la date
 	 * @param date La date par défaut du DatePanel
 	 */
-	public DateTextField(Date date)
+	public DateTextField(Date date, Language language)
 	{
+		this.language = language;
 		setDate(date);
 		setEditable(false);
 		setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -301,7 +306,7 @@ public class DateTextField extends JTextField
 		private JPanel createWeekAndDayPanel()
 		{
 			String[] colname = new String[7];
-			switch ( iut.algo.form.view.Frame.getLang() )
+			switch ( language )
 			{
 				case FR: colname = new String[] { "D", "L", "M", "M", "J", "V", "S" }; break;
 				default: colname = new String[] { "S", "M", "T", "W", "T", "F", "S" };

@@ -10,6 +10,8 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.Dimension;
 import java.awt.Color;
 
+import iut.algo.form.job.Language;
+
 /**
  * Liste déroulante à placer dans le formulaire
  * @author Team Infotik
@@ -35,9 +37,9 @@ public class Dropdown extends Control
 	 * @return L'élément créé
 	 */
 	@SuppressWarnings("unchecked")
-	public Dropdown (String label, String id, int width, int x, int y, Object[] choices)
+	public Dropdown (String label, String id, int width, int x, int y, Object[] choices, Language language)
 	{
-		super(label, id, BaseType.String, width, x, y);
+		super(label, id, BaseType.String, width, x, y, language);
 		this.type 		= type;
 		this.baseValues = choices;
 
@@ -66,9 +68,9 @@ public class Dropdown extends Control
 	 * @param choices Valeurs d'origine associées à l'élément lors de sa création
 	 * @return L'élément créé
 	 */
-	public Dropdown (String label, String id, int x, int y, Object[] choices)
+	public Dropdown (String label, String id, int x, int y, Object[] choices, Language language)
 	{
-		this(label, id, Control.DFLT_WIDTH, x, y, choices);
+		this(label, id, Control.DFLT_WIDTH, x, y, choices, language);
 	}
 
 

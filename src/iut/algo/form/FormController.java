@@ -51,44 +51,88 @@ public class FormController
 	/**
 	 * La fenêtre du dernier formulaire
 	 */
-	private static Frame 					frame;
+	private Frame 							frame;
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type {@link Integer}
 	 */
-	private static Map<String, Integer> 	intMap;
+	private Map<String, Integer> 			intMap;
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type {@link String}
 	 */
-	private static Map<String, String> 		stringMap;
+	private Map<String, String> 			stringMap;
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type {@link Double}
 	 */
-	private static Map<String, Double> 		doubleMap;
+	private Map<String, Double> 			doubleMap;
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type {@link Boolean}
 	 */
-	private static Map<String, Boolean> 	booleanMap;
+	private Map<String, Boolean> 			booleanMap;
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type {@link Character}
 	 */
-	private static Map<String, Character> 	charMap;
+	private Map<String, Character> 			charMap;
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type tableaux
 	 */
-	private static Map<String, Object[][]> 	arrayMap;
+	private Map<String, Object[][]> 		arrayMap;
 
-	private static List<String[]> listTypeErr;
-	
-	private static List<Integer> listOrdinalBut;
-	
-	private static List<Integer> listId;
+	/**
+	 * liste des erreurs trouvées lors de la lecture du xml
+	 */
+	private static List<String[]>					listTypeErr;
+
+	/**
+	 * liste des ordinaux des boutons
+	 */
+	private static List<Integer> 					listOrdinalBut;
+
+	/**
+	 * liste des ids trouvées lors de la lecture du xml
+	 */
+	private static List<Integer> 					listId;
+
+	/**
+	 * liste contenant tous les formulaires existants
+	 */
+	private static List<FormController> 			formList = new ArrayList<FormController>();
+
+	/**
+	 * constructeur de FormController
+	 * @param  frame frame d'affichage du formulaire
+	 */
+	private FormController(Frame frame)
+	{
+		this.frame = frame;
+	}
+
+	/**
+	 * methode appellée pour avoir le formulaire correspondant à l'id
+	 * @param  id id du formulaire à récuperer
+	 * @return le formulaire demandé s'il existe
+	 */
+	public static FormController getForm(int id)
+	{
+		if (formList.size() > id && id >= 0)
+		{
+			return formList.get(id);
+		}
+		return null;
+	}
+
+	public static FormController createAndGetForm (String filePath)
+	{
+		int id = formList.get(createForm(filePath));
+		if (id != -1) { return formList.get(id); }
+		return null;
+	}
 
 	/**
 	 * methode appellée par une classe externe au package permettant d'appeller tous les utilitaires nécessaire au formulaire
 	 * cette méthode n'affiche pas le formulaire, il faut pour cela appeler showForm
 	 * @param filePath  Le chemin du fichier XML permettant de générer le formlaire
 	 */
-	public static void createForm (String filePath)
+	public static int createForm (String filePath)
 	{
 		listTypeErr = new ArrayList<String[]>();
 		listOrdinalBut = new ArrayList<Integer>();
@@ -101,13 +145,13 @@ public class FormController
 		if (!xmlFile.exists())
 		{
 			showError("Le fichier ciblé n'existe pas");
-			return;
+			return -1;
 		}
 		// Et s'il possède bien une extension XML...
 		else if ( !xmlFile.getName().toUpperCase().endsWith(".XML") )
 		{
 			showError("Le fichier ciblé ne correspond pas à un fichier XML");
-			return;
+			return -1;
 		}
 
 
@@ -141,31 +185,23 @@ public class FormController
 			Element frameRoot = validXml(xmlFileWithDTD);
 			if (frameRoot != null)
 			{
-				frame = Frame.createFrame( (Element) (frameRoot.getFirstChild()) );
+				formList.add( new FormController( Frame.createFrame( (Element) (frameRoot.getFirstChild()) ) ) );
+				return formList.size();
 			}
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-
-		// le fichier est accepté, on l'envoie à la suite du traitement
-		// parseXml(xmlFile);
+		return -1;
 	}
 
 	/**
 	 * methode utilisée pour afficher le dernier formulaire créé
 	 */
-	public static void showForm()
+	public void showForm()
 	{
-		if (frame != null)
-		{
-			pauseUntilWindowClosed();
-		}
-		else
-		{
-			showError("Il n'existe aucun formulaire pour le moment");
-		}
+		pauseUntilWindowClosed();
 	}
 
 	/**
@@ -206,7 +242,7 @@ public class FormController
 				else
 				{
 					String[] err = listTypeErr.get(0);
-					
+
 					showError(err);
 				}
 			}
@@ -265,7 +301,7 @@ public class FormController
 					return false;
 				}
 				break;
-			
+
 			case "id":
 				String valueTest = value.replaceAll("[^0-9]","");
 				if (valueTest.equals(""))
@@ -300,7 +336,7 @@ public class FormController
 					return false; // pas atteignable
 				}
 				break;
-				
+
 			case "ordinal":
 				try
 				{
@@ -315,7 +351,7 @@ public class FormController
 									   );
 						return false;
 					}
-					
+
 					listOrdinalBut.add(num);
 				}
 				catch (Exception ex)
@@ -369,7 +405,7 @@ public class FormController
 
 				if (elem.getTagName().matches(".*((boutons)|(buttons)).*"))
 					listOrdinalBut.clear();
-				
+
 				if ( verifType(elem) == false)
 					ok = false;
 
@@ -380,6 +416,7 @@ public class FormController
 
 		return ok;
 	}
+
 	
 	/**
 	 * Affiche les erreurs trouvées
@@ -395,9 +432,9 @@ public class FormController
 
 				if (listTypeErr.size() > 1)
 					sErr += "\n\t\t( " + ( listTypeErr.size() - 1 ) + " autre" + ( listTypeErr.size() > 2 ? "s" : "" ) + " )";
-				
+
 				break;
-			
+
 			case "CORD_DOUBLE_ERR":
 				sErr = "doublon sur l'ordinal \"" + err[2] + "\" de la liste des bouton radio de l'element avec id=\"" + err[1] + "\" !";
 				break;
@@ -433,9 +470,9 @@ public class FormController
 	/**
 	 * Empêche le programme de progresser tant qu'un formulaire est lancé
 	 */
-	private static void pauseUntilWindowClosed ()
+	private void pauseUntilWindowClosed ()
 	{
-		FormController.frame.setVisible(true);
+		frame.setVisible(true);
 
 		FormController.windowIsOpen = true;
 		while ( FormController.windowIsOpen )
@@ -448,17 +485,45 @@ public class FormController
 	/**
 	 * cache la fenetre pour pouvoir la réutiliser
 	 */
-	public static void windowClosed ()
+	public static void windowClosed(Frame callingFrame)
+	{
+		for (FormController fm : formList)
+		{
+			if (fm.frame == callingFrame)
+			{
+				fm.windowClosed();
+			}
+		}
+	}
+
+	/**
+	 * cache la fenetre pour pouvoir la réutiliser
+	 */
+	public void windowClosed ()
 	{
 		frame.setVisible(false);
 		windowIsOpen = false;
 	}
 
 	/**
+	 * cache la fenetre pour pouvoir la réutiliser
+	 */
+	public static void windowValidated(Frame callingFrame)
+	{
+		for (FormController fm : formList)
+		{
+			if (fm.frame == callingFrame)
+			{
+				fm.windowValidated();
+			}
+		}
+	}
+
+	/**
 	 * Enregistre l'intégralité des informations rentrées par l'utilisateur lors de la
 	 * fermeture de la fenêtre
 	 */
-	public static void windowValidated ()
+	public void windowValidated ()
 	{
 		intMap		= new HashMap<String, Integer>();
 		doubleMap	= new HashMap<String, Double>();
@@ -474,7 +539,7 @@ public class FormController
 			{
 				switch (ctrl.getType())
 				{
-					case Int:
+					case Integer:
 						intMap.put(ctrl.getId(), (Integer) ctrl.getValue());
 					break;
 
@@ -512,7 +577,7 @@ public class FormController
 	 * permet de savoir si le dernier formulaire à été validé
 	 * @return true si le dernier formulaire à été validé
 	 */
-	public static boolean isValid()
+	public boolean isValid()
 	{
 		return frame == null;
 	}
@@ -522,7 +587,7 @@ public class FormController
 	 * @param  id Identifiant du controle
 	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
 	 */
-	public static Integer getInt (String id)
+	public Integer getInt (String id)
 	{
 		return intMap.get(id);
 	}
@@ -532,7 +597,7 @@ public class FormController
 	 * @param  id Identifiant du controle
 	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
 	 */
-	public static Double getDouble (String id)
+	public Double getDouble (String id)
 	{
 		return doubleMap.get(id);
 	}
@@ -542,7 +607,7 @@ public class FormController
 	 * @param  id Identifiant du controle
 	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
 	 */
-	public static String getString (String id)
+	public String getString (String id)
 	{
 		return stringMap.get(id);
 	}
@@ -552,7 +617,7 @@ public class FormController
 	 * @param  id Identifiant du controle
 	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
 	 */
-	public static Character getChar (String id)
+	public Character getChar (String id)
 	{
 		return charMap.get(id);
 	}
@@ -562,7 +627,7 @@ public class FormController
 	 * @param  id Identifiant du controle
 	 * @return La valeur correspondant au controle ou null si l'id est incorrecte ou ne correspond pas à ce type
 	 */
-	public static Boolean getBoolean (String id)
+	public Boolean getBoolean (String id)
 	{
 		return booleanMap.get(id);
 	}
@@ -575,7 +640,7 @@ public class FormController
 	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> boolean getArray (String id, T[][] res)
+	public <T> boolean getArray (String id, T[][] res)
 	{
 		try
 		{
@@ -585,7 +650,7 @@ public class FormController
 				for (int j = 0; j < res[i].length && j < tmp[i].length; j++)
 				{
 					// BaseType type = ctrl.getType();
-					// if (type == BaseType.Int && tmp[i][j] == null)		res[i][j] = new Integer(0);
+					// if (type == BaseType.Integer && tmp[i][j] == null)		res[i][j] = new Integer(0);
 					// else												res[i][j] = tmp[i][j];
 					res[i][j] = tmp[i][j];
 				}
@@ -604,7 +669,7 @@ public class FormController
 	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
-	public static boolean getArrayString (String id, String[][] res)
+	public boolean getArrayString (String id, String[][] res)
 	{
 		try
 		{
@@ -631,7 +696,7 @@ public class FormController
 	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
-	public static boolean getArrayString (String id, String[] res)
+	public boolean getArrayString (String id, String[] res)
 	{
 		try
 		{
@@ -661,7 +726,7 @@ public class FormController
 	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
-	public static boolean getArrayInt (String id, int[][] res)
+	public boolean getArrayInt (String id, int[][] res)
 	{
 		try
 		{
@@ -688,7 +753,7 @@ public class FormController
 	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
-	public static boolean getArrayInt (String id, int[] res)
+	public boolean getArrayInt (String id, int[] res)
 	{
 		try
 		{
@@ -714,7 +779,7 @@ public class FormController
 	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
-	public static boolean getArrayDouble (String id, double[][] res)
+	public boolean getArrayDouble (String id, double[][] res)
 	{
 		try
 		{
@@ -741,7 +806,7 @@ public class FormController
 	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
-	public static boolean getArrayChar (String id, char[][] res)
+	public boolean getArrayChar (String id, char[][] res)
 	{
 		try
 		{
@@ -768,7 +833,7 @@ public class FormController
 	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
-	public static boolean getArrayBoolean (String id, boolean[][] res)
+	public boolean getArrayBoolean (String id, boolean[][] res)
 	{
 		try
 		{
@@ -796,7 +861,7 @@ public class FormController
 	 * @param value la valeur à donner au controle
 	 * @return vrai si le changement à réussi sinon faux
 	 */
-	public static boolean setValue(String id, Object value)
+	public boolean setValue(String id, Object value)
 	{
 		if (frame != null)
 		{

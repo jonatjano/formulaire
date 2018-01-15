@@ -7,11 +7,16 @@
 			<head>
 				<link rel="stylesheet" href="preview.css"/>
 				<script>
-					window.setTimeout(function() {
+					<!-- le timeout est nécessaire car le xsl prend un peu de temps à générer la page -->
+					window.setTimeout(function()
+					{
+						<!-- on recupere la date d'aujourd'hui -->
 						var today = new Date();
+						<!-- on recupère tous les objets date -->
 						var listDate = document.getElementsByClassName("date");
 						for(var i = 0; i != listDate.length; i++)
 						{
+							<!-- on leur met comme valeur la date en enlevant la fin qui correspond au fuseau horraire -->
 							listDate[i].value = today.toJSON().slice(0, 10);
 						}
 					}, 100)
@@ -86,6 +91,66 @@
 	<xsl:template match="tableau|array">
 		<div class="element" style="top: {@y}px; left: {@x}px; height: {@longueur}{@length}px; width: {@largeur}{@width}px;">
 			<xsl:value-of select="./@label"/>
+			<xsl:variable name="type"><xsl:value-of select="@type"/></xsl:variable>
+			<xsl:value-of select="$type"/>
+			<table>
+				<tr>
+					<td>4</td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<xsl:choose>
+						<xsl:when test="$type='boolean' or $type='booleen'">
+							<td>Valeur : <input type="checkbox"/></td>
+						</xsl:when>
+						<xsl:otherwise>
+							<td>Valeur : <input type="text"/></td>
+						</xsl:otherwise>
+					</xsl:choose>
+				</tr>
+				<tr>
+					<td>3</td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+				</tr>
+				<tr>
+					<td>0</td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>&#160;&#160;0</td>
+					<td>&#160;&#160;1</td>
+					<td>&#160;&#160;2</td>
+					<td>&#160;&#160;3</td>
+					<td>&#160;&#160;4</td>
+				</tr>
+			</table>
 		</div>
 	</xsl:template>
 
@@ -114,6 +179,5 @@
 			<input class="date" type="date"/>
 		</div>
 	</xsl:template>
-
 
 </xsl:stylesheet>

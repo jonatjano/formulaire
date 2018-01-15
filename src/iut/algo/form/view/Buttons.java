@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
+import iut.algo.form.job.Language;
 /**
  * Radio boutons à placer dans le formulaire
  * @author Team Infotik
@@ -38,12 +39,13 @@ public class Buttons extends Control
  	 * @param width Largeur de l'élément
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
-	 * @param mapOrdObj Valeurs d'origine associées à l'élément lors de sa création 
+	 * @param mapOrdObj Valeurs d'origine associées à l'élément lors de sa création
+	 * @param language Language du formulaire
 	 * @return L'élément créé
 	 */
-	public Buttons (String label, String id, int width, int x, int y, HashMap<Integer, Object> mapOrdObj)
+	public Buttons (String label, String id, int width, int x, int y, HashMap<Integer, Object> mapOrdObj, Language language)
 	{
-		super(label, id, BaseType.Int, width, x, y);
+		super(label, id, BaseType.Integer, width, x, y, language);
 		this.type = type;
 
 
@@ -75,11 +77,12 @@ public class Buttons extends Control
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @param mapOrdObj Valeurs d'origine associées à l'élément lors de sa création
+	 * @param language Language du formulaire
 	 * @return L'élément créé
 	 */
-	public Buttons (String label, String id, int x, int y, HashMap<Integer, Object> mapOrdObj)
+	public Buttons (String label, String id, int x, int y, HashMap<Integer, Object> mapOrdObj, Language language)
 	{
-		this( label, id, Control.DFLT_WIDTH, x, y, mapOrdObj );
+		this( label, id, Control.DFLT_WIDTH, x, y, mapOrdObj, language );
 	}
 
 
@@ -90,12 +93,12 @@ public class Buttons extends Control
 	public void reset ()
 	{
 		Set<Integer> setKeyBut = mapButton.keySet();
-		
+
 		int ordinalMin = Integer.MAX_VALUE;
 		for (int ordiMinTemp : setKeyBut)
 			if ( ordiMinTemp < ordinalMin )
 				ordinalMin = ordiMinTemp;
-			
+
 		mapButton.get(ordinalMin).setSelected(true);
 	}
 
@@ -144,10 +147,10 @@ public class Buttons extends Control
 				{
 					String 			valueStr	= mapOrdObj.get(i).toString();
 					JRadioButton	button		= new JRadioButton( valueStr );
-					
+
 					if (this.buttonGroup.getButtonCount() == 0)
 						button.setSelected(true);
-					
+
 					this.buttonGroup.add( button );
 					this.mapButton.put( i, button );
 

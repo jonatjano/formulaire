@@ -13,6 +13,8 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import javax.swing.InputMap;
 
+import iut.algo.form.job.Language;
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Color;
@@ -47,9 +49,9 @@ public class Text extends Control
 	 * @return L'élément créé
 	 */
 	@SuppressWarnings("unchecked")
-	public Text (String label, String id, BaseType type, int width, int x, int y)
+	public Text (String label, String id, BaseType type, int width, int x, int y, Language language)
 	{
-		super(label, id, type, width, x, y);
+		super(label, id, type, width, x, y, language);
 		this.type 		= type;
 		this.baseValue	= "";
 		this.history	= new LinkedList<String>();
@@ -73,7 +75,7 @@ public class Text extends Control
 		InputMap im;
 		switch (type)
 		{
-			case Int:
+			case Integer:
 				spinnerModel	= new SpinnerNumberModel(0, Integer.MIN_VALUE, Integer.MAX_VALUE, 1);
 				this.compo		= new JSpinner(spinnerModel);
 				im = ((JSpinner)(this.compo)).getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
@@ -148,9 +150,9 @@ public class Text extends Control
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @return L'élément créé
 	 */
-	public Text (String label, String id, BaseType type, int x, int y)
+	public Text (String label, String id, BaseType type, int x, int y, Language language)
 	{
-		this(label, id, type, Control.DFLT_WIDTH, x, y);
+		this(label, id, type, Control.DFLT_WIDTH, x, y, language);
 	}
 
 	/**
@@ -162,9 +164,9 @@ public class Text extends Control
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @return L'élément créé
 	 */
-	public Text (String id, BaseType type, int width, int x, int y)
+	public Text (String id, BaseType type, int width, int x, int y, Language language)
 	{
-		this( null, id, type, width, x, y );
+		this( null, id, type, width, x, y, language );
 	}
 
 
@@ -218,7 +220,7 @@ public class Text extends Control
 	{
 		switch (type)
 		{
-			case Int:
+			case Integer:
 				return (Integer) (((JSpinner) (compo)).getValue());
 			case Double:
 				return (Double) (((JSpinner) (compo)).getValue());
@@ -238,7 +240,7 @@ public class Text extends Control
 	@Override
 	public boolean setValue (Object newValue)
 	{
-		if		(this.type == BaseType.Int)
+		if		(this.type == BaseType.Integer)
 		{
 			if (newValue == null)	newValue = 0;
 			try
