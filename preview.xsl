@@ -6,6 +6,21 @@
 		<html>
 			<head>
 				<link rel="stylesheet" href="preview.css"/>
+				<script>
+					<!-- le timeout est nécessaire car le xsl prend un peu de temps à générer la page -->
+					window.setTimeout(function()
+					{
+						<!-- on recupere la date d'aujourd'hui -->
+						var today = new Date();
+						<!-- on recupère tous les objets date -->
+						var listDate = document.getElementsByClassName("date");
+						for(var i = 0; i != listDate.length; i++)
+						{
+							<!-- on leur met comme valeur la date en enlevant la fin qui correspond au fuseau horraire -->
+							listDate[i].value = today.toJSON().slice(0, 10);
+						}
+					}, 100)
+				</script>
 				<xsl:apply-templates select="form/fenetre" mode="head"/>
 				<xsl:apply-templates select="form/window" mode="head"/>
 			</head>
@@ -55,10 +70,16 @@
 
 	<xsl:template match="menu|dropdown">
 		<div class="element" style="top: {@y}px; left: {@x}px; height: {@longueur}{@length}px; width: {@largeur}{@width}px;">
-			<xsl:value-of select="./@label"/>
+			<xsl:apply-templates select="@label"/> :
+			<select name="{@label}">
+				<xsl:apply-templates select="choice"/>
+			</select>
 		</div>
 	</xsl:template>
 
+	<xsl:template match="choice">
+			<option><xsl:value-of select="@label"/></option>
+	</xsl:template>
 
 	<xsl:template match="case|checkbox">
 		<div class="element" style="top: {@y}px; left: {@x}px; height: {@longueur}{@length}px; width: {@largeur}{@width}px;">
@@ -70,20 +91,92 @@
 	<xsl:template match="tableau|array">
 		<div class="element" style="top: {@y}px; left: {@x}px; height: {@longueur}{@length}px; width: {@largeur}{@width}px;">
 			<xsl:value-of select="./@label"/>
+			<xsl:variable name="type"><xsl:value-of select="@type"/></xsl:variable>
+			<xsl:value-of select="$type"/>
+			<table>
+				<tr>
+					<td>4</td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<xsl:choose>
+						<xsl:when test="$type='boolean' or $type='booleen'">
+							<td>Valeur : <input type="checkbox"/></td>
+						</xsl:when>
+						<xsl:otherwise>
+							<td>Valeur : <input type="text"/></td>
+						</xsl:otherwise>
+					</xsl:choose>
+				</tr>
+				<tr>
+					<td>3</td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+				</tr>
+				<tr>
+					<td>0</td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+					<td><input type="button" name="{@label}" value=" "/></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>&#160;&#160;0</td>
+					<td>&#160;&#160;1</td>
+					<td>&#160;&#160;2</td>
+					<td>&#160;&#160;3</td>
+					<td>&#160;&#160;4</td>
+				</tr>
+			</table>
 		</div>
 	</xsl:template>
 
 
 	<xsl:template match="boutons|buttons">
-		<div class="element" style="top: {@y}px; left: {@x}px; height: {@longueur}{@length}px; width: {@largeur}{@width}px;">
+		<div class="element" id="RADIO" style="top: {@y}px; left: {@x}px; height: {@longueur}{@length}px; width: {@largeur}{@width}px;">
 			<xsl:value-of select="./@label"/>
+			<table>
+				<xsl:apply-templates select="button">
+					<xsl:sort select="@ordinal"/>
+				</xsl:apply-templates>
+			</table>
 		</div>
 	</xsl:template>
 
+	<xsl:template match="button|bouton">
+		<tr>
+			<td><xsl:value-of select="."/></td>
+			<td><input type="radio" name="{../@label}"/></td>
+		</tr>
+	</xsl:template>
 
 	<xsl:template match="calendrier|calendar">
 		<div class="element" style="top: {@y}px; left: {@x}px; height: {@longueur}{@length}px; width: {@largeur}{@width}px;">
-			<xsl:value-of select="./@label"/>
+			<xsl:value-of select="./@label"/> :
+			<input class="date" type="date"/>
 		</div>
 	</xsl:template>
 

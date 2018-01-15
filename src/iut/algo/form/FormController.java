@@ -516,7 +516,7 @@ public class FormController
 			{
 				switch (ctrl.getType())
 				{
-					case Int:
+					case Integer:
 						intMap.put(ctrl.getId(), (Integer) ctrl.getValue());
 					break;
 
@@ -542,6 +542,7 @@ public class FormController
 			}
 			else
 			{
+				((Array) ctrl).validated();
 				arrayMap.put( ctrl.getId(), ((Array) ctrl).getValue() );
 			}
 		}
@@ -626,7 +627,7 @@ public class FormController
 				for (int j = 0; j < res[i].length && j < tmp[i].length; j++)
 				{
 					// BaseType type = ctrl.getType();
-					// if (type == BaseType.Int && tmp[i][j] == null)		res[i][j] = new Integer(0);
+					// if (type == BaseType.Integer && tmp[i][j] == null)		res[i][j] = new Integer(0);
 					// else												res[i][j] = tmp[i][j];
 					res[i][j] = tmp[i][j];
 				}
@@ -912,7 +913,7 @@ public class FormController
 			pw.write("\t\t                  x        CDATA #REQUIRED\n");
 			pw.write("\t\t                  y        CDATA #REQUIRED>\n");
 			pw.write("\t\t<!ELEMENT texte EMPTY>\n");
-			pw.write("\t\t\t<!ATTLIST texte type  ( chaine | entier | double | booleen | caractere )  #REQUIRED\n");
+			pw.write("\t\t\t<!ATTLIST texte type  ( chaine | entier | double | caractere )  #REQUIRED\n");
 			pw.write("\t\t\t                label CDATA #REQUIRED\n");
 			pw.write("\t\t\t                id    ID    #REQUIRED\n");
 			pw.write("\t\t\t                x     CDATA #IMPLIED\n");
@@ -957,7 +958,7 @@ public class FormController
 			pw.write("\t\t                 x      CDATA #REQUIRED\n");
 			pw.write("\t\t                 y      CDATA #REQUIRED>\n");
 			pw.write("\t\t\t<!ELEMENT text (#PCDATA)>\n");
-			pw.write("\t\t\t\t<!ATTLIST text type  ( string | int | double | boolean | char ) #REQUIRED\n");
+			pw.write("\t\t\t\t<!ATTLIST text type  ( string | int | double | char ) #REQUIRED\n");
 			pw.write("\t\t\t\t               label CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t               id    ID    #REQUIRED\n");
 			pw.write("\t\t\t\t               x     CDATA #IMPLIED\n");

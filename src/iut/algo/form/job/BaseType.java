@@ -8,7 +8,7 @@ package iut.algo.form.job;
  */
 public enum BaseType
 {
-	Int 		(	"Entier",
+	Integer 		(	"Entier",
 					"Integer" ),
 	String		(	"Chaine",
 					"String" ),
@@ -63,7 +63,7 @@ public enum BaseType
 		{
 			case "int":
 			case "entier":
-				return BaseType.Int;
+				return BaseType.Integer;
 			case "string":
 			case "chaine":
 				return BaseType.String;

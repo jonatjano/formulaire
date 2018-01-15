@@ -15,6 +15,7 @@ import java.awt.Dimension;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 import iut.algo.form.job.Language;
 /**
@@ -43,7 +44,7 @@ public class Buttons extends Control
 	 */ //TODO
 	public Buttons (String label, String id, int width, int x, int y, HashMap<Integer, Object> mapOrdObj, Language language)
 	{
-		super(label, id, BaseType.String, width, x, y, language);
+		super(label, id, BaseType.Integer, width, x, y, language);
 		this.type = type;
 
 
@@ -89,7 +90,14 @@ public class Buttons extends Control
 	@Override
 	public void reset ()
 	{
-		//this.buttonList.get(0).setSelected(true); //TODO
+		Set<Integer> setKeyBut = mapButton.keySet();
+
+		int ordinalMin = Integer.MAX_VALUE;
+		for (int ordiMinTemp : setKeyBut)
+			if ( ordiMinTemp < ordinalMin )
+				ordinalMin = ordiMinTemp;
+
+		mapButton.get(ordinalMin).setSelected(true);
 	}
 
 	/**
@@ -137,6 +145,9 @@ public class Buttons extends Control
 				{
 					String 			valueStr	= mapOrdObj.get(i).toString();
 					JRadioButton	button		= new JRadioButton( valueStr );
+
+					if (this.buttonGroup.getButtonCount() == 0)
+						button.setSelected(true);
 
 					this.buttonGroup.add( button );
 					this.mapButton.put( i, button );
