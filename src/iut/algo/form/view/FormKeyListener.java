@@ -39,12 +39,12 @@ public class FormKeyListener implements KeyListener
 	 */
 	public void keyPressed (KeyEvent event)
 	{
-		switch ( e.getKeyCode() )
+		switch ( event.getKeyCode() )
 		{
 			/* TOUCHE I */
 			case KeyEvent.VK_I :
 				// avec le modifier Ctrl
-				if (KeyEvent.getKeyModifiersText(e.getModifiers()).equals("Ctrl"))
+				if (KeyEvent.getKeyModifiersText(event.getModifiers()).equals("Ctrl"))
 				{
 					frame.toggleIds();
 				}
@@ -53,7 +53,7 @@ public class FormKeyListener implements KeyListener
 			/* TOUCHE T */
 			case KeyEvent.VK_T :
 				// avec le modifier Ctrl
-				if (KeyEvent.getKeyModifiersText(e.getModifiers()).equals("Ctrl"))
+				if (KeyEvent.getKeyModifiersText(event.getModifiers()).equals("Ctrl"))
 				{
 					frame.toggleTypes();
 				}
