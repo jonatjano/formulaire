@@ -21,7 +21,7 @@ public class SimpleErrorHandler implements ErrorHandler {
 	public void warning(SAXParseException exception)
 	throws SAXException
 	{
-        FormController.showMessage("WARNING", e.getMessage() + " sur la ligne " + e.getLineNumber());
+        FormController.showMessage("WARNING", exception.getMessage() + " sur la ligne " + exception.getLineNumber());
     }
 
 	/**
@@ -32,8 +32,8 @@ public class SimpleErrorHandler implements ErrorHandler {
     public void error(SAXParseException exception)
     throws SAXException
     {
-        FormController.showMessage("ERROR", e.getMessage() + " sur la ligne " + e.getLineNumber());
-        throw e;
+        FormController.showMessage("ERROR", exception.getMessage() + " sur la ligne " + exception.getLineNumber());
+        throw exception;
     }
 
 	/**
@@ -44,7 +44,7 @@ public class SimpleErrorHandler implements ErrorHandler {
     public void fatalError (SAXParseException exception)
     throws SAXException
     {
-        FormController.showMessage("FATAL ERROR", e.getMessage() + " sur la ligne " + e.getLineNumber());
-        throw e;
+        FormController.showMessage("FATAL ERROR", exception.getMessage() + " sur la ligne " + exception.getLineNumber());
+        throw exception;
     }
 }
