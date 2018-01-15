@@ -231,7 +231,7 @@ public class Array extends Control
 		/* Création du tableau logique */
 
 		if		( this.type == BaseType.String)		this.tabValues = new String[nbR][nbC];
-		else if ( this.type == BaseType.Int)		this.tabValues = new Integer[nbR][nbC];
+		else if ( this.type == BaseType.Integer)		this.tabValues = new Integer[nbR][nbC];
 		else if ( this.type == BaseType.Double)		this.tabValues = new Double[nbR][nbC];
 		else if ( this.type == BaseType.Char)		this.tabValues = new Character[nbR][nbC];
 		else if ( this.type == BaseType.Boolean)	this.tabValues = new Boolean[nbR][nbC];
@@ -520,6 +520,14 @@ public class Array extends Control
 
 		moveTo(0,0);
 		tabValues[posR][posC] = null;
+	}
+	
+	/**
+	 * Finalise l'enregistrement du tableau en gardant en mémoire la case sélectionnée
+	 */
+	public void validated ()
+	{
+		tabValues[oriR + prevR][oriC + prevC] = valueControl.getValue();
 	}
 
 	/**
