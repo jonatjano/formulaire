@@ -11,13 +11,13 @@ public class Demo
 	{
 		/* CREATION ET AFFICHAGE DU FORMULAIRE */
 
-		FormController.createForm("../exemple.xml");
-		FormController.setValue("05", "test");
-		FormController.showForm();
+		FormController fm = FormController.createAndGetForm("../exemple.xml");
+		fm.setValue("05", "test");
+		fm.showForm();
 
-		if( FormController.isValid() )
+		if( fm.isValid() )
 		{
-			String s = FormController.getString("05");
+			String s = fm.getString("05");
 			System.out.println(s);
 
 			// int[] tab = new int[4][1];
@@ -32,7 +32,7 @@ public class Demo
 			// }
 
 			int[][] tab = new int[2][4];
-			System.out.println( FormController.getArrayInt("10", tab) );
+			System.out.println( fm.getArrayInt("10", tab) );
 			for (int[] truc : tab)
 			{
 				for (int machin : truc)

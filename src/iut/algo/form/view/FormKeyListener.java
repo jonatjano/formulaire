@@ -37,7 +37,7 @@ public class FormKeyListener implements KeyListener
 	 * 		Ctrl+t : affiche ou cache les types des controles
 	 * @param event L'évenement appellant la méthode
 	 */
-	public void keyPressed (KeyEvent e)
+	public void keyPressed (KeyEvent event)
 	{
 		switch ( e.getKeyCode() )
 		{

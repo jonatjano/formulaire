@@ -17,6 +17,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Color;
 
+import iut.algo.form.job.Language;
+
 /**
  * Elément à placer dans le formulaire
  * @author Team Infotik
@@ -24,8 +26,17 @@ import java.awt.Color;
  */
 public abstract class Control
 {
+	/**
+	 * largeur par défaut des controles
+	 */
 	public final static int DFLT_WIDTH	= 150;
+	/**
+	 * hauteur par défaut des controles
+	 */
 	public final static int DFLT_HEIGHT	= 35;
+	/**
+	 * longueur du label des controles
+	 */
 	public final static int LABEL_WIDTH = 100;
 
 	/** Composant principal associé à l'élément */
@@ -43,18 +54,30 @@ public abstract class Control
 	protected String	label;
 
 	/** Panel principal contenant l'intégralité de l'élément */
-	protected JPanel	panel,
+	protected JPanel	panel;
 	/** Panel pouvant être affiché ou non contenant l'identifiant de l'élément */
-						idPanel,
+	protected JPanel	idPanel;
 	/** Panel pouvant être affiché ou non contenant le type de l'élément */
-						typePanel;
-
+	protected JPanel	typePanel;
 
 	/**
-	 * Création de la base d'un élément du formulaire
+	 * {@link Language} utilisé par le controle
 	 */
-	public Control (String label, String id, BaseType type, int width, int x, int y)
+	protected Language 	language;
+
+	/**
+	 * création de la base d'un élément du formulaire
+	 * @param label    label du controle
+	 * @param id       id du controle
+	 * @param type     type de retour
+	 * @param width    largeur du controle
+	 * @param x        position x du controle
+	 * @param y        position y du controle
+	 * @param language le langage utilisé par le formulaire
+	 */
+	public Control (String label, String id, BaseType type, int width, int x, int y, Language language)
 	{
+		this.language = language;
 		this.label	= label;
 		this.type	= type;
 		this.id		= id;
@@ -95,7 +118,7 @@ public abstract class Control
 		this.typePanel.setBackground( new Color(0.60f, 0.90f, 0.35f) );
 		this.typePanel.setBorder( new CompoundBorder(BorderFactory.createLineBorder(Color.black), new EmptyBorder(3,3,3,3)) );
 
-		JLabel typeL 	= new JLabel( type.getValue( Frame.language ) );
+		JLabel typeL 	= new JLabel( type.getValue( language ) );
 		typeL.setFont( font.deriveFont(font.getStyle() | Font.BOLD) );
 
 		this.typePanel.add( typeL );
@@ -236,7 +259,6 @@ public abstract class Control
 		return this.type;
 	}
 
-
 	/**
 	 * Réinitialise l'élément, le retournant au même état que lors de sa création
 	 */
@@ -251,6 +273,7 @@ public abstract class Control
 	/**
 	 * Modifie la valeur associée à l'élément
 	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
+	 * @return vrai si la valeur a été changée
 	 */
-	public abstract boolean setValue (Object obj);
+	public abstract boolean setValue (Object newValue);
 }

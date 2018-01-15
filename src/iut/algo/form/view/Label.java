@@ -9,6 +9,8 @@ import javax.swing.BorderFactory;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Color;
+import iut.algo.form.job.Language;
+
 
 /**
  * Label seul à afficher dans le formulaire
@@ -24,11 +26,12 @@ public class Label extends Control
 	 * @param width Largeur de l'élément
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
+	 * @param language le langage utilisé par le formulaire
 	 * @return L'élément créé
 	 */
-	public Label (String label, String id, int width, int x, int y)
+	public Label (String label, String id, int width, int x, int y, Language language)
 	{
-		super(label, id, BaseType.String, width, x, y);
+		super(label, id, BaseType.String, width, x, y, language);
 		this.type 	= BaseType.String;
 		this.label	= label;
 
@@ -50,11 +53,12 @@ public class Label extends Control
 	 * @param id Identifiant unique de l'élément
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
+	 * @param language le langage utilisé par le formulaire
 	 * @return L'élément créé
 	 */
-	public Label (String label, String id, int x, int y)
+	public Label (String label, String id, int x, int y, Language language)
 	{
-		this(label, id, Control.DFLT_WIDTH, x, y);
+		this(label, id, Control.DFLT_WIDTH, x, y, language);
 	}
 
 
@@ -80,6 +84,7 @@ public class Label extends Control
 	/**
 	 * Modifie la valeur associée à l'élément
 	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
+	 * @return vrai si la valeur a été changée
 	 */
 	@SuppressWarnings("unchecked")
 	@Override

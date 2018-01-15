@@ -31,6 +31,8 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import iut.algo.form.job.Language;
+
 /**
  * Tableau à placer dans le formulaire
  * @author Team Infotik
@@ -38,8 +40,15 @@ import java.util.List;
  */
 public class Array extends Control
 {
+	/**
+	 * Listener gérant le mouvement dans le tableau
+	 */
 	class ArrayListener implements ActionListener, KeyListener
 	{
+		/**
+		 * méthode appellée quand une touche est préssée dans le tableau
+		 * @param e evénement généré
+		 */
 		public void keyPressed(KeyEvent e)
 		{
 			int deltaR = 0;
@@ -90,12 +99,24 @@ public class Array extends Control
 
 		}
 
+		/**
+		 * pas utilisée
+		 * @param e événement généré
+		 */
 		public void keyReleased(KeyEvent e)
 		{}
 
+		/**
+		 * pas utilisée
+		 * @param e événement généré
+		 */
 		public void keyTyped(KeyEvent e)
 		{}
 
+		/**
+		 * méthode appellée quand on appuie sur une case du tableau
+		 * @param e événement généré
+	 	 */
 		public void actionPerformed (ActionEvent e)
 		{
 			if (e.getSource() instanceof JButton)
@@ -116,12 +137,21 @@ public class Array extends Control
 	}
 
 
-	/** Nombre de colonne minimum à afficher */
+	/**
+	 * Nombre de colonne minimum à afficher
+	 * utilisé dans une futur version
+	 */
 	private static final int MIN_COL = 1;
-	/** Nombre de ligne minimum à afficher */
+
+	/**
+	 * Nombre de ligne minimum à afficher
+	 * utilisé dans une futur version
+	 */
 	private static final int MIN_ROW = 1;
+
 	/** Nombre de colonne maximum à afficher */
 	private static final int MAX_COL = 5;
+
 	/** Nombre de ligne maximum à afficher */
 	private static final int MAX_ROW = 5;
 
@@ -131,13 +161,13 @@ public class Array extends Control
 	private static final int CELL_SIZE	= 25;
 
 	/** Couleur de base des cellules du tableau */
-	private static final Color normalColor			= new Color(255,255,255);
+	private static final Color NORMAL_COLOR			= new Color(255,255,255);
 	/** Couleur prise par la ligne sélectionnée */
-	private static final Color selectedRowColor 	= new Color(0,0,0);
+	private static final Color SELECTED_ROW_COLOR 	= new Color(0,0,0);
 	/** Couleur prise par la colonne sélectionnée */
-	private static final Color selectedColColor 	= new Color(0,0,0);
+	private static final Color SELECTED_COL_COLOR 	= new Color(0,0,0);
 	/** Couleur prise par la cellule sélectionnée  */
-	private static final Color selectedCellColor	= new Color(255,0,0);
+	private static final Color SELECTED_CELL_COLOR	= new Color(255,0,0);
 
 	/** Label décrivant le contôle à l'utilisateur */
 	private JLabel 			labelL;
@@ -159,9 +189,9 @@ public class Array extends Control
 	/** Controle interactible pour modifier la valeur de la cellule sélectionnée */
 	private Control			valueControl;
 
-	/* Ensemble des labels affichant l'index des lignes affichées */
+	/** Ensemble des labels affichant l'index des lignes affichées */
 	private List<JLabel>	rowLabels;
-	/* Ensemble des labels affichant l'index des colonnes affichées */
+	/** Ensemble des labels affichant l'index des colonnes affichées */
 	private List<JLabel>	colLabels;
 
 	/** Ensemble des cellules affichées du tableau */
@@ -181,11 +211,12 @@ public class Array extends Control
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @param nbR Nombre total de lignes du tableau
 	 * @param nbC Nombre total de colonnes du tableau
+	 * @param language le langage utilisé par le formulaire
 	 * @return L'élément créé
 	 */
-	public Array (String label, String id, BaseType type, int width, int x, int y, int nbR, int nbC)
+	public Array (String label, String id, BaseType type, int width, int x, int y, int nbR, int nbC, Language language)
 	{
-		super(label, id, type, width, x, y);
+		super(label, id, type, width, x, y, language);
 		this.type	= type;
 		this.oriC	= 0;
 		this.oriR	= 0;
@@ -201,7 +232,7 @@ public class Array extends Control
 
 
 		/*  Label */
-		
+
 		this.labelL	= new JLabel( String.format("%s : ", this.label), SwingConstants.RIGHT );
 		this.labelL.setBounds( 0, 0, Control.LABEL_WIDTH, Control.DFLT_HEIGHT );
 		this.labelL.setForeground(Color.GRAY);
@@ -276,7 +307,7 @@ public class Array extends Control
 						tabButtons[clampedRow - i - 1][j] = cellB;
 						cellB.addActionListener( new ArrayListener() );
 						cellB.setActionCommand( String.format("%d;%d", clampedRow - i - 1, j) );
-						cellB.setBackground(normalColor);
+						cellB.setBackground(NORMAL_COLOR);
 						this.arrayP.add( cellB );
 					}
 					else
@@ -318,7 +349,7 @@ public class Array extends Control
 
 
 		String valueStr = "Value";
-		if (Frame.getLang() == Language.FR)
+		if (language == Language.FR)
 			valueStr = "Valeur";
 
 		JLabel valueL = new JLabel( String.format("%s :", valueStr), SwingConstants.LEFT );
@@ -326,8 +357,8 @@ public class Array extends Control
 
 		this.valuePanel.add( valueL );
 
-		if (type == BaseType.Boolean)		this.valueControl	= new Checkbox("cdfz", width - 11, 0, 0);
-		else								this.valueControl	= new Text("dzdz", type, width - 11, 0, 0);
+		if (type == BaseType.Boolean)		this.valueControl	= new Checkbox("cdfz", width - 11, 0, 0, language);
+		else								this.valueControl	= new Text("dzdz", type, width - 11, 0, 0, language);
 
 		this.valuePanel.add( valueControl.getPanel() );
 
@@ -349,11 +380,12 @@ public class Array extends Control
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @param nbR Nombre total de lignes du tableau
 	 * @param nbC Nombre total de colonnes du tableau
+	 * @param language le langage utilisé par le formulaire
 	 * @return L'élément créé
 	 */
-	public Array (String label, String id, BaseType type, int x, int y, int nbR, int nbC)
+	public Array (String label, String id, BaseType type, int x, int y, int nbR, int nbC, Language language)
 	{
-		this(label, id, type, Control.DFLT_WIDTH, x, y, nbR, nbC);
+		this(label, id, type, Control.DFLT_WIDTH, x, y, nbR, nbC, language);
 	}
 
 
@@ -367,6 +399,11 @@ public class Array extends Control
 		else								return this.tabValues.length == 1 || this.tabValues[0].length == 1;
 	}
 
+	/**
+	 * Déplace le tableau jusqu'à la ligne row et la colonne col
+	 * @param row Index de la ligne à atteindre
+	 * @param col Index de la colonne à atteindre
+	 */
 	private void moveTo (int row, int col)
 	{
 		Object value = valueControl.getValue();
@@ -445,6 +482,7 @@ public class Array extends Control
 	 * Décale l'affichage du tableau
 	 * @param deltaR Décalage de "deltaR" ligne(s)
 	 * @param deltaC Décalage de "deltaC" colonne(s)
+	 * @return le nombre de ligne et colone déplacer
 	 */
 	private int[] shiftDisplay (int deltaR, int deltaC)
 	{
@@ -479,30 +517,30 @@ public class Array extends Control
 	 * @param row La précédente colonne sélectionnée
 	 * @param col La précédente colonne sélectionnée
 	 */
-	public void setTabBackground (int prevR, int prevC, int row, int col)
+	private void setTabBackground (int prevR, int prevC, int row, int col)
 	{
 		if (prevR != -1)
 		{
 			for (int i = 0; i < tabButtons.length; i++)
 			{
-				tabButtons[i][prevC].setBackground(normalColor);
+				tabButtons[i][prevC].setBackground(NORMAL_COLOR);
 			}
 			for (int i = 0; i < tabButtons[prevR].length; i++)
 			{
-				tabButtons[prevR][i].setBackground(normalColor);
+				tabButtons[prevR][i].setBackground(NORMAL_COLOR);
 			}
 		}
 
 		for (int i = 0; i < tabButtons.length; i++)
 		{
-			tabButtons[i][col].setBackground(selectedRowColor);
+			tabButtons[i][col].setBackground(SELECTED_ROW_COLOR);
 		}
 		for (int i = 0; i < tabButtons[row].length; i++)
 		{
-			tabButtons[row][i].setBackground(selectedColColor);
+			tabButtons[row][i].setBackground(SELECTED_COL_COLOR);
 		}
 
-		tabButtons[row][col].setBackground(selectedCellColor);
+		tabButtons[row][col].setBackground(SELECTED_CELL_COLOR);
 	}
 
 	/**
@@ -521,7 +559,7 @@ public class Array extends Control
 		moveTo(0,0);
 		tabValues[posR][posC] = null;
 	}
-	
+
 	/**
 	 * Finalise l'enregistrement du tableau en gardant en mémoire la case sélectionnée
 	 */
@@ -543,11 +581,23 @@ public class Array extends Control
 	/**
 	 * Modifie la valeur associée à l'élément
 	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
+	 * @return vrai si la valeur a été changée
 	 */
 	@Override
 	public boolean setValue (Object newValue)
 	{
-		//TODO
+		if (newValue instanceof Object[][] )
+		{
+			Object[][] obj = (Object[][]) newValue;
+			if ( obj.length != 0 && obj[0].length != 0 )
+			{
+				tabValues = obj;
+				moveTo(0,0);
+				moveTo(0,0);
+				return true;
+			}
+		}
+
 		return false;
 	}
 }

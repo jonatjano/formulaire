@@ -35,12 +35,12 @@ public class TextKeyListener implements KeyListener
 	 * Méthode appelée quand l'utilisateur appuie sur Ctrl+Z
 	 * @param event L'évenement appellant la méthode
 	 */
-	public void keyPressed (KeyEvent e)
+	public void keyPressed (KeyEvent event)
 	{
-		if ( e.getSource() instanceof JTextField )
+		if ( event.getSource() instanceof JTextField )
 		{
-			if ( e.getKeyCode() == KeyEvent.VK_Z &&
-				 KeyEvent.getKeyModifiersText(e.getModifiers()).equals("Ctrl") )
+			if ( event.getKeyCode() == KeyEvent.VK_Z &&
+				 KeyEvent.getKeyModifiersText(event.getModifiers()).equals("Ctrl") )
 			{
 				this.control.revert();
 			}

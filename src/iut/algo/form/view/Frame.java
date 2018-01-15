@@ -16,6 +16,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.*;
 
+
+import iut.algo.form.job.Language;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -42,9 +44,6 @@ public class Frame extends JFrame implements ActionListener
 	public static final int X_AXIS = 0;
 	/** Constante indiquant que le placement automatique des éléments se fait de manière verticale */
 	public static final int Y_AXIS = 1;
-
-	/** Langue de la fenêtre, mise à jour lors de la lecture du XML en fonction de celle utilisée par l'auteur */
-	public static Language	language;
 
 	/** Classe gérant l'interaction entre le clavier et le formulaire */
 	private FormKeyListener fKeyListener;
@@ -160,12 +159,14 @@ public class Frame extends JFrame implements ActionListener
 		fKeyListener = new FormKeyListener(this);
 		addKeyListener(fKeyListener);
 
+		Frame that = this;
+
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		addWindowListener(new WindowAdapter()
 		{
 			public void windowClosing(WindowEvent e)
 			{
-				FormController.windowClosed();
+				FormController.windowClosed(that);
 				dispose();
 			}
 		});
@@ -192,7 +193,7 @@ public class Frame extends JFrame implements ActionListener
 	/**
 	 * Met à jour l'affichage du formulaire
 	 */
-	public void majIhm ()
+	void majIhm ()
 	{
 		this.formPanel.revalidate();
 		this.formPanel.repaint();
@@ -201,6 +202,7 @@ public class Frame extends JFrame implements ActionListener
 	/**
 	 * Crée la fenêtre à partir de la strucuture du fichier XML passée en paramètre
 	 * @param root Elément racine du fichier XML à partir duquel est créé le formulaire
+	 * @return la frame crée
 	 */
 	public static Frame createFrame (Element root)
 	{
@@ -215,8 +217,11 @@ public class Frame extends JFrame implements ActionListener
 		boolean		isPlacedAutomatically	= false;
 		NodeList	listElements 			= root.getChildNodes();
 
-		if ( root.getNodeName().equals("fenetre") )	Frame.language = Language.FR;
-		else										Frame.language = Language.EN;
+		// le langage utilisé dans le xml
+		Language xmlLanguage;
+
+		if ( root.getNodeName().equals("fenetre") )	xmlLanguage = Language.FR;
+		else										xmlLanguage = Language.EN;
 
 
 		// Création de la fenêtre
@@ -226,7 +231,7 @@ public class Frame extends JFrame implements ActionListener
 		int 	frameX	= Integer.parseInt( root.getAttribute("x") );
 		int 	frameY	= Integer.parseInt( root.getAttribute("y") );
 
-		switch (Frame.language)
+		switch (xmlLanguage)
 		{
 			case FR:
 				title	= root.getAttribute("titre");
@@ -270,7 +275,7 @@ public class Frame extends JFrame implements ActionListener
 				switch (controlName)
 				{
 					case "label":
-						control = new Label( label, id, x, y );
+						control = new Label( label, id, x, y, xmlLanguage );
 						break;
 
 					case "texte":
@@ -300,7 +305,7 @@ public class Frame extends JFrame implements ActionListener
 								break;
 						}
 
-						control = new Text( label, id, baseType, x, y );
+						control = new Text( label, id, baseType, x, y, xmlLanguage );
 						break;
 
 					case "menu":
@@ -322,12 +327,12 @@ public class Frame extends JFrame implements ActionListener
 							}
 						}
 
-						control = new Dropdown( label, id, x, y, choices );
+						control = new Dropdown( label, id, x, y, choices, xmlLanguage );
 						break;
 
 					case "case":
 					case "checkbox":
-						control = new Checkbox( label, id, x, y );
+						control = new Checkbox( label, id, x, y, xmlLanguage );
 						break;
 
 					case "tableau":
@@ -335,7 +340,7 @@ public class Frame extends JFrame implements ActionListener
 						NamedNodeMap	attrChoice	= nodeElement.getAttributes();
 						String	typeTemp	= attrChoice.getNamedItem("type").getNodeValue();
 						int		nbR;
-						
+
 						try
 						{
 							nbR	= Integer.parseInt( attrChoice.getNamedItem("nb_lig").getNodeValue() );
@@ -344,10 +349,10 @@ public class Frame extends JFrame implements ActionListener
 						{
 							nbR	= Integer.parseInt( attrChoice.getNamedItem("nb_row").getNodeValue() );
 						}
-						
+
 						int		nbC			= Integer.parseInt( attrChoice.getNamedItem("nb_col").getNodeValue() );
 
-						control = new Array(label, id, BaseType.getBaseType(typeTemp), x, y, nbR, nbC);
+						control = new Array(label, id, BaseType.getBaseType(typeTemp), x, y, nbR, nbC, xmlLanguage);
 						break;
 
 					case "boutons":
@@ -367,12 +372,12 @@ public class Frame extends JFrame implements ActionListener
 							}
 						}
 
-						control = new Buttons( label, id, x, y, mapOrdButt );
+						control = new Buttons( label, id, x, y, mapOrdButt, xmlLanguage );
 						break;
 
 					case "calendar":
 					case "calendrier":
-						control = new Calendar(label, id, x, y);
+						control = new Calendar(label, id, x, y, xmlLanguage);
 						break;
 				}
 
@@ -431,7 +436,7 @@ public class Frame extends JFrame implements ActionListener
 	 * Ajoute un élément dans le formulaire
 	 * @param control Contrôle à ajouter au formulaire
 	 */
-	public void addControl (Control control)
+	private void addControl (Control control)
 	{
 		if (control == null ) {
 			return;
@@ -450,9 +455,10 @@ public class Frame extends JFrame implements ActionListener
 	 * Permet de placer tous les éléments automatiquement en les rangeant dans l'ordre de leur identifiant
 	 * @param scrollAxis Axe sur lequel sont alignés les éléments
 	 * @param  isStoppedWhenOutOfBounds Si vrai, le formulaire ne dépassera jamais de la fenêtre, et ne requerra
+	 * @return la position de l'élement le plus loin de l'origine
 	 * jamais de barre de défilement
 	 */
-	public Dimension placeControlsAutomatically (int scrollAxis, boolean isStoppedWhenOutOfBounds)
+	private Dimension placeControlsAutomatically (int scrollAxis, boolean isStoppedWhenOutOfBounds)
 	{
 		Dimension furthestLocation	= new Dimension(0, 0);
 
@@ -569,8 +575,9 @@ public class Frame extends JFrame implements ActionListener
 	/**
 	 * Place automatiquement tous les éléments d'un formulaire en les rangeant dans l'ordre de leur identifiant
 	 * quand les éléments débordent de l'interface
+	 * @return la position de l'élement le plus loin de l'origine
 	 */
-	public Dimension placeControlsAutomatically ()
+	private Dimension placeControlsAutomatically ()
 	{
 		return this.placeControlsAutomatically(Frame.Y_AXIS, false);
 	}
@@ -579,7 +586,7 @@ public class Frame extends JFrame implements ActionListener
 	 * Cache les éléments passés en paramètres
 	 * @param controls Eléments à cacher
 	 */
-	public void hideControls (List<Control> controls)
+	private void hideControls (List<Control> controls)
 	{
 		for (Control control : controls)
 			control.getPanel().setVisible(false);
@@ -588,7 +595,7 @@ public class Frame extends JFrame implements ActionListener
 	 * Cache les éléments passés en paramètres
 	 * @param controls Eléments à cacher
 	 */
-	public void hideControls (Control... controls)
+	private void hideControls (Control... controls)
 	{
 		for (Control control : controls)
 			control.getPanel().setVisible(false);
@@ -611,7 +618,7 @@ public class Frame extends JFrame implements ActionListener
 		}
 		else if (e.getSource() == validateB)
 		{
-			FormController.windowValidated();
+			FormController.windowValidated(this);
 			dispose();
 		}
 	}
@@ -664,15 +671,6 @@ public class Frame extends JFrame implements ActionListener
 	public JPanel obtainForm ()
 	{
 		return this.formPanel;
-	}
-
-	/**
-	 * Retourne la langue avec lequel le XML a été chargé
-	 * @return Langue utilisée par l'auteur pour rédiger le XML
-	 */
-	public static Language getLang ()
-	{
-		return Frame.language;
 	}
 
 	/**

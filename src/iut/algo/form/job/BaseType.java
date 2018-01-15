@@ -19,9 +19,20 @@ public enum BaseType
 	Char		(	"Caractère",
 					"Character" );
 
+	/**
+	 * nom en français
+	 */
 	private String frValue;
+	/**
+	 * nom en anglais
+	 */
 	private String enValue;
 
+	/**
+	 * créé l'instane de BaseType
+	 * @param frValue nom en français
+	 * @param enValue nom en anglais
+	 */
 	private BaseType (String frValue, String enValue)
 	{
 		this.frValue = frValue;
@@ -46,6 +57,11 @@ public enum BaseType
 		return this.enValue;
 	}
 
+	/**
+	 * return la valeur du type pour la langue demandée
+	 * @param  lang langage de la valeur à retourner
+	 * @return le nom dy type dans la langue demandée
+	 */
 	public String getValue (Language lang)
 	{
 		switch (lang)
@@ -56,7 +72,11 @@ public enum BaseType
 		return null;
 	}
 
-
+	/**
+	 * retourne le type en fonction de son nom
+	 * @param  type le nom du type à retourner en français ou en anglais
+	 * @return le type demandé ou null s'il n'existe pas
+	 */
 	public static BaseType getBaseType (String type)
 	{
 		switch(type)

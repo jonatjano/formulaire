@@ -10,6 +10,8 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.Dimension;
 import java.awt.Color;
 
+import iut.algo.form.job.Language;
+
 /**
  * Liste déroulante à placer dans le formulaire
  * @author Team Infotik
@@ -32,12 +34,13 @@ public class Dropdown extends Control
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @param choices Valeurs d'origine associées à l'élément lors de sa création
+	 * @param language le langage utilisé par le formulaire
 	 * @return L'élément créé
 	 */
 	@SuppressWarnings("unchecked")
-	public Dropdown (String label, String id, int width, int x, int y, Object[] choices)
+	public Dropdown (String label, String id, int width, int x, int y, Object[] choices, Language language)
 	{
-		super(label, id, BaseType.String, width, x, y);
+		super(label, id, BaseType.String, width, x, y, language);
 		this.type 		= type;
 		this.baseValues = choices;
 
@@ -64,11 +67,12 @@ public class Dropdown extends Control
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @param choices Valeurs d'origine associées à l'élément lors de sa création
+	 * @param language le langage utilisé par le formulaire
 	 * @return L'élément créé
 	 */
-	public Dropdown (String label, String id, int x, int y, Object[] choices)
+	public Dropdown (String label, String id, int x, int y, Object[] choices, Language language)
 	{
-		this(label, id, Control.DFLT_WIDTH, x, y, choices);
+		this(label, id, Control.DFLT_WIDTH, x, y, choices, language);
 	}
 
 
@@ -105,6 +109,7 @@ public class Dropdown extends Control
 	/**
 	 * Modifie la valeur associée à l'élément
 	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
+	 * @return vrai si la valeur a été changée
 	 */
 	@Override
 	@SuppressWarnings("unchecked")

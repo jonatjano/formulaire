@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.Dimension;
 import java.awt.Color;
 
+import iut.algo.form.job.Language;
+
 /**
  * Case à cocher à placer dans le formulaire
  * @author Team Infotik
@@ -27,11 +29,12 @@ public class Checkbox extends Control
 	 * @param width Largeur de l'élément
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
+	 * @param language le langage utilisé par le formulaire
 	 * @return L'élément créé
 	 */
-	public Checkbox (String label, String id, int width, int x, int y)
+	public Checkbox (String label, String id, int width, int x, int y, Language language)
 	{
-		super(label, id, BaseType.Boolean, width, x, y);
+		super(label, id, BaseType.Boolean, width, x, y, language);
 		this.type 		= type;
 		this.baseValue	= false;
 
@@ -59,11 +62,12 @@ public class Checkbox extends Control
 	 * @param id Identifiant unique de l'élément
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
+	 * @param language le langage utilisé par le formulaire
 	 * @return L'élément créé
 	 */
-	public Checkbox (String label, String id, int x, int y)
+	public Checkbox (String label, String id, int x, int y, Language language)
 	{
-		this(label, id, Control.DFLT_WIDTH, x, y);
+		this(label, id, Control.DFLT_WIDTH, x, y, language);
 	}
 
 	/**
@@ -72,11 +76,12 @@ public class Checkbox extends Control
 	 * @param width Largeur de l'élément
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
+	 * @param language le langage utilisé par le formulaire
 	 * @return L'élément créé
 	 */
-	public Checkbox (String id, int width, int x, int y)
+	public Checkbox (String id, int width, int x, int y, Language language)
 	{
-		this(null, id, width, x, y);
+		this(null, id, width, x, y, language);
 	}
 
 	/**
@@ -101,6 +106,7 @@ public class Checkbox extends Control
 	/**
 	 * Modifie la valeur associée à l'élément
 	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
+	 * @return vrai si la valeur a été changée
 	 */
 	@Override
 	public boolean setValue (Object newValue)

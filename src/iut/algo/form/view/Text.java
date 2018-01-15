@@ -13,6 +13,8 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import javax.swing.InputMap;
 
+import iut.algo.form.job.Language;
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Color;
@@ -28,8 +30,8 @@ import java.util.LinkedList;
  */
 public class Text extends Control
 {
-	/* Historique des modifications de l'élément */
-	public LinkedList<String> history;
+	/** Historique des modifications de l'élément */
+	private LinkedList<String> history;
 	/** Label décrivant le contôle à l'utilisateur */
 	private JLabel 		labelL;
 	/** Valeur de l'élément lors de sa création */
@@ -44,12 +46,13 @@ public class Text extends Control
 	 * @param width Largeur de l'élément
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
+	 * @param language le langage utilisé par le formulaire
 	 * @return L'élément créé
 	 */
 	@SuppressWarnings("unchecked")
-	public Text (String label, String id, BaseType type, int width, int x, int y)
+	public Text (String label, String id, BaseType type, int width, int x, int y, Language language)
 	{
-		super(label, id, type, width, x, y);
+		super(label, id, type, width, x, y, language);
 		this.type 		= type;
 		this.baseValue	= "";
 		this.history	= new LinkedList<String>();
@@ -146,11 +149,12 @@ public class Text extends Control
 	 * @param width Largeur de l'élément
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
+	 * @param language le langage utilisé par le formulaire
 	 * @return L'élément créé
 	 */
-	public Text (String label, String id, BaseType type, int x, int y)
+	public Text (String label, String id, BaseType type, int x, int y, Language language)
 	{
-		this(label, id, type, Control.DFLT_WIDTH, x, y);
+		this(label, id, type, Control.DFLT_WIDTH, x, y, language);
 	}
 
 	/**
@@ -160,18 +164,20 @@ public class Text extends Control
 	 * @param width Largeur de l'élément
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
+	 * @param language le langage utilisé par le formulaire
 	 * @return L'élément créé
 	 */
-	public Text (String id, BaseType type, int width, int x, int y)
+	public Text (String id, BaseType type, int width, int x, int y, Language language)
 	{
-		this( null, id, type, width, x, y );
+		this( null, id, type, width, x, y, language );
 	}
 
 
 	/**
 	 * Ajoute à l'historique des actions
+	 * @param toAdd valeur à ajouter à l'historique
 	 */
-	public void addToHistory (String toAdd)
+	private void addToHistory (String toAdd)
 	{
 		if ( this.history.size() == 0 || !toAdd.equals(this.history.getLast()) )
 			this.history.add( toAdd );
@@ -180,7 +186,7 @@ public class Text extends Control
 	/**
 	 * Rétablit la valeur précédente du contenu de l'élément
 	 */
-	public void revert ()
+	void revert ()
 	{
 		String value;
 		if ( this.history.size() == 1 )	value = this.history.getLast();
@@ -234,6 +240,7 @@ public class Text extends Control
 	/**
 	 * Modifie la valeur associée à l'élément
 	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
+	 * @return vrai si la valeur a été changée
 	 */
 	@Override
 	public boolean setValue (Object newValue)
