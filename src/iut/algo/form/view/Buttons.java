@@ -43,7 +43,7 @@ public class Buttons extends Control
 	 */ //TODO
 	public Buttons (String label, String id, int width, int x, int y, HashMap<Integer, Object> mapOrdObj)
 	{
-		super(label, id, BaseType.Int, width, x, y);
+		super(label, id, BaseType.Integer, width, x, y);
 		this.type = type;
 
 

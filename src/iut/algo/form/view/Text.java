@@ -73,7 +73,7 @@ public class Text extends Control
 		InputMap im;
 		switch (type)
 		{
-			case Int:
+			case Integer:
 				spinnerModel	= new SpinnerNumberModel(0, Integer.MIN_VALUE, Integer.MAX_VALUE, 1);
 				this.compo		= new JSpinner(spinnerModel);
 				im = ((JSpinner)(this.compo)).getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
@@ -218,7 +218,7 @@ public class Text extends Control
 	{
 		switch (type)
 		{
-			case Int:
+			case Integer:
 				return (Integer) (((JSpinner) (compo)).getValue());
 			case Double:
 				return (Double) (((JSpinner) (compo)).getValue());
@@ -238,7 +238,7 @@ public class Text extends Control
 	@Override
 	public boolean setValue (Object newValue)
 	{
-		if		(this.type == BaseType.Int)
+		if		(this.type == BaseType.Integer)
 		{
 			if (newValue == null)	newValue = 0;
 			try

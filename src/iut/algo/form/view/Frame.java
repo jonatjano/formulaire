@@ -277,7 +277,7 @@ public class Frame extends JFrame implements ActionListener
 					case "text":
 						String type = attrElement.getNamedItem("type").getNodeValue();
 
-						BaseType baseType = BaseType.Int;
+						BaseType baseType = BaseType.Integer;
 						switch (type)
 						{
 							case "chaine":
@@ -287,7 +287,7 @@ public class Frame extends JFrame implements ActionListener
 
 							case "entier":
 							case "int":
-								baseType = BaseType.Int;
+								baseType = BaseType.Integer;
 								break;
 
 							case "double":
@@ -732,7 +732,7 @@ public class Frame extends JFrame implements ActionListener
 
 		Checkbox 	checkbox 	= new Checkbox("Mangeable", "a01", 20, 25);
 		Text 		text1 		= new Text("Nom", "a02", BaseType.String, 20, 50);
-		Text 		text2 		= new Text("Age", "a03", BaseType.Int, 20, 75);
+		Text 		text2 		= new Text("Age", "a03", BaseType.Integer, 20, 75);
 		Dropdown 	dropdown 	= new Dropdown("Type", "a04", 20, 100, new String[] {"Soues", "Sos", "Soas"});
 		Buttons 	buttons 	= new Buttons("Boustifaille", "a05", 20, 125, new String[] {"Saucisse", "Merguez", "Chipo", "Truc", "Machin"});
 		Text 		text3 		= new Text("Taille", "a06", BaseType.Double, 20, 275);
