@@ -192,7 +192,7 @@ public class Frame extends JFrame implements ActionListener
 	/**
 	 * Met à jour l'affichage du formulaire
 	 */
-	public void majIhm ()
+	void majIhm ()
 	{
 		this.formPanel.revalidate();
 		this.formPanel.repaint();
@@ -431,7 +431,7 @@ public class Frame extends JFrame implements ActionListener
 	 * Ajoute un élément dans le formulaire
 	 * @param control Contrôle à ajouter au formulaire
 	 */
-	public void addControl (Control control)
+	private void addControl (Control control)
 	{
 		if (control == null ) {
 			return;
@@ -452,7 +452,7 @@ public class Frame extends JFrame implements ActionListener
 	 * @param  isStoppedWhenOutOfBounds Si vrai, le formulaire ne dépassera jamais de la fenêtre, et ne requerra
 	 * jamais de barre de défilement
 	 */
-	public Dimension placeControlsAutomatically (int scrollAxis, boolean isStoppedWhenOutOfBounds)
+	private Dimension placeControlsAutomatically (int scrollAxis, boolean isStoppedWhenOutOfBounds)
 	{
 		Dimension furthestLocation	= new Dimension(0, 0);
 
@@ -570,7 +570,7 @@ public class Frame extends JFrame implements ActionListener
 	 * Place automatiquement tous les éléments d'un formulaire en les rangeant dans l'ordre de leur identifiant
 	 * quand les éléments débordent de l'interface
 	 */
-	public Dimension placeControlsAutomatically ()
+	private Dimension placeControlsAutomatically ()
 	{
 		return this.placeControlsAutomatically(Frame.Y_AXIS, false);
 	}
@@ -579,7 +579,7 @@ public class Frame extends JFrame implements ActionListener
 	 * Cache les éléments passés en paramètres
 	 * @param controls Eléments à cacher
 	 */
-	public void hideControls (List<Control> controls)
+	private void hideControls (List<Control> controls)
 	{
 		for (Control control : controls)
 			control.getPanel().setVisible(false);
@@ -588,7 +588,7 @@ public class Frame extends JFrame implements ActionListener
 	 * Cache les éléments passés en paramètres
 	 * @param controls Eléments à cacher
 	 */
-	public void hideControls (Control... controls)
+	private void hideControls (Control... controls)
 	{
 		for (Control control : controls)
 			control.getPanel().setVisible(false);

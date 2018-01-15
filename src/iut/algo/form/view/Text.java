@@ -29,7 +29,7 @@ import java.util.LinkedList;
 public class Text extends Control
 {
 	/* Historique des modifications de l'élément */
-	public LinkedList<String> history;
+	private LinkedList<String> history;
 	/** Label décrivant le contôle à l'utilisateur */
 	private JLabel 		labelL;
 	/** Valeur de l'élément lors de sa création */
@@ -171,7 +171,7 @@ public class Text extends Control
 	/**
 	 * Ajoute à l'historique des actions
 	 */
-	public void addToHistory (String toAdd)
+	private void addToHistory (String toAdd)
 	{
 		if ( this.history.size() == 0 || !toAdd.equals(this.history.getLast()) )
 			this.history.add( toAdd );
@@ -180,7 +180,7 @@ public class Text extends Control
 	/**
 	 * Rétablit la valeur précédente du contenu de l'élément
 	 */
-	public void revert ()
+	void revert ()
 	{
 		String value;
 		if ( this.history.size() == 1 )	value = this.history.getLast();

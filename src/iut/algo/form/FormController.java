@@ -231,6 +231,13 @@ public class FormController
 		return null;
 	}
 
+	/**
+	 * Vérifier si l'élément elem contient un attribut attName du type attType
+	 * @param elem Élement contenant l'attribut
+	 * @param attName Nom de l'attribut à tester
+	 * @param attType Nom du type de l'attribut voulu
+	 * @return Vrai si l'élément elem contient un attribut attName du type attType
+	 */
 	private static boolean attributeOk(Element elem, String attName, String attType)
 	{
 		if (!elem.hasAttribute(attName))
@@ -321,6 +328,11 @@ public class FormController
 		return true;
 	}
 
+	/**
+	 * Vérifier si l'élément elem contient que des attributs valides
+	 * @param elem Élement contenant l'attribut
+	 * @return Vrai si l'élément elem contient que des attributs valides
+	 */
 	private static boolean attributeOk(Element elem)
 	{
 		return attributeOk(elem, "longeur", "int") &
@@ -337,6 +349,12 @@ public class FormController
 			   attributeOk(elem, "ordinal", "ordinal");
 	}
 
+	
+	/**
+	 * Vérifier si l'élément elem contient que des attributs valides ansi que ses enfants
+	 * @param elem Élement contenant l'attribut
+	 * @return Vrai si l'élément elem contient que des attributs valides ansi que ses enfants
+	 */
 	private static boolean verifType(Element root)
 	{
 		boolean ok = true;
@@ -363,6 +381,10 @@ public class FormController
 		return ok;
 	}
 	
+	/**
+	 * Affiche les erreurs trouvées
+	 * @param err Tableau contenant les erreurs
+	 */
 	public static void showError (String[] err)
 	{
 		String sErr = "";
@@ -765,30 +787,6 @@ public class FormController
 
 		return false;
 	}
-
-
-	// /**
-	//  * Renvoie la valeur d'un controle Array
-	//  * @param id Identifiant du controle
-	//  * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
-	//  * @return Vrai si la copie est un succès, sinon faux
-	//  */
-	// public static boolean getArrayString (String id, String[] res)
-	// {
-	// 	try
-	// 	{
-	// 		String[] tmp = (String[]) arrayMap.get(id);
-
-	// 		for (int i = 0; i < res.length && i < tmp.length; i++)
-	// 			for (int j = 0; j < res[i].length && i < tmp[i].length; j++)
-	// 				res[i][j] = tmp[i][j];
-
-	// 		return true;
-	// 	}
-	// 	catch (Exception e) { e.printStackTrace(); }
-
-	// 	return false;
-	// }
 
 	/**
 	 * méthode utilisée pour changer les valeurs des différents composants

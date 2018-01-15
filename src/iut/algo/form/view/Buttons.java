@@ -24,7 +24,7 @@ import java.util.Set;
  */
 public class Buttons extends Control
 {
-	/** List des radio boutons affichés contenant les valeurs choisies par l'utilisateur */ //TODO
+	/** Map de correspondance entre les radios boutons et leur ordinal */
 	private HashMap<Integer, JRadioButton> mapButton;
 	/** Groupe de bouton regroupant l'ensemble des radio boutons de l'élément du formulaire */
 	private ButtonGroup				buttonGroup;
@@ -40,7 +40,7 @@ public class Buttons extends Control
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @param mapOrdObj Valeurs d'origine associées à l'élément lors de sa création 
 	 * @return L'élément créé
-	 */ //TODO
+	 */
 	public Buttons (String label, String id, int width, int x, int y, HashMap<Integer, Object> mapOrdObj)
 	{
 		super(label, id, BaseType.Int, width, x, y);
@@ -76,7 +76,7 @@ public class Buttons extends Control
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @param mapOrdObj Valeurs d'origine associées à l'élément lors de sa création
 	 * @return L'élément créé
-	 */ //TODO
+	 */
 	public Buttons (String label, String id, int x, int y, HashMap<Integer, Object> mapOrdObj)
 	{
 		this( label, id, Control.DFLT_WIDTH, x, y, mapOrdObj );

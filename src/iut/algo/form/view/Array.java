@@ -116,12 +116,21 @@ public class Array extends Control
 	}
 
 
-	/** Nombre de colonne minimum à afficher */
+	/** 
+	 * Nombre de colonne minimum à afficher
+	 * utilisé dans une futur version
+	 */
 	private static final int MIN_COL = 1;
-	/** Nombre de ligne minimum à afficher */
+	
+	/** 
+	 * Nombre de ligne minimum à afficher
+	 * utilisé dans une futur version
+	 */
 	private static final int MIN_ROW = 1;
+	
 	/** Nombre de colonne maximum à afficher */
 	private static final int MAX_COL = 5;
+	
 	/** Nombre de ligne maximum à afficher */
 	private static final int MAX_ROW = 5;
 
@@ -131,13 +140,13 @@ public class Array extends Control
 	private static final int CELL_SIZE	= 25;
 
 	/** Couleur de base des cellules du tableau */
-	private static final Color normalColor			= new Color(255,255,255);
+	private static final Color NORMAL_COLOR			= new Color(255,255,255);
 	/** Couleur prise par la ligne sélectionnée */
-	private static final Color selectedRowColor 	= new Color(0,0,0);
+	private static final Color SELECTED_ROW_COLOR 	= new Color(0,0,0);
 	/** Couleur prise par la colonne sélectionnée */
-	private static final Color selectedColColor 	= new Color(0,0,0);
+	private static final Color SELECTED_COL_COLOR 	= new Color(0,0,0);
 	/** Couleur prise par la cellule sélectionnée  */
-	private static final Color selectedCellColor	= new Color(255,0,0);
+	private static final Color SELECTED_CELL_COLOR	= new Color(255,0,0);
 
 	/** Label décrivant le contôle à l'utilisateur */
 	private JLabel 			labelL;
@@ -276,7 +285,7 @@ public class Array extends Control
 						tabButtons[clampedRow - i - 1][j] = cellB;
 						cellB.addActionListener( new ArrayListener() );
 						cellB.setActionCommand( String.format("%d;%d", clampedRow - i - 1, j) );
-						cellB.setBackground(normalColor);
+						cellB.setBackground(NORMAL_COLOR);
 						this.arrayP.add( cellB );
 					}
 					else
@@ -479,30 +488,30 @@ public class Array extends Control
 	 * @param row La précédente colonne sélectionnée
 	 * @param col La précédente colonne sélectionnée
 	 */
-	public void setTabBackground (int prevR, int prevC, int row, int col)
+	private void setTabBackground (int prevR, int prevC, int row, int col)
 	{
 		if (prevR != -1)
 		{
 			for (int i = 0; i < tabButtons.length; i++)
 			{
-				tabButtons[i][prevC].setBackground(normalColor);
+				tabButtons[i][prevC].setBackground(NORMAL_COLOR);
 			}
 			for (int i = 0; i < tabButtons[prevR].length; i++)
 			{
-				tabButtons[prevR][i].setBackground(normalColor);
+				tabButtons[prevR][i].setBackground(NORMAL_COLOR);
 			}
 		}
 
 		for (int i = 0; i < tabButtons.length; i++)
 		{
-			tabButtons[i][col].setBackground(selectedRowColor);
+			tabButtons[i][col].setBackground(SELECTED_ROW_COLOR);
 		}
 		for (int i = 0; i < tabButtons[row].length; i++)
 		{
-			tabButtons[row][i].setBackground(selectedColColor);
+			tabButtons[row][i].setBackground(SELECTED_COL_COLOR);
 		}
 
-		tabButtons[row][col].setBackground(selectedCellColor);
+		tabButtons[row][col].setBackground(SELECTED_CELL_COLOR);
 	}
 
 	/**
@@ -547,7 +556,18 @@ public class Array extends Control
 	@Override
 	public boolean setValue (Object newValue)
 	{
-		//TODO
+		if (newValue instanceof Object[][] )
+		{
+			Object[][] obj = (Object[][]) newValue;
+			if ( obj.length != 0 && obj[0].length != 0 )
+			{
+				tabValues = obj;
+				moveTo(0,0);
+				moveTo(0,0);
+				return true;
+			}
+		}
+		
 		return false;
 	}
 }

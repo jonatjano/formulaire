@@ -28,7 +28,7 @@
 		</buttons>
 
 
-		<array x="500" y="210" label="Tableau de bool" id="a10" type="int" nb_row="2" nb_col="4"/>
+		<array x="500" y="210" label="Tableau de bool" id="a10" type="int" nb_row="17" nb_col="24"/>
 
 		<calendar x="500" y="160" id="a09" label="Date"/>
 	</window>
