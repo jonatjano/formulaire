@@ -3,7 +3,7 @@
 <?xml-stylesheet type="text/xsl" href="preview.xsl"?>
 
 <form>
-	<window length="650" title="test" width="1340" x="100" y="100">
+	<window length="650" title="Exemple de formulaire" width="1340" x="100" y="100">
 		<label x="36" y="0" label="Un label seul" id="a01"/>
 
 		<checkbox x="36" y="30" label="Choix binaire" id="a02"/>
@@ -27,10 +27,7 @@
 			<button ordinal="2">Deuxieme choix</button>
 		</buttons>
 
-		<array x="500" y="500" label="Tableau de bool" id="a10" type="int" nb_row="17" nb_col="24"/>
-
 		<array x="500" y="210" label="Tableau de bool" id="a11" type="boolean" nb_row="2" nb_col="4"/>
-
 
 		<calendar x="500" y="160" id="a09" label="Date"/>
 	</window>

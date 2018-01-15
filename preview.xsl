@@ -91,66 +91,57 @@
 	<xsl:template match="tableau|array">
 		<div class="element" style="top: {@y}px; left: {@x}px; height: {@longueur}{@length}px; width: {@largeur}{@width}px;">
 			<xsl:value-of select="./@label"/>
+			<xsl:text> :</xsl:text>
 			<xsl:variable name="type"><xsl:value-of select="@type"/></xsl:variable>
-			<xsl:value-of select="$type"/>
+
 			<table>
-				<tr>
-					<td>4</td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-					<td><input type="button" name="{@label}" value=" "/></td>
+				<!-- Création des variables -->
+				<xsl:variable name="nbR">
 					<xsl:choose>
-						<xsl:when test="$type='boolean' or $type='booleen'">
-							<td>Valeur : <input type="checkbox"/></td>
-						</xsl:when>
+						<xsl:when test="@nb_row &gt; 5">5</xsl:when>
 						<xsl:otherwise>
-							<td>Valeur : <input type="text"/></td>
+								<xsl:value-of select="@nb_row"/>
 						</xsl:otherwise>
 					</xsl:choose>
-				</tr>
+				</xsl:variable>
+
+				<xsl:variable name="nbC">
+					<xsl:choose>
+						<xsl:when test="@nb_col &gt; 5">5</xsl:when>
+						<xsl:otherwise>
+								<xsl:value-of select="@nb_col"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+
+
+
+				<!-- Boucle de création du tableau en fonction du nombre de lignes et de colonnes -->
+				<xsl:call-template name="loopLigne">
+					<xsl:with-param name="nbR">
+						<xsl:number value="$nbR" />
+					</xsl:with-param>
+					<xsl:with-param name="nbC">
+						<xsl:number value="$nbC" />
+					</xsl:with-param>
+					<xsl:with-param name="type" select="@type"/>
+					<xsl:with-param name="nbLoopR">0</xsl:with-param>
+				</xsl:call-template>
+
+
+				<!-- Affichage des labels de colonnes -->
 				<tr>
-					<td>3</td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-				</tr>
-				<tr>
-					<td>0</td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-					<td><input type="button" name="{@label}" value=" "/></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td>&#160;&#160;0</td>
-					<td>&#160;&#160;1</td>
-					<td>&#160;&#160;2</td>
-					<td>&#160;&#160;3</td>
-					<td>&#160;&#160;4</td>
+					<td> </td>
+					<!-- Création des colonnes -->
+					<xsl:call-template name="loopLabelColonne">
+						<xsl:with-param name="nbC">
+							<xsl:number value="$nbC" />
+						</xsl:with-param>
+						<xsl:with-param name="nbLoopC">0</xsl:with-param>
+					</xsl:call-template>
 				</tr>
 			</table>
+
 		</div>
 	</xsl:template>
 
@@ -178,6 +169,116 @@
 			<xsl:value-of select="./@label"/> :
 			<input class="date" type="date"/>
 		</div>
+	</xsl:template>
+
+
+	<!-- Boucle créant les lignes -->
+	<xsl:template name="loopLigne">
+		<xsl:param name="nbR"></xsl:param>
+		<xsl:param name="nbC"></xsl:param>
+		<xsl:param name="nbLoopR"></xsl:param>
+		<xsl:param name="type"></xsl:param>
+	
+		<xsl:choose>
+			<xsl:when test="$nbR &gt; 0">
+				<tr>
+					<!-- Création des colonnes -->
+					<xsl:call-template name="loopColonne">
+						<xsl:with-param name="nbC">
+							<xsl:number value="$nbC" />
+						</xsl:with-param>
+						<xsl:with-param name="nbR">
+							<xsl:number value="$nbR" />
+						</xsl:with-param>
+						<xsl:with-param name="nbLoopC">0</xsl:with-param>
+						<xsl:with-param name="nbLoopR">
+							<xsl:number value="$nbLoopR" />
+						</xsl:with-param>
+					</xsl:call-template>
+
+					<!-- Affichage de l'élément -->
+					<xsl:if test="$nbLoopR='0'">
+						<xsl:choose>
+							<xsl:when test="$type='boolean' or $type='booleen'">
+								<td>Valeur : <input type="checkbox"/></td>
+							</xsl:when>
+							<xsl:otherwise>
+								<td>Valeur : <input type="text"/></td>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:if>
+				</tr>
+
+
+				<!--<xsl:text>&#xa;</xsl:text> --><!-- newline -->
+				<xsl:call-template name="loopLigne">
+					<xsl:with-param name="nbR">
+						<xsl:number value="number($nbR)-1" />
+					</xsl:with-param>
+					<xsl:with-param name="nbC">
+						<xsl:number value="$nbC" />
+					</xsl:with-param>
+					<xsl:with-param name="nbLoopR">
+						<xsl:number value="number($nbLoopR)+1" />
+					</xsl:with-param>
+					<xsl:with-param name="type" select="@type"/>
+				</xsl:call-template>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+
+
+	<!-- Boucle créant les colonnes -->
+	<xsl:template name="loopColonne">
+		<xsl:param name="nbC"></xsl:param>
+		<xsl:param name="nbR"></xsl:param>
+		<xsl:param name="nbLoopC"></xsl:param>
+		<xsl:param name="nbLoopR"></xsl:param>
+
+		<xsl:choose>
+			<xsl:when test="$nbC &gt; 0">
+				<xsl:if test="$nbLoopC='0'">
+					<td><xsl:value-of select="$nbR - 1" /></td>
+				</xsl:if>
+
+				<td><input type="button" name="zzz" value=" "/></td>
+
+
+				<!--<xsl:text>&#xa;</xsl:text> --><!-- newline -->
+				<xsl:call-template name="loopColonne">
+					<xsl:with-param name="nbC">
+						<xsl:number value="number($nbC)-1" />
+					</xsl:with-param>
+					<xsl:with-param name="nbLoopC">
+						<xsl:number value="number($nbLoopC)+1" />
+					</xsl:with-param>
+				</xsl:call-template>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+
+
+	<!-- Boucle créant les labels des colonnes -->
+	<xsl:template name="loopLabelColonne">
+		<xsl:param name="nbC"></xsl:param>
+		<xsl:param name="nbLoopC"></xsl:param>
+
+		<xsl:choose>
+			<xsl:when test="$nbC &gt; 0">
+				<td>&#160;&#160;<xsl:value-of select="$nbLoopC" /></td>
+
+
+				<!--<xsl:text>&#xa;</xsl:text> --><!-- newline -->
+				<xsl:call-template name="loopLabelColonne">
+					<xsl:with-param name="nbC">
+						<xsl:number value="number($nbC)-1" />
+					</xsl:with-param>
+					<xsl:with-param name="nbLoopC">
+						<xsl:number value="number($nbLoopC)+1" />
+					</xsl:with-param>
+				</xsl:call-template>
+			</xsl:when>
+		</xsl:choose>
 	</xsl:template>
 
 </xsl:stylesheet>
