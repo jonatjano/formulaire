@@ -31,6 +31,8 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import iut.algo.form.job.Language;
+
 /**
  * Tableau à placer dans le formulaire
  * @author Team Infotik
@@ -183,9 +185,9 @@ public class Array extends Control
 	 * @param nbC Nombre total de colonnes du tableau
 	 * @return L'élément créé
 	 */
-	public Array (String label, String id, BaseType type, int width, int x, int y, int nbR, int nbC)
+	public Array (String label, String id, BaseType type, int width, int x, int y, int nbR, int nbC, Language language)
 	{
-		super(label, id, type, width, x, y);
+		super(label, id, type, width, x, y, language);
 		this.type	= type;
 		this.oriC	= 0;
 		this.oriR	= 0;
@@ -201,7 +203,7 @@ public class Array extends Control
 
 
 		/*  Label */
-		
+
 		this.labelL	= new JLabel( String.format("%s : ", this.label), SwingConstants.RIGHT );
 		this.labelL.setBounds( 0, 0, Control.LABEL_WIDTH, Control.DFLT_HEIGHT );
 		this.labelL.setForeground(Color.GRAY);
@@ -318,7 +320,7 @@ public class Array extends Control
 
 
 		String valueStr = "Value";
-		if (Frame.getLang() == Language.FR)
+		if (language == Language.FR)
 			valueStr = "Valeur";
 
 		JLabel valueL = new JLabel( String.format("%s :", valueStr), SwingConstants.LEFT );
@@ -326,8 +328,8 @@ public class Array extends Control
 
 		this.valuePanel.add( valueL );
 
-		if (type == BaseType.Boolean)		this.valueControl	= new Checkbox("cdfz", width - 11, 0, 0);
-		else								this.valueControl	= new Text("dzdz", type, width - 11, 0, 0);
+		if (type == BaseType.Boolean)		this.valueControl	= new Checkbox("cdfz", width - 11, 0, 0, language);
+		else								this.valueControl	= new Text("dzdz", type, width - 11, 0, 0, language);
 
 		this.valuePanel.add( valueControl.getPanel() );
 
@@ -351,9 +353,9 @@ public class Array extends Control
 	 * @param nbC Nombre total de colonnes du tableau
 	 * @return L'élément créé
 	 */
-	public Array (String label, String id, BaseType type, int x, int y, int nbR, int nbC)
+	public Array (String label, String id, BaseType type, int x, int y, int nbR, int nbC, Language language)
 	{
-		this(label, id, type, Control.DFLT_WIDTH, x, y, nbR, nbC);
+		this(label, id, type, Control.DFLT_WIDTH, x, y, nbR, nbC, language);
 	}
 
 

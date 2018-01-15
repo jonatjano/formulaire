@@ -25,6 +25,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
+import iut.algo.form.job.Language;
+
 /**
  * Zone de texte ouvrant un calendrier à placer dans le formulaire
  * @author Team Infotik
@@ -47,9 +49,9 @@ public class Calendar extends Control
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @return L'élément créé
 	 */
-	public Calendar (String label, String id, int width, int x, int y)
+	public Calendar (String label, String id, int width, int x, int y, Language language)
 	{
-		super( label, id, BaseType.String, width, x, y );
+		super( label, id, BaseType.String, width, x, y, language );
 
 
 		/* Création du label */
@@ -63,9 +65,9 @@ public class Calendar extends Control
 
 		/* Création de la date */
 
-		this.date = new DateTextField();
+		this.date = new DateTextField(language);
 		this.date.setPreferredSize( new Dimension(width, (int) (this.panel.getSize().height - (Control.DFLT_HEIGHT / 5f))) );
-		
+
 		this.panel.add( date );
 	}
 
@@ -78,9 +80,9 @@ public class Calendar extends Control
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @return L'élément créé
 	 */
-	public Calendar (String label, String id, int x, int y)
+	public Calendar (String label, String id, int x, int y, Language language)
 	{
-		this(label,id, Control.DFLT_WIDTH,x,y);
+		this(label,id, Control.DFLT_WIDTH,x,y, language);
 	}
 
 	/**

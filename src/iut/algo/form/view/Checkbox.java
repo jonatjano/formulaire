@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.Dimension;
 import java.awt.Color;
 
+import iut.algo.form.job.Language;
+
 /**
  * Case à cocher à placer dans le formulaire
  * @author Team Infotik
@@ -29,9 +31,9 @@ public class Checkbox extends Control
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @return L'élément créé
 	 */
-	public Checkbox (String label, String id, int width, int x, int y)
+	public Checkbox (String label, String id, int width, int x, int y, Language language)
 	{
-		super(label, id, BaseType.Boolean, width, x, y);
+		super(label, id, BaseType.Boolean, width, x, y, language);
 		this.type 		= type;
 		this.baseValue	= false;
 
@@ -61,9 +63,9 @@ public class Checkbox extends Control
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @return L'élément créé
 	 */
-	public Checkbox (String label, String id, int x, int y)
+	public Checkbox (String label, String id, int x, int y, Language language)
 	{
-		this(label, id, Control.DFLT_WIDTH, x, y);
+		this(label, id, Control.DFLT_WIDTH, x, y, language);
 	}
 
 	/**
@@ -74,9 +76,9 @@ public class Checkbox extends Control
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @return L'élément créé
 	 */
-	public Checkbox (String id, int width, int x, int y)
+	public Checkbox (String id, int width, int x, int y, Language language)
 	{
-		this(null, id, width, x, y);
+		this(null, id, width, x, y, language);
 	}
 
 	/**

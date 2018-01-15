@@ -16,6 +16,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import iut.algo.form.job.Language;
 /**
  * Radio boutons à placer dans le formulaire
  * @author Team Infotik
@@ -37,12 +38,12 @@ public class Buttons extends Control
  	 * @param width Largeur de l'élément
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
-	 * @param mapOrdObj Valeurs d'origine associées à l'élément lors de sa création 
+	 * @param mapOrdObj Valeurs d'origine associées à l'élément lors de sa création
 	 * @return L'élément créé
 	 */ //TODO
-	public Buttons (String label, String id, int width, int x, int y, HashMap<Integer, Object> mapOrdObj)
+	public Buttons (String label, String id, int width, int x, int y, HashMap<Integer, Object> mapOrdObj, Language language)
 	{
-		super(label, id, BaseType.String, width, x, y);
+		super(label, id, BaseType.String, width, x, y, language);
 		this.type = type;
 
 
@@ -76,9 +77,9 @@ public class Buttons extends Control
 	 * @param mapOrdObj Valeurs d'origine associées à l'élément lors de sa création
 	 * @return L'élément créé
 	 */ //TODO
-	public Buttons (String label, String id, int x, int y, HashMap<Integer, Object> mapOrdObj)
+	public Buttons (String label, String id, int x, int y, HashMap<Integer, Object> mapOrdObj, Language language)
 	{
-		this( label, id, Control.DFLT_WIDTH, x, y, mapOrdObj );
+		this( label, id, Control.DFLT_WIDTH, x, y, mapOrdObj, language );
 	}
 
 
@@ -136,7 +137,7 @@ public class Buttons extends Control
 				{
 					String 			valueStr	= mapOrdObj.get(i).toString();
 					JRadioButton	button		= new JRadioButton( valueStr );
-					
+
 					this.buttonGroup.add( button );
 					this.mapButton.put( i, button );
 

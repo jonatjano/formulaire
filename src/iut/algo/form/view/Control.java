@@ -17,6 +17,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Color;
 
+import iut.algo.form.job.Language;
+
 /**
  * Elément à placer dans le formulaire
  * @author Team Infotik
@@ -43,18 +45,20 @@ public abstract class Control
 	protected String	label;
 
 	/** Panel principal contenant l'intégralité de l'élément */
-	protected JPanel	panel,
+	protected JPanel	panel;
 	/** Panel pouvant être affiché ou non contenant l'identifiant de l'élément */
-						idPanel,
+	protected JPanel	idPanel;
 	/** Panel pouvant être affiché ou non contenant le type de l'élément */
-						typePanel;
+	protected JPanel	typePanel;
 
+	protected Language 	language;
 
 	/**
 	 * Création de la base d'un élément du formulaire
 	 */
-	public Control (String label, String id, BaseType type, int width, int x, int y)
+	public Control (String label, String id, BaseType type, int width, int x, int y, Language language)
 	{
+		this.language = language;
 		this.label	= label;
 		this.type	= type;
 		this.id		= id;
@@ -95,7 +99,7 @@ public abstract class Control
 		this.typePanel.setBackground( new Color(0.60f, 0.90f, 0.35f) );
 		this.typePanel.setBorder( new CompoundBorder(BorderFactory.createLineBorder(Color.black), new EmptyBorder(3,3,3,3)) );
 
-		JLabel typeL 	= new JLabel( type.getValue( Frame.language ) );
+		JLabel typeL 	= new JLabel( type.getValue( language ) );
 		typeL.setFont( font.deriveFont(font.getStyle() | Font.BOLD) );
 
 		this.typePanel.add( typeL );
@@ -235,7 +239,6 @@ public abstract class Control
 	{
 		return this.type;
 	}
-
 
 	/**
 	 * Réinitialise l'élément, le retournant au même état que lors de sa création
