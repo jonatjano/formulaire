@@ -848,7 +848,7 @@ public class FormController
 			pw.write("\t\t                  x        CDATA #REQUIRED\n");
 			pw.write("\t\t                  y        CDATA #REQUIRED>\n");
 			pw.write("\t\t<!ELEMENT texte EMPTY>\n");
-			pw.write("\t\t\t<!ATTLIST texte type  ( chaine | entier | double | booleen | caractere )  #REQUIRED\n");
+			pw.write("\t\t\t<!ATTLIST texte type  ( chaine | entier | double | caractere )  #REQUIRED\n");
 			pw.write("\t\t\t                label CDATA #REQUIRED\n");
 			pw.write("\t\t\t                id    ID    #REQUIRED\n");
 			pw.write("\t\t\t                x     CDATA #IMPLIED\n");
@@ -893,7 +893,7 @@ public class FormController
 			pw.write("\t\t                 x      CDATA #REQUIRED\n");
 			pw.write("\t\t                 y      CDATA #REQUIRED>\n");
 			pw.write("\t\t\t<!ELEMENT text (#PCDATA)>\n");
-			pw.write("\t\t\t\t<!ATTLIST text type  ( string | int | double | boolean | char ) #REQUIRED\n");
+			pw.write("\t\t\t\t<!ATTLIST text type  ( string | int | double | char ) #REQUIRED\n");
 			pw.write("\t\t\t\t               label CDATA #REQUIRED\n");
 			pw.write("\t\t\t\t               id    ID    #REQUIRED\n");
 			pw.write("\t\t\t\t               x     CDATA #IMPLIED\n");
