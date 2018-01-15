@@ -130,6 +130,12 @@ public class Frame extends JFrame implements ActionListener
 		this.formPanel.setBorder( BorderFactory.createLineBorder(Color.black) );
 
 		JScrollPane scrollPane = new JScrollPane( this.formPanel );
+		
+		InputMap im = scrollPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+		im.put(KeyStroke.getKeyStroke("DOWN"), "none");
+		im.put(KeyStroke.getKeyStroke("UP"), "none");
+		im.put(KeyStroke.getKeyStroke("RIGHT"), "none");
+		im.put(KeyStroke.getKeyStroke("LEFT"), "none");
 		scrollPane.setPreferredSize( new Dimension(this.formWidth, this.formHeight) );
 
 		this.secondaryPanel.add( BorderLayout.CENTER, scrollPane );
