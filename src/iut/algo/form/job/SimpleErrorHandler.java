@@ -7,7 +7,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 /**
- *
+ * Gère les erreurs de lecture du xml
  * @author Team Infotik
  * @version 2018-01-08
  */
@@ -18,7 +18,7 @@ public class SimpleErrorHandler implements ErrorHandler {
 	  * @param exception Exception levée
 	  * @throws {@link SAXException}
 	  */
-	public void warning(SAXParseException e)
+	public void warning(SAXParseException exception)
 	throws SAXException
 	{
         FormController.showMessage("WARNING", e.getMessage() + " sur la ligne " + e.getLineNumber());
@@ -29,7 +29,7 @@ public class SimpleErrorHandler implements ErrorHandler {
 	  * @param exception Exception levée
 	  * @throws {@link SAXException}
 	  */
-    public void error(SAXParseException e)
+    public void error(SAXParseException exception)
     throws SAXException
     {
         FormController.showMessage("ERROR", e.getMessage() + " sur la ligne " + e.getLineNumber());
@@ -41,7 +41,7 @@ public class SimpleErrorHandler implements ErrorHandler {
 	  * @param exception Exception levée
 	  * @throws {@link SAXException}
 	  */
-    public void fatalError (SAXParseException e)
+    public void fatalError (SAXParseException exception)
     throws SAXException
     {
         FormController.showMessage("FATAL ERROR", e.getMessage() + " sur la ligne " + e.getLineNumber());

@@ -396,7 +396,7 @@ public class FormController
 
 	/**
 	 * Vérifier si l'élément elem contient que des attributs valides ansi que ses enfants
-	 * @param elem Élement contenant l'attribut
+	 * @param root Élement contenant l'attribut
 	 * @return Vrai si l'élément elem contient que des attributs valides ansi que ses enfants
 	 */
 	private static boolean verifType(Element root)
@@ -492,6 +492,7 @@ public class FormController
 
 	/**
 	 * cache la fenetre pour pouvoir la réutiliser
+	 * @param callingFrame frame qui vien de se fermer
 	 */
 	public static void windowClosed(Frame callingFrame)
 	{
@@ -515,6 +516,7 @@ public class FormController
 
 	/**
 	 * cache la fenetre pour pouvoir la réutiliser
+	 * @param callingFrame frame qui vien de se valider
 	 */
 	public static void windowValidated(Frame callingFrame)
 	{

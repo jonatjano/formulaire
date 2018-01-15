@@ -109,6 +109,7 @@ public class Calendar extends Control
 	/**
 	 * Modifie la valeur associée à l'élément
 	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
+	 * @return vrai si la valeur a été changée
 	 */
 	@Override
 	public boolean setValue (Object newValue)

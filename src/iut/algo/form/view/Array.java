@@ -189,9 +189,9 @@ public class Array extends Control
 	/** Controle interactible pour modifier la valeur de la cellule sélectionnée */
 	private Control			valueControl;
 
-	/* Ensemble des labels affichant l'index des lignes affichées */
+	/** Ensemble des labels affichant l'index des lignes affichées */
 	private List<JLabel>	rowLabels;
-	/* Ensemble des labels affichant l'index des colonnes affichées */
+	/** Ensemble des labels affichant l'index des colonnes affichées */
 	private List<JLabel>	colLabels;
 
 	/** Ensemble des cellules affichées du tableau */
@@ -399,6 +399,11 @@ public class Array extends Control
 		else								return this.tabValues.length == 1 || this.tabValues[0].length == 1;
 	}
 
+	/**
+	 * Déplace le tableau jusqu'à la ligne row et la colonne col
+	 * @param row Index de la ligne à atteindre
+	 * @param col Index de la colonne à atteindre
+	 */
 	private void moveTo (int row, int col)
 	{
 		Object value = valueControl.getValue();
@@ -477,6 +482,7 @@ public class Array extends Control
 	 * Décale l'affichage du tableau
 	 * @param deltaR Décalage de "deltaR" ligne(s)
 	 * @param deltaC Décalage de "deltaC" colonne(s)
+	 * @return le nombre de ligne et colone déplacer
 	 */
 	private int[] shiftDisplay (int deltaR, int deltaC)
 	{
@@ -575,6 +581,7 @@ public class Array extends Control
 	/**
 	 * Modifie la valeur associée à l'élément
 	 * @param newValue La nouvelle valeur associée à l'élément du formulaire
+	 * @return vrai si la valeur a été changée
 	 */
 	@Override
 	public boolean setValue (Object newValue)

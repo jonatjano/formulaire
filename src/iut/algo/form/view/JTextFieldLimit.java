@@ -22,7 +22,7 @@ public class JTextFieldLimit extends JTextField
 
 	/**
 	 * JTextField avec une limite de caractères pouvant y être rentrées
-	 * @param Nombre limite de caractères
+	 * @param limit limite de caractères
 	 */
 	public JTextFieldLimit (int limit)
 	{
@@ -34,6 +34,7 @@ public class JTextFieldLimit extends JTextField
 	 * Modifie le modèle de la zone de texte, pour permettre de limiter
 	 * l'entrée de l'utilisateur
 	 * @param Modèle de l'élément
+	 * @return Le modèle utilisé par défault
 	 */
 	@Override
 	protected Document createDefaultModel ()

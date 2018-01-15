@@ -202,6 +202,7 @@ public class Frame extends JFrame implements ActionListener
 	/**
 	 * Crée la fenêtre à partir de la strucuture du fichier XML passée en paramètre
 	 * @param root Elément racine du fichier XML à partir duquel est créé le formulaire
+	 * @return la frame crée
 	 */
 	public static Frame createFrame (Element root)
 	{
@@ -454,6 +455,7 @@ public class Frame extends JFrame implements ActionListener
 	 * Permet de placer tous les éléments automatiquement en les rangeant dans l'ordre de leur identifiant
 	 * @param scrollAxis Axe sur lequel sont alignés les éléments
 	 * @param  isStoppedWhenOutOfBounds Si vrai, le formulaire ne dépassera jamais de la fenêtre, et ne requerra
+	 * @return la position de l'élement le plus loin de l'origine
 	 * jamais de barre de défilement
 	 */
 	private Dimension placeControlsAutomatically (int scrollAxis, boolean isStoppedWhenOutOfBounds)
@@ -573,6 +575,7 @@ public class Frame extends JFrame implements ActionListener
 	/**
 	 * Place automatiquement tous les éléments d'un formulaire en les rangeant dans l'ordre de leur identifiant
 	 * quand les éléments débordent de l'interface
+	 * @return la position de l'élement le plus loin de l'origine
 	 */
 	private Dimension placeControlsAutomatically ()
 	{
