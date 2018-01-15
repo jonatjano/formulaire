@@ -120,6 +120,13 @@ public class FormController
 		return null;
 	}
 
+	/**
+	 * methode utilisée pour creer un formulaire et l'obtenir
+	 * c'est une alternative à createForm
+	 * 		cette méthode retourne le {@link FormController}
+	 * @param  filePath Le chemin du fichier XML permettant de générer le formlaire
+	 * @return le FormController créé
+	 */
 	public static FormController createAndGetForm (String filePath)
 	{
 		int id = createForm(filePath);
@@ -130,7 +137,8 @@ public class FormController
 	/**
 	 * methode appellée par une classe externe au package permettant d'appeller tous les utilitaires nécessaire au formulaire
 	 * cette méthode n'affiche pas le formulaire, il faut pour cela appeler showForm
-	 * @param filePath  Le chemin du fichier XML permettant de générer le formlaire
+	 * @param filePath Le chemin du fichier XML permettant de générer le formlaire
+	 * @return l'id du FormController créé
 	 */
 	public static int createForm (String filePath)
 	{
@@ -385,7 +393,7 @@ public class FormController
 			   attributeOk(elem, "ordinal", "ordinal");
 	}
 
-	
+
 	/**
 	 * Vérifier si l'élément elem contient que des attributs valides ansi que ses enfants
 	 * @param elem Élement contenant l'attribut
@@ -417,7 +425,7 @@ public class FormController
 		return ok;
 	}
 
-	
+
 	/**
 	 * Affiche les erreurs trouvées
 	 * @param err Tableau contenant les erreurs

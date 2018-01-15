@@ -78,6 +78,7 @@ public class DateTextField extends JTextField
 
 	/**
 	 * Constructeur de base, date par défaut(d'aujourd'hui)
+	 * @param language le langage utilisé par le formulaire
 	 */
 	public DateTextField(Language language)
 	{
@@ -87,6 +88,7 @@ public class DateTextField extends JTextField
 	/**
 	 * Constructeur permetant d'initialiser la date
 	 * @param date La date par défaut du DatePanel
+	 * @param language le langage utilisé par le formulaire
 	 */
 	public DateTextField(Date date, Language language)
 	{

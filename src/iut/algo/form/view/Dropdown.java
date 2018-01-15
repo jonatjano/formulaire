@@ -34,6 +34,7 @@ public class Dropdown extends Control
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @param choices Valeurs d'origine associées à l'élément lors de sa création
+	 * @param language le langage utilisé par le formulaire
 	 * @return L'élément créé
 	 */
 	@SuppressWarnings("unchecked")
@@ -66,6 +67,7 @@ public class Dropdown extends Control
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @param choices Valeurs d'origine associées à l'élément lors de sa création
+	 * @param language le langage utilisé par le formulaire
 	 * @return L'élément créé
 	 */
 	public Dropdown (String label, String id, int x, int y, Object[] choices, Language language)

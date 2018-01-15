@@ -14,6 +14,9 @@ import javax.swing.text.AttributeSet;
  */
 public class JTextFieldLimit extends JTextField
 {
+	/**
+	 * le nombre limite de caractère
+	 */
 	private int limit;
 
 

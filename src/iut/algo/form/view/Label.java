@@ -26,6 +26,7 @@ public class Label extends Control
 	 * @param width Largeur de l'élément
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
+	 * @param language le langage utilisé par le formulaire
 	 * @return L'élément créé
 	 */
 	public Label (String label, String id, int width, int x, int y, Language language)
@@ -52,6 +53,7 @@ public class Label extends Control
 	 * @param id Identifiant unique de l'élément
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
+	 * @param language le langage utilisé par le formulaire
 	 * @return L'élément créé
 	 */
 	public Label (String label, String id, int x, int y, Language language)

@@ -26,8 +26,17 @@ import iut.algo.form.job.Language;
  */
 public abstract class Control
 {
+	/**
+	 * largeur par défaut des controles
+	 */
 	public final static int DFLT_WIDTH	= 150;
+	/**
+	 * hauteur par défaut des controles
+	 */
 	public final static int DFLT_HEIGHT	= 35;
+	/**
+	 * longueur du label des controles
+	 */
 	public final static int LABEL_WIDTH = 100;
 
 	/** Composant principal associé à l'élément */
@@ -51,10 +60,20 @@ public abstract class Control
 	/** Panel pouvant être affiché ou non contenant le type de l'élément */
 	protected JPanel	typePanel;
 
+	/**
+	 * {@link Language} utilisé par le controle
+	 */
 	protected Language 	language;
 
 	/**
-	 * Création de la base d'un élément du formulaire
+	 * création de la base d'un élément du formulaire
+	 * @param label    label du controle
+	 * @param id       id du controle
+	 * @param type     type de retour
+	 * @param width    largeur du controle
+	 * @param x        position x du controle
+	 * @param y        position y du controle
+	 * @param language le langage utilisé par le formulaire
 	 */
 	public Control (String label, String id, BaseType type, int width, int x, int y, Language language)
 	{

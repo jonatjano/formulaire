@@ -40,8 +40,15 @@ import iut.algo.form.job.Language;
  */
 public class Array extends Control
 {
+	/**
+	 * Listener gérant le mouvement dans le tableau
+	 */
 	class ArrayListener implements ActionListener, KeyListener
 	{
+		/**
+		 * méthode appellée quand une touche est préssée dans le tableau
+		 * @param e evénement généré
+		 */
 		public void keyPressed(KeyEvent e)
 		{
 			int deltaR = 0;
@@ -92,12 +99,24 @@ public class Array extends Control
 
 		}
 
+		/**
+		 * pas utilisée
+		 * @param e événement généré
+		 */
 		public void keyReleased(KeyEvent e)
 		{}
 
+		/**
+		 * pas utilisée
+		 * @param e événement généré
+		 */
 		public void keyTyped(KeyEvent e)
 		{}
 
+		/**
+		 * méthode appellée quand on appuie sur une case du tableau
+		 * @param e événement généré
+	 	 */
 		public void actionPerformed (ActionEvent e)
 		{
 			if (e.getSource() instanceof JButton)
@@ -118,21 +137,21 @@ public class Array extends Control
 	}
 
 
-	/** 
+	/**
 	 * Nombre de colonne minimum à afficher
 	 * utilisé dans une futur version
 	 */
 	private static final int MIN_COL = 1;
-	
-	/** 
+
+	/**
 	 * Nombre de ligne minimum à afficher
 	 * utilisé dans une futur version
 	 */
 	private static final int MIN_ROW = 1;
-	
+
 	/** Nombre de colonne maximum à afficher */
 	private static final int MAX_COL = 5;
-	
+
 	/** Nombre de ligne maximum à afficher */
 	private static final int MAX_ROW = 5;
 
@@ -192,6 +211,7 @@ public class Array extends Control
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @param nbR Nombre total de lignes du tableau
 	 * @param nbC Nombre total de colonnes du tableau
+	 * @param language le langage utilisé par le formulaire
 	 * @return L'élément créé
 	 */
 	public Array (String label, String id, BaseType type, int width, int x, int y, int nbR, int nbC, Language language)
@@ -360,6 +380,7 @@ public class Array extends Control
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @param nbR Nombre total de lignes du tableau
 	 * @param nbC Nombre total de colonnes du tableau
+	 * @param language le langage utilisé par le formulaire
 	 * @return L'élément créé
 	 */
 	public Array (String label, String id, BaseType type, int x, int y, int nbR, int nbC, Language language)
@@ -532,7 +553,7 @@ public class Array extends Control
 		moveTo(0,0);
 		tabValues[posR][posC] = null;
 	}
-	
+
 	/**
 	 * Finalise l'enregistrement du tableau en gardant en mémoire la case sélectionnée
 	 */
@@ -569,7 +590,7 @@ public class Array extends Control
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 }
