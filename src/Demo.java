@@ -11,17 +11,17 @@ public class Demo
 	{
 		/* CREATION ET AFFICHAGE DU FORMULAIRE */
 
-		FormController fm = FormController.createAndGetForm("../exemple.xml");
+		//FormController fm = FormController.createAndGetForm("../exemple.xml");
 		FormController fm2 = FormController.createAndGetForm("../exemple.xml");
 		fm2.showForm();
-		fm.setValue("6", new String[] {"coucou","ça","marche"});
+		fm2.setValue("6", new String[] {"coucou","ça","marche"});
 		fm2.showForm();
 		fm2.close();
 		System.out.println("a");
 
 		if( fm2.isValid() )
 		{
-			String s = fm.getString("5");
+			String s = fm2.getString("5");
 			System.out.println(s);
 
 			// int[] tab = new int[4][1];
@@ -36,7 +36,7 @@ public class Demo
 			// }
 
 			boolean[][] tab = new boolean[2][4];
-			System.out.println( fm.getArrayBoolean("11", tab) );
+			System.out.println( fm2.getArrayBoolean("11", tab) );
 			for (boolean[] truc : tab)
 			{
 				for (boolean machin : truc)
