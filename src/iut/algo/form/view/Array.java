@@ -93,8 +93,8 @@ public class Array extends Control
 					deltaC *= tabValues[0].length;
 			}
 
-			int goToR = Math.max( 0, Math.min(tabValues.length -1, deltaR + prevR + oriR) ); //6
-			int goToC = Math.max( 0, Math.min(tabValues[0].length -1, deltaC + prevC + oriC) ); //6
+			int goToR = Math.max( 0, Math.min(tabValues.length -1, deltaR + prevR + oriR) );
+			int goToC = Math.max( 0, Math.min(tabValues[0].length -1, deltaC + prevC + oriC) );
 			moveTo(goToR, goToC);
 
 		}
@@ -254,7 +254,7 @@ public class Array extends Control
 		this.arrayP			= new JPanel( new GridLayout(clampedRow + 2, clampedCol + 2) );
 		this.arrayP.setBounds( Control.LABEL_WIDTH, 0, tabWidth, tabHeight );
 		this.arrayP.setBackground( Color.lightGray );
-		this.arrayP.setBorder( new CompoundBorder(BorderFactory.createLoweredBevelBorder(), new EmptyBorder(0,Array.GAP_X,0,0)) ); // BorderFactory.createLineBorder(Color.black)
+		this.arrayP.setBorder( new CompoundBorder(BorderFactory.createLoweredBevelBorder(), new EmptyBorder(0,Array.GAP_X,0,0)) );
 
 		this.panel.add( this.arrayP );
 

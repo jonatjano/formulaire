@@ -64,8 +64,6 @@ public class Buttons extends Control
 			// Crée et ajoute une bordure à titre
 			TitledBorder titled = new TitledBorder(this.label);
 	    	this.panel.setBorder(titled);
-
-			//this.buttonList.get(0).setSelected(true);
 		}
 	}
 

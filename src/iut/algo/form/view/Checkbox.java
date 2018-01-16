@@ -2,7 +2,9 @@ package iut.algo.form.view;
 
 import iut.algo.form.job.BaseType;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.JCheckBox;
 
 import java.awt.Dimension;
 import java.awt.Color;

@@ -91,7 +91,6 @@ public abstract class Control
 		this.panel.setBounds(x, y, width + Control.LABEL_WIDTH + 20, Control.DFLT_HEIGHT);
 		this.panel.setBackground( Frame.obtainFormColor() );
 		this.panel.setLayout( new FlowLayout(FlowLayout.LEFT, 0, 0) );
-		//this.panel.setBorder( BorderFactory.createLineBorder(Color.red) );
 
 		Font font 	= this.panel.getFont();
 
