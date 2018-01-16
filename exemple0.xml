@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<!DOCTYPE form SYSTEM "Forme.dtd">
+<?xml-stylesheet type="text/xsl" href="preview.xsl"?>
+
+<form>
+	<window length="352" title="Exemple qsdftgy formulaire" width="854" x="0" y="32">
+		<label x="36" y="0" label="Un label seul" id="a01"/>
+
+		<checkbox x="36" y="30" label="Choix binaire" id="a02"/>
+
+		<text x="36" y="60" label="Un entier" id="a03" type ="int"/>
+
+		<buttons x="500" y="30" id="a07" label="Radio boutons">
+			<button ordinal="4">Quatrieme choix</button>
+			<button ordinal="1">Premier choix</button>
+			<button ordinal="3">Troisieme choix</button>
+			<button ordinal="2">Deuxieme choix</button>
+		</buttons>
+
+		<array x="500" y="210" label="Tableau de bool" id="a11" type="boolean" nb_row="4" nb_col="5"/>
+
+		<calendar x="500" y="160" id="a09" label="Date"/>
+	</window>
+</form>

@@ -209,14 +209,16 @@ public class FormController
 	 */
 	public void showForm()
 	{
-		pauseUntilWindowClosed();
+		if (frame != null)
+		{
+			pauseUntilWindowClosed();
+		}
 	}
 
 	/**
 	 * Vérifie le fichier XML passé en paramètre, en écrivant les éventuels erreurs sur un un popup d'erreur visible par
 	 * l'utilisateur
 	 * @param fileXML le fichier XML a vérifié
-	 * @param validate Valeur indiquant si le fichier doit être valide pour continuer
 	 * @return L'élément si le fichier valide, sinon null
 	 */
 	private static Element validXml (File fileXML)
@@ -579,17 +581,25 @@ public class FormController
 				arrayMap.put( ctrl.getId(), ((Array) ctrl).getValue() );
 			}
 		}
-		frame			= null;
 		windowIsOpen	= false;
 	}
 
 	/**
-	 * permet de savoir si le dernier formulaire à été validé
+	 * detruit définitivement le formulaire
+	 */
+	public void close()
+	{
+		frame = null;
+	}
+
+	/**
+	 * permet de savoir si le formulaire à été validé
+	 * la validation étant testée par la présence de la liste de valeur
 	 * @return true si le dernier formulaire à été validé
 	 */
 	public boolean isValid()
 	{
-		return frame == null;
+		return intMap != null;
 	}
 
 	/**
@@ -599,7 +609,11 @@ public class FormController
 	 */
 	public Integer getInt (String id)
 	{
-		return intMap.get(id);
+		if (intMap != null)
+		{
+			return intMap.get(id);
+		}
+		return null;
 	}
 
 	/**
@@ -609,7 +623,11 @@ public class FormController
 	 */
 	public Double getDouble (String id)
 	{
-		return doubleMap.get(id);
+		if (doubleMap != null)
+		{
+			return doubleMap.get(id);
+		}
+		return null;
 	}
 
 	/**
@@ -619,7 +637,11 @@ public class FormController
 	 */
 	public String getString (String id)
 	{
-		return stringMap.get(id);
+		if (stringMap != null)
+		{
+			return stringMap.get(id);
+		}
+		return null;
 	}
 
 	/**
@@ -629,7 +651,11 @@ public class FormController
 	 */
 	public Character getChar (String id)
 	{
-		return charMap.get(id);
+		if (charMap != null)
+		{
+			return charMap.get(id);
+		}
+		return null;
 	}
 
 	/**
@@ -639,7 +665,11 @@ public class FormController
 	 */
 	public Boolean getBoolean (String id)
 	{
-		return booleanMap.get(id);
+		if (booleanMap != null)
+		{
+			return booleanMap.get(id);
+		}
+		return null;
 	}
 
 
@@ -667,7 +697,7 @@ public class FormController
 
 			return true;
 		}
-		catch (Exception e) { e.printStackTrace(); }
+		catch (Exception e) {  }
 
 		return false;
 	}
@@ -694,7 +724,7 @@ public class FormController
 
 			return true;
 		}
-		catch (Exception e) { e.printStackTrace(); }
+		catch (Exception e) {  }
 
 		return false;
 	}
@@ -724,7 +754,7 @@ public class FormController
 
 			return true;
 		}
-		catch (Exception e) { e.printStackTrace(); }
+		catch (Exception e) {  }
 
 		return false;
 	}
@@ -751,7 +781,7 @@ public class FormController
 
 			return true;
 		}
-		catch (Exception e) { e.printStackTrace(); }
+		catch (Exception e) {  }
 
 		return false;
 	}
@@ -777,7 +807,7 @@ public class FormController
 
 			return true;
 		}
-		catch (Exception e) { e.printStackTrace(); }
+		catch (Exception e) {  }
 
 		return false;
 	}
@@ -804,7 +834,7 @@ public class FormController
 
 			return true;
 		}
-		catch (Exception e) { e.printStackTrace(); }
+		catch (Exception e) {  }
 
 		return false;
 	}
@@ -831,7 +861,7 @@ public class FormController
 
 			return true;
 		}
-		catch (Exception e) { e.printStackTrace(); }
+		catch (Exception e) {  }
 
 		return false;
 	}
@@ -858,7 +888,7 @@ public class FormController
 
 			return true;
 		}
-		catch (Exception e) { e.printStackTrace(); }
+		catch (Exception e) {  }
 
 		return false;
 	}
