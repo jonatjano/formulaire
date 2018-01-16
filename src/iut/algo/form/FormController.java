@@ -845,6 +845,32 @@ public class FormController
 	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
+	public boolean getArrayDouble (String id, double[] res)
+	{
+		try
+		{
+			Double[][] tmp = (Double[][]) arrayMap.get(id);
+
+			for (int j = 0; j < res.length && j < tmp[0].length; j++)
+			{
+				if (tmp[0][j] == null)	res[j] = 0.0;
+				else					res[j] = tmp[0][j];
+			}
+
+			return true;
+		}
+		catch (Exception e) {  }
+
+		return false;
+	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param id Identifiant du controle
+	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @return Vrai si la copie est un succès, sinon faux
+	 */
+	@SuppressWarnings("unchecked")
 	public boolean getArrayChar (String id, char[][] res)
 	{
 		try
@@ -872,6 +898,32 @@ public class FormController
 	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
+	public boolean getArrayChar (String id, char[] res)
+	{
+		try
+		{
+			Character[][] tmp = (Character[][]) arrayMap.get(id);
+
+			for (int j = 0; j < res.length && j < tmp[0].length; j++)
+			{
+				if (tmp[0][j] == null)	res[j] = Character.MIN_VALUE;
+				else					res[j] = tmp[0][j];
+			}
+
+			return true;
+		}
+		catch (Exception e) {  }
+
+		return false;
+	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param id Identifiant du controle
+	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @return Vrai si la copie est un succès, sinon faux
+	 */
+	@SuppressWarnings("unchecked")
 	public boolean getArrayBoolean (String id, boolean[][] res)
 	{
 		try
@@ -884,6 +936,32 @@ public class FormController
 					if (tmp[i][j] == null)	res[i][j] = false;
 					else					res[i][j] = tmp[i][j];
 				}
+
+			return true;
+		}
+		catch (Exception e) {  }
+
+		return false;
+	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param id Identifiant du controle
+	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @return Vrai si la copie est un succès, sinon faux
+	 */
+	@SuppressWarnings("unchecked")
+	public boolean getArrayBoolean (String id, boolean[] res)
+	{
+		try
+		{
+			Boolean[][] tmp = (Boolean[][]) arrayMap.get(id);
+
+			for (int j = 0; j < res.length && j < tmp[0].length; j++)
+			{
+				if (tmp[0][j] == null)	res[j] = false;
+				else					res[j] = tmp[0][j];
+			}
 
 			return true;
 		}
