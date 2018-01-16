@@ -27,7 +27,7 @@
 			<button ordinal="2">Deuxieme choix</button>
 		</buttons>
 
-		<array x="500" y="210" label="Tableau de bool" id="a11" type="boolean" nb_row="4" nb_col="5"/>
+		<array x="500" y="210" label="Tableau de bool" id="a11" type="boolean" nb_row="13" nb_col="10"/>
 
 		<calendar x="500" y="160" id="a09" label="Date"/>
 	</window>
