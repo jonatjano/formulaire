@@ -1,3 +1,4 @@
 # on ignore le dossier de fichiers compilé afin de limiter la taille du repertoire
 /bin/*
 *.class
+*.docx#
