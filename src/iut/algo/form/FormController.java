@@ -493,10 +493,10 @@ public class FormController
 	}
 
 	/**
-	 * cache la fenetre pour pouvoir la réutiliser
+	 * Cache la fenêtre pour pouvoir la réutiliser
 	 * @param callingFrame frame qui vien de se fermer
 	 */
-	public static void windowClosed(Frame callingFrame)
+	public static void windowClosed (Frame callingFrame)
 	{
 		for (FormController fm : formList)
 		{
@@ -508,7 +508,7 @@ public class FormController
 	}
 
 	/**
-	 * cache la fenetre pour pouvoir la réutiliser
+	 * Cache la fenêtre pour pouvoir la réutiliser
 	 */
 	public void windowClosed ()
 	{
@@ -517,10 +517,11 @@ public class FormController
 	}
 
 	/**
-	 * cache la fenetre pour pouvoir la réutiliser
-	 * @param callingFrame frame qui vien de se valider
+	 * Enregistre l'intégralité des informations rentrées par l'utilisateur lors de la
+	 * fermeture de la Frame passée en paramètre
+	 * @param callingFrame Frame qui vient de se valider
 	 */
-	public static void windowValidated(Frame callingFrame)
+	public static void windowValidated (Frame callingFrame)
 	{
 		for (FormController fm : formList)
 		{
@@ -546,7 +547,6 @@ public class FormController
 
 		for (Control ctrl : frame.getControls())
 		{
-			// System.out.println(ctrl.getType() + " : " + ctrl.getValue() + " <--> " + ctrl.getId());
 			if ( !(ctrl instanceof Array) )
 			{
 				switch (ctrl.getType())
@@ -564,7 +564,7 @@ public class FormController
 					break;
 
 					case Char:
-						if (((String)(ctrl.getValue())).length() > 0)
+						if ( ((String)(ctrl.getValue())).length() > 0 )
 						{
 							charMap.put(ctrl.getId(), ((String) ctrl.getValue()).charAt(0));
 						}
@@ -846,6 +846,32 @@ public class FormController
 	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
+	public boolean getArrayDouble (String id, double[] res)
+	{
+		try
+		{
+			Double[][] tmp = (Double[][]) arrayMap.get(id);
+
+			for (int j = 0; j < res.length && j < tmp[0].length; j++)
+			{
+				if (tmp[0][j] == null)	res[j] = 0.0;
+				else					res[j] = tmp[0][j];
+			}
+
+			return true;
+		}
+		catch (Exception e) {  }
+
+		return false;
+	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param id Identifiant du controle
+	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @return Vrai si la copie est un succès, sinon faux
+	 */
+	@SuppressWarnings("unchecked")
 	public boolean getArrayChar (String id, char[][] res)
 	{
 		try
@@ -873,6 +899,32 @@ public class FormController
 	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")
+	public boolean getArrayChar (String id, char[] res)
+	{
+		try
+		{
+			Character[][] tmp = (Character[][]) arrayMap.get(id);
+
+			for (int j = 0; j < res.length && j < tmp[0].length; j++)
+			{
+				if (tmp[0][j] == null)	res[j] = Character.MIN_VALUE;
+				else					res[j] = tmp[0][j];
+			}
+
+			return true;
+		}
+		catch (Exception e) {  }
+
+		return false;
+	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param id Identifiant du controle
+	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @return Vrai si la copie est un succès, sinon faux
+	 */
+	@SuppressWarnings("unchecked")
 	public boolean getArrayBoolean (String id, boolean[][] res)
 	{
 		try
@@ -885,6 +937,32 @@ public class FormController
 					if (tmp[i][j] == null)	res[i][j] = false;
 					else					res[i][j] = tmp[i][j];
 				}
+
+			return true;
+		}
+		catch (Exception e) {  }
+
+		return false;
+	}
+
+	/**
+	 * Renvoie la valeur d'un controle Array
+	 * @param id Identifiant du controle
+	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @return Vrai si la copie est un succès, sinon faux
+	 */
+	@SuppressWarnings("unchecked")
+	public boolean getArrayBoolean (String id, boolean[] res)
+	{
+		try
+		{
+			Boolean[][] tmp = (Boolean[][]) arrayMap.get(id);
+
+			for (int j = 0; j < res.length && j < tmp[0].length; j++)
+			{
+				if (tmp[0][j] == null)	res[j] = false;
+				else					res[j] = tmp[0][j];
+			}
 
 			return true;
 		}
