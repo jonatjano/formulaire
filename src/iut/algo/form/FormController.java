@@ -23,6 +23,7 @@ import org.w3c.dom.NodeList;
 
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -31,7 +32,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.xml.sax.SAXParseException;
 
 /**
  * classe permettant de controller les formulaires depuis des programmes exterieurs
@@ -44,34 +44,42 @@ public class FormController
 	 * le fichier dtd utilisé pour valider le xml
 	 */
 	private static File 					dtdFile = createDtdFile();
+	
 	/**
 	 * Fait savoir au programme si un formulaire est actuellement ouvert
 	 */
 	private static boolean 					windowIsOpen = false;
+	
 	/**
 	 * La fenêtre du dernier formulaire
 	 */
 	private Frame 							frame;
+	
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type {@link Integer}
 	 */
 	private Map<String, Integer> 			intMap;
+	
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type {@link String}
 	 */
 	private Map<String, String> 			stringMap;
+	
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type {@link Double}
 	 */
 	private Map<String, Double> 			doubleMap;
+	
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type {@link Boolean}
 	 */
 	private Map<String, Boolean> 			booleanMap;
+	
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type {@link Character}
 	 */
 	private Map<String, Character> 			charMap;
+	
 	/**
 	 * {@link Map} contenant les valeurs des différents champs de type tableaux
 	 */
@@ -101,7 +109,7 @@ public class FormController
 	 * constructeur de FormController
 	 * @param  frame frame d'affichage du formulaire
 	 */
-	private FormController(Frame frame)
+	private FormController (Frame frame)
 	{
 		this.frame = frame;
 	}
@@ -111,12 +119,11 @@ public class FormController
 	 * @param  id id du formulaire à récuperer
 	 * @return le formulaire demandé s'il existe
 	 */
-	public static FormController getForm(int id)
+	public static FormController getForm (int id)
 	{
 		if (formList.size() > id && id >= 0)
-		{
 			return formList.get(id);
-		}
+		
 		return null;
 	}
 
@@ -130,7 +137,9 @@ public class FormController
 	public static FormController createAndGetForm (String filePath)
 	{
 		int id = createForm(filePath);
-		if (id != -1) { return formList.get(id); }
+		if (id != -1) 
+			return formList.get(id);
+		
 		return null;
 	}
 
@@ -155,13 +164,13 @@ public class FormController
 			showError("Le fichier ciblé n'existe pas");
 			return -1;
 		}
+		
 		// Et s'il possède bien une extension XML...
 		else if ( !xmlFile.getName().toUpperCase().endsWith(".XML") )
 		{
 			showError("Le fichier ciblé ne correspond pas à un fichier XML");
 			return -1;
 		}
-
 
 		// ... Le programme continue !
 		try
@@ -172,7 +181,6 @@ public class FormController
 
 			// on lit le fichier en cours
 			PrintWriter pw = new PrintWriter(xmlFileWithDTD, "UTF-8");
-
 			Scanner scan = new Scanner(xmlFile, "UTF-8");
 
 			String file = "";
@@ -201,18 +209,17 @@ public class FormController
 		{
 			e.printStackTrace();
 		}
+		
 		return -1;
 	}
 
 	/**
 	 * methode utilisée pour afficher le dernier formulaire créé
 	 */
-	public void showForm()
+	public void showForm ()
 	{
 		if (frame != null)
-		{
 			pauseUntilWindowClosed();
-		}
 	}
 
 	/**
@@ -240,24 +247,20 @@ public class FormController
 
 			//On rajoute un bloc de capture
 			//pour intercepter les erreurs au cas où il y en a
-
 			try
 			{
 				Document xml = builder.parse(fileXML);
 				Element root = xml.getDocumentElement();
+				
 				if (verifType(root))
-				{
 					return root;
-				}
 				else
 				{
 					String[] err = listTypeErr.get(0);
-
 					showError(err);
 				}
 			}
-			catch (SAXParseException e)
-			{}
+			catch (SAXParseException e) {}
 		}
 		catch (ParserConfigurationException e)
 		{
@@ -274,6 +277,7 @@ public class FormController
 			e.printStackTrace();
 			System.out.println("IO");
 		}
+		
 		return null;
 	}
 
@@ -284,7 +288,7 @@ public class FormController
 	 * @param attType Nom du type de l'attribut voulu
 	 * @return Vrai si l'élément elem contient un attribut attName du type attType
 	 */
-	private static boolean attributeOk(Element elem, String attName, String attType)
+	private static boolean attributeOk (Element elem, String attName, String attType)
 	{
 		if (!elem.hasAttribute(attName))
 			return true;
@@ -308,6 +312,44 @@ public class FormController
 												}
 									);
 
+					return false;
+				}
+				break;
+				
+			case "natural+":
+			
+				if (!attributeOk(elem, attName, "int"))
+					return false;
+				
+				int val = Integer.parseInt(value);
+				if (val <= 0 )
+				{
+					listTypeErr.add(new String[]{ "TYPE_ERR",
+											  attName,
+											  elem.getTagName(),
+											  "entier > 0",
+											  value
+											}
+								);
+					return false;
+				}
+				break;
+				
+			case "natural":
+			
+				if (!attributeOk(elem, attName, "int"))
+					return false;
+				
+				val = Integer.parseInt(value);
+				if ( val < 0 )
+				{
+					listTypeErr.add(new String[]{ "TYPE_ERR",
+											  attName,
+											  elem.getTagName(),
+											  "entier >= 0",
+											  value
+											}
+									);
 					return false;
 				}
 				break;
@@ -343,7 +385,7 @@ public class FormController
 				}
 				catch(Exception e)
 				{
-					return false; // pas atteignable
+					return false; // normalement pas atteignable
 				}
 				break;
 
@@ -354,7 +396,7 @@ public class FormController
 					if (listOrdinalBut.contains(num))
 					{
 						Element parent = (Element)elem.getParentNode();
-						listTypeErr.add(new String[] { "CORD_DOUBLE_ERR",
+						listTypeErr.add(new String[] { "CORD_DUPLICATED",
 													   parent.getAttribute("id"),
 													   num + ""
 													 }
@@ -366,7 +408,7 @@ public class FormController
 				}
 				catch (Exception ex)
 				{
-					return false; // Pas accessible normalement
+					return false; // normalement pas atteignable
 				}
 				break;
 		}
@@ -379,17 +421,17 @@ public class FormController
 	 * @param elem Élement contenant l'attribut
 	 * @return Vrai si l'élément elem contient que des attributs valides
 	 */
-	private static boolean attributeOk(Element elem)
+	private static boolean attributeOk (Element elem)
 	{
-		return attributeOk(elem, "longeur", "int") &
-			   attributeOk(elem, "largeur", "int") &
-			   attributeOk(elem, "x", "int") &
-			   attributeOk(elem, "y", "int") &
-			   attributeOk(elem, "nb_lig", "int") &
-			   attributeOk(elem, "nb_row", "int") &
-			   attributeOk(elem, "nb_col", "int") &
-			   attributeOk(elem, "length", "int") &
-			   attributeOk(elem, "width", "int") &
+		return attributeOk(elem, "longeur", "natural+") &
+			   attributeOk(elem, "largeur", "natural+") &
+			   attributeOk(elem, "x", "natural") &
+			   attributeOk(elem, "y", "natural") &
+			   attributeOk(elem, "nb_lig", "natural+") &
+			   attributeOk(elem, "nb_row", "natural+") &
+			   attributeOk(elem, "nb_col", "natural+") &
+			   attributeOk(elem, "length", "natural+") &
+			   attributeOk(elem, "width", "natural+") &
 			   attributeOk(elem, "id", "id") &
 			   attributeOk(elem, "ordinal", "int") &&
 			   attributeOk(elem, "ordinal", "ordinal");
@@ -401,7 +443,7 @@ public class FormController
 	 * @param root Élement contenant l'attribut
 	 * @return Vrai si l'élément elem contient que des attributs valides ansi que ses enfants
 	 */
-	private static boolean verifType(Element root)
+	private static boolean verifType (Element root)
 	{
 		boolean ok = true;
 		NodeList nodeList = root.getChildNodes();
@@ -416,10 +458,7 @@ public class FormController
 				if (elem.getTagName().matches(".*((boutons)|(buttons)).*"))
 					listOrdinalBut.clear();
 
-				if ( verifType(elem) == false)
-					ok = false;
-
-				if (!attributeOk(elem))
+				if ( verifType(elem) == false || !attributeOk(elem))
 					ok = false;
 			}
 		}
@@ -438,23 +477,25 @@ public class FormController
 		switch (err[0])
 		{
 			case "TYPE_ERR":
-				sErr = "L'attribut \"" + err[1] + "\" de l'élement \"" + err[2] + "\" n'est pas un " + err[3] + " !  ( valeur : \"" + err[4] + "\")";
-
-				if (listTypeErr.size() > 1)
-					sErr += "\n\t\t( " + ( listTypeErr.size() - 1 ) + " autre" + ( listTypeErr.size() > 2 ? "s" : "" ) + " )";
-
+				sErr = "L'attribut \"" + err[1] + "\" de l'élement \"" + err[2] + "\" n'est pas un " + err[3] + " !  ( valeur : \"" + err[4] + "\" )";
 				break;
 
-			case "CORD_DOUBLE_ERR":
+			case "CORD_DUPLICATED":
 				sErr = "doublon sur l'ordinal \"" + err[2] + "\" de la liste des bouton radio de l'element avec id=\"" + err[1] + "\" !";
 				break;
+				
 			case "ID_NO_DIGIT":
 				sErr = "l'élément \"" + err[1] + "\" n'a pas de chiffre dans son id ! ( valeur : \"" + err[2] + "\")" ;
 				break;
+				
 			case "ID_DUPLICATED":
 				sErr = "l'id \"" + err[2] + "\" de l'élément \"" + err[1] + "\" à déjà été rencontrer !" ;
 				break;
 		}
+		
+		if (listTypeErr.size() > 1)
+			sErr += "\n\t\t( " + ( listTypeErr.size() - 1 ) + " autre" + ( listTypeErr.size() > 2 ? "s" : "" ) + " )";
+		
 		showError(sErr);
 	}
 
@@ -488,7 +529,7 @@ public class FormController
 		while ( FormController.windowIsOpen )
 		{
 			try					{ Thread.sleep(100); }
-			catch (Exception e) { }
+			catch (Exception e) {}
 		}
 	}
 
@@ -689,9 +730,6 @@ public class FormController
 			for (int i = 0; i < res.length && i < tmp.length; i++)
 				for (int j = 0; j < res[i].length && j < tmp[i].length; j++)
 				{
-					// BaseType type = ctrl.getType();
-					// if (type == BaseType.Integer && tmp[i][j] == null)		res[i][j] = new Integer(0);
-					// else												res[i][j] = tmp[i][j];
 					res[i][j] = tmp[i][j];
 				}
 
@@ -740,9 +778,6 @@ public class FormController
 	{
 		try
 		{
-			// String[][] values = (String[][]) arrayMap.get(id);
-			// if ( values.length == 0 )
-			// {
 			String[][] tmp = (String[][]) arrayMap.get(id);
 
 			for (int j = 0; j < res.length && j < tmp[0].length; j++)
@@ -750,7 +785,6 @@ public class FormController
 				if (tmp[0][j] == null)	res[j] = "";
 				else					res[j] = tmp[0][j];
 			}
-			// }
 
 			return true;
 		}

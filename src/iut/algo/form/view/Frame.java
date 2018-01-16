@@ -3,21 +3,29 @@ package iut.algo.form.view;
 import iut.algo.form.job.Language;
 import iut.algo.form.job.BaseType;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JComponent;
+import javax.swing.JButton;
+import javax.swing.JScrollPane;
+import javax.swing.InputMap;
+import javax.swing.BoxLayout;
+import javax.swing.BorderFactory;
+import javax.swing.UIManager;
+import javax.swing.KeyStroke;
 
 import java.awt.Container;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowAdapter;
 
-
-import iut.algo.form.job.Language;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -30,6 +38,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 
+import iut.algo.form.job.Language;
 import iut.algo.form.FormController;
 
 /**
@@ -124,7 +133,6 @@ public class Frame extends JFrame implements ActionListener
 		this.formPanel	= new JPanel();
 		this.formPanel.setLayout( null );
 		this.formPanel.setBackground( Color.white );
-		// this.formPanel.setBackground( Frame.obtainFormColor() );
 		this.formPanel.setPreferredSize( new Dimension(this.formWidth, this.formHeight) );
 		this.formPanel.setBorder( BorderFactory.createLineBorder(Color.black) );
 
@@ -173,7 +181,6 @@ public class Frame extends JFrame implements ActionListener
 
 		this.mainPanel.add( secondaryPanel );
 		this.add( BorderLayout.CENTER, mainPanel );
-		// this.setVisible(true);
 	}
 
 	/**
@@ -661,7 +668,7 @@ public class Frame extends JFrame implements ActionListener
 	 */
 	public static Color obtainFormColor ()
 	{
-		return Color.white; // new Color(1,1,1,0);
+		return Color.white;
 	}
 
 	/**
