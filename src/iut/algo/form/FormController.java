@@ -493,10 +493,10 @@ public class FormController
 	}
 
 	/**
-	 * cache la fenetre pour pouvoir la réutiliser
+	 * Cache la fenêtre pour pouvoir la réutiliser
 	 * @param callingFrame frame qui vien de se fermer
 	 */
-	public static void windowClosed(Frame callingFrame)
+	public static void windowClosed (Frame callingFrame)
 	{
 		for (FormController fm : formList)
 		{
@@ -508,7 +508,7 @@ public class FormController
 	}
 
 	/**
-	 * cache la fenetre pour pouvoir la réutiliser
+	 * Cache la fenêtre pour pouvoir la réutiliser
 	 */
 	public void windowClosed ()
 	{
@@ -517,10 +517,11 @@ public class FormController
 	}
 
 	/**
-	 * cache la fenetre pour pouvoir la réutiliser
-	 * @param callingFrame frame qui vien de se valider
+	 * Enregistre l'intégralité des informations rentrées par l'utilisateur lors de la
+	 * fermeture de la Frame passée en paramètre
+	 * @param callingFrame Frame qui vient de se valider
 	 */
-	public static void windowValidated(Frame callingFrame)
+	public static void windowValidated (Frame callingFrame)
 	{
 		for (FormController fm : formList)
 		{
@@ -563,7 +564,7 @@ public class FormController
 					break;
 
 					case Char:
-						if (((String)(ctrl.getValue())).length() > 0)
+						if ( ((String)(ctrl.getValue())).length() > 0 )
 						{
 							charMap.put(ctrl.getId(), ((String) ctrl.getValue()).charAt(0));
 						}
