@@ -410,10 +410,6 @@ public class Array extends Control
 
 		tabValues[oriR + prevR][oriC + prevC] = value;
 
-		//
-
-
-
 		int deltaR = row - prevR - oriR;
 		int deltaC = col - prevC - oriC;
 		int numbutR = prevR;
@@ -471,9 +467,9 @@ public class Array extends Control
 		prevC = numbutC;
 
 		valueControl.setValue(tabValues[numbutR + oriR][numbutC + oriC]);
-		valueControl.requestFocus();
+		valueControl.requestFocus();		// Change le focus pour le mettre sur l'élément à modifier
 
-		// Change le focus pour le mettre sur l'élément à modifier
+
 	}
 
 
@@ -592,7 +588,6 @@ public class Array extends Control
 			if ( obj.length != 0 && obj[0].length != 0 )
 			{
 				tabValues = obj;
-				moveTo(0,0);
 				moveTo(0,0);
 				return true;
 			}
