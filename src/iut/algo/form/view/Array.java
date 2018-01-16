@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 
@@ -251,6 +252,13 @@ public class Array extends Control
 		int clampedRow 		= Math.max( 0, Math.min(Array.MAX_ROW, nbR) );
 
 
+		
+		try
+		{
+			UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
+		}
+		catch (Exception e) { }
+		
 		this.arrayP			= new JPanel( new GridLayout(clampedRow + 2, clampedCol + 2) );
 		this.arrayP.setBounds( Control.LABEL_WIDTH, 0, tabWidth, tabHeight );
 		this.arrayP.setBackground( Color.lightGray );
@@ -333,8 +341,15 @@ public class Array extends Control
 			// Ajoute des label vide pour combler les de la bordure
 			this.arrayP.add( new JLabel() );
 		}
+		
+		try
+		{
+			UIManager.setLookAndFeel( "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel" );
+		}
+		catch (Exception e) { }
+		
 		setTabBackground(-1, -1, 0, 0);
-
+		
 
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~*/
 		/*  Panel de modification  */
