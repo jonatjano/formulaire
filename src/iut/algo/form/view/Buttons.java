@@ -41,7 +41,6 @@ public class Buttons extends Control
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @param mapOrdObj Valeurs d'origine associées à l'élément lors de sa création
 	 * @param language le langage utilisé par le formulaire
-	 * @return L'élément créé
 	 */
 	public Buttons (String label, String id, int width, int x, int y, HashMap<Integer, Object> mapOrdObj, Language language)
 	{
@@ -76,7 +75,6 @@ public class Buttons extends Control
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @param mapOrdObj Valeurs d'origine associées à l'élément lors de sa création
 	 * @param language Language du formulaire
-	 * @return L'élément créé
 	 */
 	public Buttons (String label, String id, int x, int y, HashMap<Integer, Object> mapOrdObj, Language language)
 	{

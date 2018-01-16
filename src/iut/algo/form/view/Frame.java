@@ -25,6 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
+import java.awt.event.KeyEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -137,6 +138,8 @@ public class Frame extends JFrame implements ActionListener
 		this.formPanel.setBorder( BorderFactory.createLineBorder(Color.black) );
 
 		JScrollPane scrollPane = new JScrollPane( this.formPanel );
+		
+		
 		
 		InputMap im = scrollPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 		im.put(KeyStroke.getKeyStroke("DOWN"), "none");
@@ -344,6 +347,7 @@ public class Frame extends JFrame implements ActionListener
 
 					case "tableau":
 					case "array":
+						
 						NamedNodeMap	attrChoice	= nodeElement.getAttributes();
 						String	typeTemp	= attrChoice.getNamedItem("type").getNodeValue();
 						int		nbR;
@@ -360,6 +364,7 @@ public class Frame extends JFrame implements ActionListener
 						int		nbC			= Integer.parseInt( attrChoice.getNamedItem("nb_col").getNodeValue() );
 
 						control = new Array(label, id, BaseType.getBaseType(typeTemp), x, y, nbR, nbC, xmlLanguage);
+						
 						break;
 
 					case "boutons":

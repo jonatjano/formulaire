@@ -8,14 +8,36 @@ package iut.algo.form.job;
  */
 public enum BaseType
 {
+	/**
+	 * Correspond aux type entier
+	 */
 	Integer 		(	"Entier",
 					"Integer" ),
+					
+	/**
+	 * Correspond aux type chaine de caractère
+	 */
 	String		(	"Chaine",
 					"String" ),
+					
+					
+	/**
+	 * Correspond aux type double
+	 */
 	Double		(	"Double",
 					"Double" ),
+					
+					
+	/**
+	 * Correspond aux type booleen
+	 */
 	Boolean		(	"Booléen",
 					"Boolean" ),
+					
+					
+	/**
+	 * Correspond aux type caractère
+	 */
 	Char		(	"Caractère",
 					"Character" );
 
