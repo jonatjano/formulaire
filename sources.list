@@ -9,10 +9,13 @@ src/iut/algo/form/view/Dropdown.java
 src/iut/algo/form/view/Checkbox.java
 src/iut/algo/form/view/DateTextField.java
 src/iut/algo/form/view/Label.java
+src/iut/algo/form/view/package-info.java
 src/iut/algo/form/view/Frame.java
 src/iut/algo/form/view/FormKeyListener.java
 src/iut/algo/form/FormController.java
+src/iut/algo/form/package-info.java
 src/iut/algo/form/job/BaseType.java
 src/iut/algo/form/job/SimpleErrorHandler.java
 src/iut/algo/form/job/Language.java
+src/iut/algo/form/job/package-info.java
 src/Demo.java
