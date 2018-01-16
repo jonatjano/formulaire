@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
-<!DOCTYPE form SYSTEM "Forme.dtd">
-<?xml-stylesheet type="text/xsl" href="preview.xsl"?>
+<!DOCTYPE form SYSTEM "form.dtd">
+<?xml-stylesheet type="text/xsl" href="form.xsl"?>
 
 <form>
 	<window length="650" title="Exemple de formulaire" width="1340" x="100" y="100">
