@@ -47,7 +47,6 @@ public class Text extends Control
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @param language le langage utilisé par le formulaire
-	 * @return L'élément créé
 	 */
 	@SuppressWarnings("unchecked")
 	public Text (String label, String id, BaseType type, int width, int x, int y, Language language)
@@ -150,7 +149,6 @@ public class Text extends Control
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @param language le langage utilisé par le formulaire
-	 * @return L'élément créé
 	 */
 	public Text (String label, String id, BaseType type, int x, int y, Language language)
 	{
@@ -165,7 +163,6 @@ public class Text extends Control
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @param language le langage utilisé par le formulaire
-	 * @return L'élément créé
 	 */
 	public Text (String id, BaseType type, int width, int x, int y, Language language)
 	{

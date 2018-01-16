@@ -213,7 +213,6 @@ public class Array extends Control
 	 * @param nbR Nombre total de lignes du tableau
 	 * @param nbC Nombre total de colonnes du tableau
 	 * @param language le langage utilisé par le formulaire
-	 * @return L'élément créé
 	 */
 	public Array (String label, String id, BaseType type, int width, int x, int y, int nbR, int nbC, Language language)
 	{
@@ -396,7 +395,6 @@ public class Array extends Control
 	 * @param nbR Nombre total de lignes du tableau
 	 * @param nbC Nombre total de colonnes du tableau
 	 * @param language le langage utilisé par le formulaire
-	 * @return L'élément créé
 	 */
 	public Array (String label, String id, BaseType type, int x, int y, int nbR, int nbC, Language language)
 	{
