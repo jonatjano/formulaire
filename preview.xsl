@@ -61,19 +61,50 @@
 
 	<xsl:template match="texte|text">
 		<div class="element" style="top: {@y}px; left: {@x}px; height: {@longueur}{@length}px; width: {@largeur}{@width}px;">
-			<!-- <xsl:if test="@type=entier or @type=int"> -->
-				<xsl:value-of select="./@label"/> : <input type="text"/>
-			<!-- </xsl:if> -->
+			<table>
+				<tr>
+					<td class="label">
+						<xsl:value-of select="./@label"/> : 
+					</td>
+					<td style="height: {@longueur}{@length}px; width: {@largeur}{@width}px;">
+						<xsl:variable name="type"><xsl:value-of select="@type"/></xsl:variable>
+
+						<!-- Création de l'élément en fonction du type -->
+						<xsl:choose>
+							<xsl:when test="$type='int' or $type='entier'">
+								<input type="number" value="0" step="1" />
+							</xsl:when>
+							<xsl:when test="$type='double'">
+								<input type="number" value="0" step="0.1" />
+							</xsl:when>
+							<xsl:when test="$type='string' or $type='chaine'">
+								<input type="text" />
+							</xsl:when>
+							<xsl:when test="$type='char' or $type='caractere'">
+								<input type="text" maxlength="1" />
+							</xsl:when>
+						</xsl:choose>
+					</td>
+				</tr>
+			</table>
 		</div>
 	</xsl:template>
 
 
 	<xsl:template match="menu|dropdown">
 		<div class="element" style="top: {@y}px; left: {@x}px; height: {@longueur}{@length}px; width: {@largeur}{@width}px;">
-			<xsl:apply-templates select="@label"/> :
-			<select name="{@label}">
-				<xsl:apply-templates select="choice"/>
-			</select>
+			<table>
+				<tr>
+					<td class="label">
+						<xsl:value-of select="./@label"/> : 
+					</td>
+					<td style="height: {@longueur}{@length}px; width: {@largeur}{@width}px;">
+						<select name="{@label}">
+							<xsl:apply-templates select="choice"/>
+						</select>
+					</td>
+				</tr>
+			</table>
 		</div>
 	</xsl:template>
 
@@ -83,7 +114,16 @@
 
 	<xsl:template match="case|checkbox">
 		<div class="element" style="top: {@y}px; left: {@x}px; height: {@longueur}{@length}px; width: {@largeur}{@width}px;">
-			<xsl:value-of select="./@label"/> : <input type="checkbox"/>
+			<table>
+				<tr>
+					<td class="label">
+						<xsl:value-of select="./@label"/> : 
+					</td>
+					<td style="height: {@longueur}{@length}px; width: {@largeur}{@width}px;">
+						<input type="checkbox"/>
+					</td>
+				</tr>
+			</table>
 		</div>
 	</xsl:template>
 
@@ -98,7 +138,7 @@
 				<!-- Création des variables -->
 				<xsl:variable name="nbR">
 					<xsl:choose>
-						<xsl:when test="@nb_row &gt; 5">5</xsl:when>
+						<xsl:when test="@nb_row &gt; 5 or @nb_lig &gt; 5">5</xsl:when>
 						<xsl:otherwise>
 								<xsl:value-of select="@nb_row"/>
 						</xsl:otherwise>
@@ -141,7 +181,6 @@
 					</xsl:call-template>
 				</tr>
 			</table>
-
 		</div>
 	</xsl:template>
 
@@ -166,10 +205,19 @@
 
 	<xsl:template match="calendrier|calendar">
 		<div class="element" style="top: {@y}px; left: {@x}px; height: {@longueur}{@length}px; width: {@largeur}{@width}px;">
-			<xsl:value-of select="./@label"/> :
-			<input class="date" type="date"/>
+			<table>
+				<tr>
+					<td class="label">
+						<xsl:value-of select="./@label"/> : 
+					</td>
+					<td style="height: {@longueur}{@length}px; width: {@largeur}{@width}px;">
+						<input class="date" type="date"/>
+					</td>
+				</tr>
+			</table>
 		</div>
 	</xsl:template>
+
 
 
 	<!-- Boucle créant les lignes -->
