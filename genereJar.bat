@@ -1,0 +1,1 @@
+jar cvmf MANIFEST.MF Infotik_eq1_iut.jar ./bin/iut
