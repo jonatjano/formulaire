@@ -111,6 +111,11 @@ public class Checkbox extends Control
 	@Override
 	public boolean setValue (Object newValue)
 	{
+		if (newValue == null)
+		{
+			((JCheckBox)this.compo).setSelected(false);
+			return true;
+		}
 		// on s'assure que newValue peut permettre de recuperer un boolean
 		if (newValue != null && !newValue.getClass().isArray() && (newValue.toString().equals("true") || newValue.toString().equals("false")))
 		{

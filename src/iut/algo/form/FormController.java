@@ -546,7 +546,6 @@ public class FormController
 
 		for (Control ctrl : frame.getControls())
 		{
-			// System.out.println(ctrl.getType() + " : " + ctrl.getValue() + " <--> " + ctrl.getId());
 			if ( !(ctrl instanceof Array) )
 			{
 				switch (ctrl.getType())
