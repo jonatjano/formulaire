@@ -56,32 +56,32 @@ public class FormController
 	private Frame 							frame;
 	
 	/**
-	 * {@link Map} contenant les valeurs des différents champs de type {@link Integer}
+	 * Map contenant les valeurs des différents champs de type Integer
 	 */
 	private Map<String, Integer> 			intMap;
 	
 	/**
-	 * {@link Map} contenant les valeurs des différents champs de type {@link String}
+	 * Map contenant les valeurs des différents champs de type String
 	 */
 	private Map<String, String> 			stringMap;
 	
 	/**
-	 * {@link Map} contenant les valeurs des différents champs de type {@link Double}
+	 * Map contenant les valeurs des différents champs de type Double
 	 */
 	private Map<String, Double> 			doubleMap;
 	
 	/**
-	 * {@link Map} contenant les valeurs des différents champs de type {@link Boolean}
+	 * Map contenant les valeurs des différents champs de type Boolean
 	 */
 	private Map<String, Boolean> 			booleanMap;
 	
 	/**
-	 * {@link Map} contenant les valeurs des différents champs de type {@link Character}
+	 * Map contenant les valeurs des différents champs de type Character
 	 */
 	private Map<String, Character> 			charMap;
 	
 	/**
-	 * {@link Map} contenant les valeurs des différents champs de type tableaux
+	 * Map contenant les valeurs des différents champs de type tableaux
 	 */
 	private Map<String, Object[][]> 		arrayMap;
 
@@ -130,7 +130,7 @@ public class FormController
 	/**
 	 * methode utilisée pour creer un formulaire et l'obtenir
 	 * c'est une alternative à createForm
-	 * 		cette méthode retourne le {@link FormController}
+	 * 		cette méthode retourne le FormController
 	 * @param  filePath Le chemin du fichier XML permettant de générer le formlaire
 	 * @return le FormController créé
 	 */

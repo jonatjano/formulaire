@@ -61,7 +61,7 @@ public abstract class Control
 	protected JPanel	typePanel;
 
 	/**
-	 * {@link Language} utilisé par le controle
+	 * Language utilisé par le controle
 	 */
 	protected Language 	language;
 
