@@ -7,6 +7,13 @@ package iut.algo.form.job;
  */
 public enum Language
 {
+	/**
+	 * Correspond à la langue français
+	 */
 	FR,
+	
+	/**
+	 * Correspond à la langue anglais
+	 */
 	EN
 }

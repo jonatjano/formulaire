@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 
@@ -212,7 +213,6 @@ public class Array extends Control
 	 * @param nbR Nombre total de lignes du tableau
 	 * @param nbC Nombre total de colonnes du tableau
 	 * @param language le langage utilisé par le formulaire
-	 * @return L'élément créé
 	 */
 	public Array (String label, String id, BaseType type, int width, int x, int y, int nbR, int nbC, Language language)
 	{
@@ -251,6 +251,13 @@ public class Array extends Control
 		int clampedRow 		= Math.max( 0, Math.min(Array.MAX_ROW, nbR) );
 
 
+		
+		try
+		{
+			UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
+		}
+		catch (Exception e) { }
+		
 		this.arrayP			= new JPanel( new GridLayout(clampedRow + 2, clampedCol + 2) );
 		this.arrayP.setBounds( Control.LABEL_WIDTH, 0, tabWidth, tabHeight );
 		this.arrayP.setBackground( Color.lightGray );
@@ -333,8 +340,15 @@ public class Array extends Control
 			// Ajoute des label vide pour combler les de la bordure
 			this.arrayP.add( new JLabel() );
 		}
+		
+		try
+		{
+			UIManager.setLookAndFeel( "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel" );
+		}
+		catch (Exception e) { }
+		
 		setTabBackground(-1, -1, 0, 0);
-
+		
 
 		/*~~~~~~~~~~~~~~~~~~~~~~~~~*/
 		/*  Panel de modification  */
@@ -381,7 +395,6 @@ public class Array extends Control
 	 * @param nbR Nombre total de lignes du tableau
 	 * @param nbC Nombre total de colonnes du tableau
 	 * @param language le langage utilisé par le formulaire
-	 * @return L'élément créé
 	 */
 	public Array (String label, String id, BaseType type, int x, int y, int nbR, int nbC, Language language)
 	{
