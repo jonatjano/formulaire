@@ -145,7 +145,6 @@ public class Text extends Control
 	 * @param label Label à afficher à gauche de l'élément
 	 * @param id Identifiant unique de l'élément
 	 * @param type Type associé à l'élément
-	 * @param width Largeur de l'élément
 	 * @param x Coordonnée sur l'axe des abscisses de l'élément
 	 * @param y Coordonnée sur l'axe des ordonnées de l'élément
 	 * @param language le langage utilisé par le formulaire

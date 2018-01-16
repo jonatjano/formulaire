@@ -17,7 +17,6 @@ public class TextKeyListener implements KeyListener
 
 	/**
 	 * Crée le listener de l'élément possédant la possibilité d'un Ctrl+Z
-	 * @param frame La frame
 	 * @param control Controle à lier à au listener
 	 */
 	public TextKeyListener (Text control)

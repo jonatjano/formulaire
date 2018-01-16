@@ -718,6 +718,7 @@ public class FormController
 	 * Renvoie la valeur d'un controle Array
 	 * @param id Identifiant du controle
 	 * @param res Tableau de l'utilisateur à remplir d'une copie du tableau auquel il tente d'accéder
+	 * @param <T> Type du tableau retourné
 	 * @return Vrai si la copie est un succès, sinon faux
 	 */
 	@SuppressWarnings("unchecked")

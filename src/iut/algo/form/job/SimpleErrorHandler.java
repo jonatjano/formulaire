@@ -16,7 +16,7 @@ public class SimpleErrorHandler implements ErrorHandler {
 	/**
 	  * Affiche un avertissement suite à une exception
 	  * @param exception Exception levée
-	  * @throw {@link SAXException} Quand il y a un danger
+	  * @throws SAXException Quand il y a un danger
 	  */
 	public void warning(SAXParseException exception)
 	throws SAXException
@@ -27,7 +27,7 @@ public class SimpleErrorHandler implements ErrorHandler {
 	/**
 	  * Affiche une erreur suite à une exception
 	  * @param exception Exception levée
-	  * @throw {@link SAXException} Quand il y a une erreur
+	  * @throws SAXException Quand il y a une erreur
 	  */
     public void error(SAXParseException exception)
     throws SAXException
@@ -39,7 +39,7 @@ public class SimpleErrorHandler implements ErrorHandler {
 	/**
 	  * permet de lancer une erreur fatale suite à l'exception levée
 	  * @param exception Exception levée
-	  * @throw {@link SAXException} Quand il y a une erreur grave
+	  * @throws SAXException Quand il y a une erreur grave
 	  */
     public void fatalError (SAXParseException exception)
     throws SAXException

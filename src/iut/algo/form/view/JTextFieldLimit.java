@@ -33,7 +33,6 @@ public class JTextFieldLimit extends JTextField
 	/**
 	 * Modifie le modèle de la zone de texte, pour permettre de limiter
 	 * l'entrée de l'utilisateur
-	 * @param Modèle de l'élément
 	 * @return Le modèle utilisé par défault
 	 */
 	@Override

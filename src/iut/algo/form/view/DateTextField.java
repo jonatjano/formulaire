@@ -469,7 +469,7 @@ public class DateTextField extends JTextField
 		/**
 		 *	si un jour à été sélectionné, cette méthode permet d'effectuer tout
 		 * les changements nécessaires
-		 * @param event l'evenement du changement
+		 * @param e l'evenement du changement
 		 */
 		public void stateChanged(ChangeEvent e)
 		{
