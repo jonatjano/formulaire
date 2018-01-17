@@ -1,0 +1,16 @@
+package tri;
+import javax.swing.*;
+public class Trieur extends JFrame{
+	Integer[] tabInt; int min;
+	
+	public Trieur(Integer[] tabInt,int min ){
+		this.tabInt=tabInt;
+		this.min = min; }
+	
+	public boolean 			trier ()
+{
+	for (int i=0;i < this.tabInt.length;i++)
+			if (this.tabInt[i] < this.min)
+		this.tabInt[i] =null;
+}
+}
